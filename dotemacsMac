@@ -246,8 +246,9 @@
 (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
 ;;(add-hook 'coq-mode-hook #'company-coq-initialize)
 ;; proof general
-(load-file "/usr/local/share/emacs/site-lisp/proof-general/generic/proof-site.el")
+;;(load-file "/usr/local/share/emacs/site-lisp/proof-general/generic/proof-site.el")
 ;;(load-file "/usr/local/ProofGeneral/generic/proof-site.el")
+(load "~/.emacs.d/lisp/PG/generic/proof-site")
 
 (eval-after-load "proof-script" '(progn
 				   (define-key proof-mode-map [(C-down)] 
@@ -705,6 +706,7 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'org-iswitchb)
 (global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c d") 'osx-dictionary-search-pointer)
 (global-set-key (kbd "C-c e") 'org-html-export-to-html)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c p") 'org-latex-export-to-pdf)
