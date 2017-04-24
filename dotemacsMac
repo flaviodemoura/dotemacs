@@ -378,8 +378,8 @@
 ;; Org
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (setq org-directory "~/Dropbox/MyOrg")
-(setq org-agenda-files (quote ("~/Dropbox/MyOrg/ongoing" "~/Dropbox/MyOrg/homepage")))
-;;(setq org-mobile-inbox-for-pull "~/Dropbox/MyOrg/index.org")
+(setq org-agenda-files (quote ("~/Dropbox/MyOrg" "~/Dropbox/MyOrg/homepage")))
+(setq org-mobile-inbox-for-pull "~/Dropbox/MyOrg/index.org")
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
 (setq org-todo-keywords
       '((type "TODO(t)" "PROGRESS(s)" "NEXT(x)" "WAITING(w)" "|" "CANCELLED(c)" "DEFERRED(e)" "DONE(d)")
@@ -389,7 +389,7 @@
       (quote (orgstruct++-mode
               (lambda nil (setq fill-column 72) (flyspell-mode 1))
               turn-on-auto-fill
-              bbdb-mail-aliases)))
+              bbdb-mail-aliases))) 
 (setq org-agenda-custom-commands
       '(("d" "Upcoming deadlines" agenda "" 
                 ((org-agenda-time-grid nil)
@@ -407,61 +407,61 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)
 
 ;; homepage
-(require 'ox-publish)
-(setq org-publish-project-alist
-      '(
-	("homepage-dropbox"
-	 :base-directory "~/Dropbox/MyOrg/homepage/"
-	 :base-extension "org"
-	 :publishing-directory "~/public_html/"
-	 :recursive t
-	 :publishing-function org-html-publish-to-html
-	 :headline-levels 4
-	 :auto-preamble t
-	 )
-	("homepage-lc1"
-	 :base-directory "~/workspace/aulas/lc1/org/"
-	 :base-extension "org"
-	 :publishing-directory "~/workspace/aulas/lc1/org/"
-	 :recursive t
-	 :publishing-function org-html-publish-to-html
-	 :headline-levels 4
-	 :auto-preamble t
-	 )
-	("homepage-staticlc1"
-	 :base-directory "~/workspace/aulas/lc1/pvs"
-	 :base-extension "v"
-	 :publishing-directory "~/workspace/aulas/lc1/files/lc1/"
-	 :recursive t
-	 :publishing-function org-publish-attachment
-	 )
-	("homepage-vfp"
-	 :base-directory "~/workspace/aulas/vfp/org/"
-	 :base-extension "org"
-	 :publishing-directory "~/workspace/aulas/vfp/org/"
-	 :recursive t
-	 :publishing-function org-html-publish-to-html
-	 :headline-levels 4
-	 :auto-preamble t
-	 )
-	("homepage-staticvfp"
-	 :base-directory "~/workspace/aulas/vfp/coq"
-	 :base-extension "v"
-	 :publishing-directory "~/workspace/aulas/vfp/org/files/vfp/"
-	 :recursive t
-	 :publishing-function org-publish-attachment
-	 )
-	("homepage-static"
-	 :base-directory "~/Dropbox/MyOrg/homepage/files/vfp"
-	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
-	 :publishing-directory "~/public_html/files/vfp/"
-	 :recursive t
-	 :publishing-function org-publish-attachment
-	 )
-	("homepagelc1" :components ("homepage-lc1" "homepage-staticlc1"))
-	("homepagevfp" :components ("homepage-vfp" "homepage-staticvfp"))
-	))
-(setq org-html-validation-link nil)
+;; (require 'ox-publish)
+;; (setq org-publish-project-alist
+;;       '(
+;; 	("homepage-dropbox"
+;; 	 :base-directory "~/Dropbox/MyOrg/homepage/"
+;; 	 :base-extension "org"
+;; 	 :publishing-directory "~/public_html/"
+;; 	 :recursive t
+;; 	 :publishing-function org-html-publish-to-html
+;; 	 :headline-levels 4
+;; 	 :auto-preamble t
+;; 	 )
+;; 	("homepage-lc1"
+;; 	 :base-directory "~/workspace/aulas/lc1/org/"
+;; 	 :base-extension "org"
+;; 	 :publishing-directory "~/workspace/aulas/lc1/org/"
+;; 	 :recursive t
+;; 	 :publishing-function org-html-publish-to-html
+;; 	 :headline-levels 4
+;; 	 :auto-preamble t
+;; 	 )
+;; 	("homepage-staticlc1"
+;; 	 :base-directory "~/workspace/aulas/lc1/pvs"
+;; 	 :base-extension "v"
+;; 	 :publishing-directory "~/workspace/aulas/lc1/files/lc1/"
+;; 	 :recursive t
+;; 	 :publishing-function org-publish-attachment
+;; 	 )
+;; 	("homepage-vfp"
+;; 	 :base-directory "~/workspace/aulas/vfp/org/"
+;; 	 :base-extension "org"
+;; 	 :publishing-directory "~/workspace/aulas/vfp/org/"
+;; 	 :recursive t
+;; 	 :publishing-function org-html-publish-to-html
+;; 	 :headline-levels 4
+;; 	 :auto-preamble t
+;; 	 )
+;; 	("homepage-staticvfp"
+;; 	 :base-directory "~/workspace/aulas/vfp/coq"
+;; 	 :base-extension "v"
+;; 	 :publishing-directory "~/workspace/aulas/vfp/org/files/vfp/"
+;; 	 :recursive t
+;; 	 :publishing-function org-publish-attachment
+;; 	 )
+;; 	("homepage-static"
+;; 	 :base-directory "~/Dropbox/MyOrg/homepage/files/vfp"
+;; 	 :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+;; 	 :publishing-directory "~/public_html/files/vfp/"
+;; 	 :recursive t
+;; 	 :publishing-function org-publish-attachment
+;; 	 )
+;; 	("homepagelc1" :components ("homepage-lc1" "homepage-staticlc1"))
+;; 	("homepagevfp" :components ("homepage-vfp" "homepage-staticvfp"))
+;; 	))
+;; (setq org-html-validation-link nil)
 
 (add-hook 'org-mode-hook (lambda () 
   (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link)))
@@ -488,9 +488,9 @@
 ;; :END:"))
 
 ;;org-ref
-(setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
-     org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
-     org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+(setq org-ref-bibliography-notes "~/workspace-git/bibliography/notes.org"
+     org-ref-default-bibliography '("~/workspace-git/bibliography/references.bib")
+     org-ref-pdf-directory "~/workspace-git/bibliography/bibtex-pdfs/") 
 
 (add-to-list 'load-path "~/Dropbox/MyOrg/org-ref/")
 (require 'org-ref)
@@ -502,6 +502,8 @@
 (require 'scopus)
 (require 'bibtex)
 (require 'isbn)
+
+(require 'calfw-org)
 
 ;; (setq oref-ref-insert-cite-key "C-c )")
 ;; (setq org-ref-default-citation-link "cite")
@@ -708,6 +710,7 @@
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c d") 'osx-dictionary-search-pointer)
 (global-set-key (kbd "C-c e") 'org-html-export-to-html)
+(global-set-key (kbd "C-c f") 'cfw:open-org-calendar)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c p") 'org-latex-export-to-pdf)
 (global-set-key (kbd "C-c x") 'org-latex-export-to-latex)
