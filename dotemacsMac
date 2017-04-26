@@ -378,7 +378,14 @@
 ;; Org
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (setq org-directory "~/Dropbox/MyOrg")
-(setq org-agenda-files (quote ("~/Dropbox/MyOrg" "~/Dropbox/MyOrg/homepage")))
+(setq org-agenda-files (quote ("~/Dropbox/MyOrg"
+			       "~/Dropbox/MyOrg/homepage"
+			       "~/workspace-git/lc1/2017-1"
+			       "~/workspace-git/ftc/2017-1"
+			       "~/workspace-git/bookalcs"
+			       "~/workspace-git/lex"
+			       "~/workspace-git/lsfa2017"
+			       "~/workspace-git//vfp")))
 (setq org-mobile-inbox-for-pull "~/Dropbox/MyOrg/index.org")
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
 (setq org-todo-keywords
