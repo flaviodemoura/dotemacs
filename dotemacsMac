@@ -1,3 +1,10 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -108,7 +115,8 @@
  '(proof-three-window-mode-policy (quote hybrid))
  '(safe-local-variable-values
    (quote
-    ((coq-prog-name . "/Users/flaviomoura/.opam/4.01.0/bin/coqtop")
+    ((org-confirm-babel-evaluate)
+     (coq-prog-name . "/Users/flaviomoura/.opam/4.01.0/bin/coqtop")
      (org-export-allow-bind-keywords . t))))
  '(send-mail-function (quote smtpmail-send-it))
  '(show-paren-mode t)
@@ -710,8 +718,8 @@
 (global-set-key [f6] 'flyspell-buffer)
 (global-set-key [f5] 'ispell-change-dictionary)
 (global-set-key [f4] 'flyspell-mode)
-(global-set-key [f3] 'writeroom-mode)
-(global-set-key [f2] 'gnus)
+(global-set-key [f3] 'other-frame)
+(global-set-key [f2] 'gnus-other-frame)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'org-iswitchb)
 (global-set-key (kbd "C-c c") 'org-capture)
