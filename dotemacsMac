@@ -58,10 +58,15 @@
      ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))))
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server t)
+ '(TeX-view-program-selection
+   (quote
+    ((output-dvi "xdvi")
+     (output-pdf "open -a Skim %s"))))
  '(bbdb-complete-mail t)
  '(bbdb-mail-user-agent (quote gnus-user-agent))
  '(column-number-mode t)
  '(coq-prog-args (quote ("-emacs")))
+ '(create-lockfiles nil)
  '(doc-view-continuous t)
  '(gnus-summary-line-format "%U%R%z%I%(%[%4L: %-23,23f%]%) %s
 ")
@@ -80,6 +85,9 @@
        (setq fill-column 72)
        (flyspell-mode 1))
      turn-on-auto-fill bbdb-mail-aliases)))
+ '(org-agenda-files
+   (quote
+    ("/Users/flaviomoura/Dropbox/MyOrg/consulta.org" "/Users/flaviomoura/Dropbox/MyOrg/diary.org" "/Users/flaviomoura/Dropbox/MyOrg/financas.org" "/Users/flaviomoura/Dropbox/MyOrg/financas2017.org" "/Users/flaviomoura/Dropbox/MyOrg/financas2018.org" "/Users/flaviomoura/Dropbox/MyOrg/howto-write-for-acpd-with-emacs.org" "/Users/flaviomoura/Dropbox/MyOrg/index.org" "/Users/flaviomoura/Dropbox/MyOrg/lsfa2014.org" "/Users/flaviomoura/Dropbox/MyOrg/notes.org" "/Users/flaviomoura/Dropbox/MyOrg/pessoal.org" "/Users/flaviomoura/Dropbox/MyOrg/schedule.org" "/Users/flaviomoura/Dropbox/MyOrg/tasks.org" "/Users/flaviomoura/Dropbox/MyOrg/trabalho.org" "/Users/flaviomoura/Dropbox/MyOrg/homepage/index.org" "/Users/flaviomoura/workspace-git/lc1/2017-1/lc1-2017-1.org" "/Users/flaviomoura/workspace-git/bookalcs/alcs.org" "/Users/flaviomoura/workspace-git/lex/lex.org" "/Users/flaviomoura/workspace-git/lex/lextoday.org" "/Users/flaviomoura/workspace-git/lsfa2017/lsfa2017.org" "/Users/flaviomoura/workspace-git/vfp/vfp.org")))
  '(org-file-apps
    (quote
     ((auto-mode . emacs)
@@ -103,7 +111,7 @@
  '(org-reveal-mathjax t)
  '(package-selected-packages
    (quote
-    (htmlize ox-reveal org-present epresent org-gcal org-ref company-auctex bbdb-handy org-bullets org-edit-latex org-mobile-sync magit fill-column-indicator flycheck dash-functional org-pomodoro persp-mode bbdb bbdb-ext helm-dictionary osx-dictionary auctex calfw calfw-gcal org-eww cdlatex direx dired-k orgit writeroom-mode magit-stgit look-mode key-chord hydra)))
+    (org-ref org-gcal htmlize ox-reveal org-present epresent company-auctex bbdb-handy org-bullets org-edit-latex org-mobile-sync magit fill-column-indicator flycheck dash-functional org-pomodoro persp-mode bbdb bbdb-ext helm-dictionary osx-dictionary auctex calfw calfw-gcal org-eww cdlatex direx dired-k orgit writeroom-mode magit-stgit look-mode key-chord hydra)))
  '(pop-up-windows nil)
  '(proof-assistants (quote (coq pgocaml)))
  '(proof-auto-raise-buffers t)
@@ -546,7 +554,7 @@
 
 (require 'reftex)
 ;; Auctex
-;;(require 'tex-site)
+(require 'tex-site)
 ;;(require 'auctex-latexmk)
 ;;(auctex-latexmk-setup)
 ;;(setq auctex-latexmk-inherit-TeX-PDF-mode t)
@@ -639,6 +647,11 @@
 ;(setq synonyms-cache-file "/usr/local/mthesaurcache.txt")
 ;(require 'synonyms)
 
+;;org-gcal
+(require 'org-gcal)
+(setq org-gcal-client-id "917025404751-qgalufo70a4kc3quh40vn24taku6aobq.apps.googleusercontent.com"
+      org-gcal-client-secret "y8-Gh4XXkh5wBcnWd9Nh9viR"
+      org-gcal-file-alist '(("flavio.de.moura@gmail.com" .  "~/Dropbox/MyOrg/schedule.org")))
 
 ;; gnus
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)

@@ -1,3 +1,10 @@
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -52,7 +59,7 @@
  '(TeX-source-correlate-mode t)
  '(TeX-source-correlate-start-server t)
  '(bbdb-complete-mail t)
- '(bbdb-mail-user-agent (quote message-user-agent))
+ '(bbdb-mail-user-agent (quote gnus-user-agent))
  '(column-number-mode t)
  '(coq-load-path nil)
  '(coq-prog-name "~/.opam/4.01.0/bin/coqtop")
@@ -73,7 +80,18 @@
      turn-on-auto-fill bbdb-mail-aliases)))
  '(org-agenda-files
    (quote
-    ("~/Dropbox/MyOrg/ongoing/flavio.org" "~/Dropbox/MyOrg/ongoing/research.org" "~/Dropbox/MyOrg/ongoing/teaching.org" "~/Dropbox/MyOrg/ongoing/teste.org" "~/Dropbox/MyOrg/homepage/index.org")))
+    ("/Users/flaviomoura/Dropbox/MyOrg/consulta.org" "/Users/flaviomoura/Dropbox/MyOrg/diary.org" "/Users/flaviomoura/Dropbox/MyOrg/financas.org" "/Users/flaviomoura/Dropbox/MyOrg/financas2017.org" "/Users/flaviomoura/Dropbox/MyOrg/financas2018.org" "/Users/flaviomoura/Dropbox/MyOrg/howto-write-for-acpd-with-emacs.org" "/Users/flaviomoura/Dropbox/MyOrg/index.org" "/Users/flaviomoura/Dropbox/MyOrg/lsfa2014.org" "/Users/flaviomoura/Dropbox/MyOrg/notes.org" "/Users/flaviomoura/Dropbox/MyOrg/pessoal.org" "/Users/flaviomoura/Dropbox/MyOrg/schedule.org" "/Users/flaviomoura/Dropbox/MyOrg/tasks.org" "/Users/flaviomoura/Dropbox/MyOrg/trabalho.org" "/Users/flaviomoura/Dropbox/MyOrg/homepage/index.org" "/Users/flaviomoura/workspace-git/lc1/2017-1/lc1-2017-1.org" "/Users/flaviomoura/workspace-git/bookalcs/alcs.org" "/Users/flaviomoura/workspace-git/lex/lex.org" "/Users/flaviomoura/workspace-git/lex/lextoday.org" "/Users/flaviomoura/workspace-git/lsfa2017/lsfa2017.org" "/Users/flaviomoura/workspace-git/vfp/vfp.org")))
+ '(org-file-apps
+   (quote
+    ((auto-mode . emacs)
+     ("\\.doc\\'" . default)
+     ("\\.docx\\'" . default)
+     ("\\.djvu\\'" . default)
+     ("\\.jpg\\'" . default)
+     ("\\.jpeg\\'" . default)
+     ("\\.png\\'" . default)
+     ("\\.pdf\\'" . "open -a Skim %s"))))
+ '(org-html-inline-images t)
  '(org-latex-pdf-process
    (quote
     ("pdflatex -interaction nonstopmode -output-directory %o %f" "bibtex %b" "pdflatex -interaction nonstopmode -output-directory %o %f" "pdflatex -interaction nonstopmode -output-directory %o %f")))
@@ -83,11 +101,13 @@
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-gnus org-info org-irc org-mhe org-rmail org-w3m)))
+ '(org-reveal-mathjax t)
  '(package-selected-packages
    (quote
-    (org-ref org-pomodoro org magit-stgit look-mode key-chord hydra helm-bibtex bbdb auctex-latexmk)))
+    (org-ref org-gcal htmlize ox-reveal org-present epresent company-auctex bbdb-handy org-bullets org-edit-latex org-mobile-sync magit fill-column-indicator flycheck dash-functional org-pomodoro persp-mode bbdb bbdb-ext helm-dictionary osx-dictionary auctex calfw calfw-gcal org-eww cdlatex direx dired-k orgit writeroom-mode magit-stgit look-mode key-chord hydra)))
  '(pop-up-windows nil)
- '(proof-auto-raise-buffers nil)
+ '(proof-assistants (quote (coq pgocaml)))
+ '(proof-auto-raise-buffers t)
  '(proof-delete-empty-windows nil)
  '(proof-disappearing-proofs t)
  '(proof-electric-terminator-enable t)
@@ -360,8 +380,15 @@
 ;; Org
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (setq org-directory "~/Dropbox/MyOrg")
-(setq org-agenda-files (quote ("~/Dropbox/MyOrg/ongoing" "~/Dropbox/MyOrg/homepage")))
-;;(setq org-mobile-inbox-for-pull "~/Dropbox/MyOrg/index.org")
+(setq org-agenda-files (quote ("~/Dropbox/MyOrg"
+			       "~/Dropbox/MyOrg/homepage"
+			       "~/workspace-git/lc1/2017-1"
+			       "~/workspace-git/ftc/2017-1"
+			       "~/workspace-git/bookalcs"
+			       "~/workspace-git/lex"
+			       "~/workspace-git/lsfa2017"
+			       "~/workspace-git//vfp")))
+(setq org-mobile-inbox-for-pull "~/Dropbox/MyOrg/index.org")
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
 (setq org-todo-keywords
       '((type "TODO(t)" "PROGRESS(s)" "NEXT(x)" "WAITING(w)" "|" "CANCELLED(c)" "DEFERRED(e)" "DONE(d)")
@@ -371,7 +398,7 @@
       (quote (orgstruct++-mode
               (lambda nil (setq fill-column 72) (flyspell-mode 1))
               turn-on-auto-fill
-              bbdb-mail-aliases)))
+              bbdb-mail-aliases))) 
 (setq org-agenda-custom-commands
       '(("d" "Upcoming deadlines" agenda "" 
                 ((org-agenda-time-grid nil)
@@ -470,9 +497,9 @@
 ;; :END:"))
 
 ;;org-ref
-(setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
-     org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
-     org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")
+(setq org-ref-bibliography-notes "~/workspace-git/bibliography/notes.org"
+     org-ref-default-bibliography '("~/workspace-git/bibliography/references.bib")
+     org-ref-pdf-directory "~/workspace-git/bibliography/bibtex-pdfs/") 
 
 (add-to-list 'load-path "~/Dropbox/MyOrg/org-ref/")
 (require 'org-ref)
@@ -484,6 +511,8 @@
 (require 'scopus)
 (require 'bibtex)
 (require 'isbn)
+
+(require 'calfw-org)
 
 ;; (setq oref-ref-insert-cite-key "C-c )")
 ;; (setq org-ref-default-citation-link "cite")
@@ -511,7 +540,7 @@
 
 (require 'reftex)
 ;; Auctex
-;;(require 'tex-site)
+(require 'tex-site)
 ;;(require 'auctex-latexmk)
 ;;(auctex-latexmk-setup)
 ;;(setq auctex-latexmk-inherit-TeX-PDF-mode t)
@@ -604,6 +633,11 @@
 ;(setq synonyms-cache-file "/usr/local/mthesaurcache.txt")
 ;(require 'synonyms)
 
+;;org-gcal
+(require 'org-gcal)
+(setq org-gcal-client-id "917025404751-qgalufo70a4kc3quh40vn24taku6aobq.apps.googleusercontent.com"
+      org-gcal-client-secret "y8-Gh4XXkh5wBcnWd9Nh9viR"
+      org-gcal-file-alist '(("flavio.de.moura@gmail.com" .  "~/Dropbox/MyOrg/schedule.org")))
 
 ;; gnus
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
@@ -683,12 +717,14 @@
 (global-set-key [f6] 'flyspell-buffer)
 (global-set-key [f5] 'ispell-change-dictionary)
 (global-set-key [f4] 'flyspell-mode)
-(global-set-key [f3] 'writeroom-mode)
-(global-set-key [f2] 'gnus)
+(global-set-key [f3] 'other-frame)
+(global-set-key [f2] 'gnus-other-frame)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c b") 'org-iswitchb)
 (global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c d") 'osx-dictionary-search-pointer)
 (global-set-key (kbd "C-c e") 'org-html-export-to-html)
+(global-set-key (kbd "C-c f") 'cfw:open-org-calendar)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c p") 'org-latex-export-to-pdf)
 (global-set-key (kbd "C-c x") 'org-latex-export-to-latex)
