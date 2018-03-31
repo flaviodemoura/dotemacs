@@ -148,7 +148,6 @@ Maximize window
 (add-hook 'window-setup-hook 'toggle-frame-maximized t)
 #+END_SRC
 
-
 * Coding
 ** Programming specific interface improvements
 
@@ -202,6 +201,19 @@ Smart dash guesses _ vs - depending on context.
     :config
     (add-hook 'python-mode-hook 'smart-dash-mode))
 #+END_SRC
+
+** Ido
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :ensure t
+    :config
+    (setq ido-enable-flex-matching t)
+    (setq ido-everywhere t)
+    (ido-mode t)
+    (setq ido-use-filename-at-point 'guess)
+    (setq ido-create-new-buffer 'always)
+    (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
+    #+END_SRC
 
 ** Project management
 
@@ -403,7 +415,6 @@ Type the shortcut and press =TAB= to complete, or =M-/= to autosuggest a snippet
       :ensure t
       :diminish yas-minor-mode
       :config
-      (add-to-list 'yas-snippet-dirs "~/.emacs.d/yasnippet-snippets")
       (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
       (yas-global-mode)
       (global-set-key (kbd "M-/") 'company-yasnippet))
@@ -750,6 +761,28 @@ I should comment on these more...
   (setq org-src-fontify-natively 't)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files (quote ("~/Dropbox/MyOrg/projetos.org"
+                                 "~/Dropbox/MyOrg/consulta.org"
+                                 "~/Dropbox/MyOrg/tickler.org")))
+  (setq org-capture-templates '(("t" "Todo [entrada]" entry
+                                 (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
+                                 "* TODO %i%?")
+                                ("T" "Tickler" entry
+                                 (file+headline "~/Dropbox/MyOrg/tickler.org" "Tickler")
+                                 "* %i%? \n %U")))
+  (setq org-refile-targets '(("~/Dropbox/MyOrg/projetos.org" :maxlevel . 3)
+                             ("~/Dropbox/MyOrg/talvez.org" :level . 1)
+                             ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
+                             ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
+                             ))
+  (setq org-agenda-custom-commands 
+        '(("o" "No trabalho" tags-todo "@unb"
+           ((org-agenda-overriding-header "UnB")))
+          ("h" "Em casa" tags-todo "@casa"
+           ((org-agenda-overriding-header "Casa")))))
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c b") 'org-iswitchb)
+(global-set-key (kbd "C-c l") 'org-store-link)
 #+END_SRC
 
 ** Appearance
@@ -789,6 +822,16 @@ Customize appearance.
                             `(org-document-title ((t (,@headline ,@variable-tuple :height 1.33 :underline nil))))))
 #+END_SRC
 
+** OrgRef
+#+BEGIN_SRC emacs-lisp
+  (use-package org-ref
+    :ensure t
+    :config
+    (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
+     org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
+     org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")) 
+#+END_SRC
+
 ** Export
 
 Add bootstrap styled export.
@@ -799,6 +842,41 @@ Add bootstrap styled export.
 #+END_SRC
 
 * Extras
+** AucTeX
+#+BEGIN_SRC emacs-lisp
+  (use-package tex
+    :ensure auctex
+    :config
+    (setq TeX-PDF-mode t)
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq-default TeX-master nil)
+    (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+    #+END_SRC
+** RefTeX
+#+BEGIN_SRC emacs-lisp
+    (use-package reftex
+      :ensure t
+      :config
+      (setq reftex-plug-into-AUCTeX t)
+      (setq reftex-use-fonts t)
+      (setq reftex-toc-split-windows-fraction 0.2)
+      (setq reftex-default-bibliography '("~/Dropbox/bibliography/references.bib"))
+      (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
+#+END_SRC
+** BibTeX
+#+BEGIN_SRC emacs-lisp
+(use-package bibtex
+  :ensure nil
+  :config
+  (progn
+    (setq bibtex-dialect 'biblatex
+          bibtex-align-at-equal-sign t
+          bibtex-text-indentation 20
+          bibtex-completion-bibliography '("~/Dropbox/bibliography/references.bib"))))
+#+END_SRC
 ** Writing
 
 =writegood-mode= highlights bad word choices and has functions for calculating readability.
