@@ -45,6 +45,13 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
 
 * Preferences 
 
+Smooth scroll and keep cursor at same position when scrolling
+
+#+BEGIN_SRC emacs-lisp
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 1)
+#+END_SRC
+
 Increase and decrease font size
 
 #+BEGIN_SRC emacs-lisp
