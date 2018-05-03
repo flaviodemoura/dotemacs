@@ -43,6 +43,11 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
   (setq custom-file (make-temp-file "emacs-custom"))
 #+END_SRC
 
+** Auto fill mode
+#+BEGIN_SRC emacs-lisp
+(setq-default auto-fill-function 'do-auto-fill)
+#+END_SRC
+
 * Preferences 
 
 Smooth scroll and keep cursor at same position when scrolling
@@ -830,6 +835,26 @@ Improve the display of bullet points.
     :ensure t
     :config
 (setq org-journal-dir "~/Dropbox/MyOrg/journal"))
+#+END_SRC
+
+** Org Present
+#+BEGIN_SRC emacs-lisp
+(autoload 'org-present "org-present" nil t)
+
+(eval-after-load "org-present"
+  '(progn
+     (add-hook 'org-present-mode-hook
+               (lambda ()
+                 (org-present-big)
+                 (org-display-inline-images)
+                 (org-present-hide-cursor)
+                 (org-present-read-only)))
+     (add-hook 'org-present-mode-quit-hook
+               (lambda ()
+                 (org-present-small)
+                 (org-remove-inline-images)
+                 (org-present-show-cursor)
+                 (org-present-read-write)))))
 #+END_SRC
 
 ** Export
