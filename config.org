@@ -48,6 +48,24 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
 (setq-default auto-fill-function 'do-auto-fill)
 #+END_SRC
 
+** Flyspell 
+
+#+BEGIN_SRC emacs-lisp
+(setq ispell-dictionary "pt_BR")
+(setq-default ispell-program-name "/usr/local/bin/aspell")
+(setq ispell-list-command "--list")
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+(autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
+#+END_SRC
+
+** Calfw
+
+#+BEGIN_SRC emacs-lisp
+(require 'calfw-cal)
+#+END_SRC
+
 * Preferences 
 
 Smooth scroll and keep cursor at same position when scrolling
@@ -179,6 +197,13 @@ Highlight parens etc. for improved readability.
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
+
+Show parentheses matching
+
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+
 
 Highlight strings which represent colours. I only want this in programming modes, and I don't want colour names to be highlighted (=x-colors=).
 
@@ -879,7 +904,7 @@ Add bootstrap styled export.
     (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
                                        (output-pdf "PDF Viewer")))
     (setq TeX-view-program-list
-          '(("PDF Viewer" "/usr/local/bin/displayline -b %n %o %b")))
+          '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
     (add-hook 'LaTeX-mode-hook 'visual-line-mode)
     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
