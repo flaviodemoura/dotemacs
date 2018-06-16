@@ -63,7 +63,9 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
 ** Calfw
 
 #+BEGIN_SRC emacs-lisp
-(require 'calfw-cal)
+(require 'calfw)
+(require 'calfw-org)
+(global-set-key [f2] 'cfw:open-org-calendar)
 #+END_SRC
 
 * Preferences 
