@@ -7,6 +7,52 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
+** Publishing
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-publish)
+  (setq org-publish-project-alist
+        '(
+          ("homepage-dropbox"
+           :base-directory "~/Dropbox/MyOrg/homepage/"
+           :base-extension "org"
+           :publishing-directory "/flaviomouramatbr@ftp.flaviomoura.mat.br:/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :auto-preamble t
+           )
+          ("homepage-static"
+           :base-directory "~/Dropbox/MyOrg/homepage/files/"
+           :base-extension "css\\|js\\|png\\|jpg\\|jpeg\\|gif\\|pdf"
+           :publishing-directory "/flaviomouramatbr@ftp.flaviomoura.mat.br:/files/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("homepage-lc1"
+           :base-directory "~/workspace-git/LC1-github/"
+           :base-extension "org"
+           :publishing-directory "~/workspace/aulas/lc1/org/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :auto-preamble t
+           )
+          ("homepage-lc1-static"
+           :base-directory "~/workspace-git/LC1-github/files/"
+           :base-extension "pdf//|tgz"
+           :publishing-directory "/flaviomouramatbr@ftp.flaviomoura.mat.br:/files/lc1/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("homepage" :components ("homepage-dropbox" "homepage-static"))
+          ("hp-lc1" :components ("homepage-lc1" "homepage-lc1-static"))
+          ("hp-all" :components ("homepage" "hp-lc1"))))
+
+  (setq org-html-validation-link nil)
+  (global-set-key [f3] 'org-publish)
+#+END_SRC
+
 ** Shortcut for editing this file
 
 #+BEGIN_SRC emacs-lisp
@@ -824,6 +870,8 @@ I should comment on these more...
                              ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
                              ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
                              ))
+(setq org-todo-keywords
+      '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
   (setq org-agenda-custom-commands 
         '(("o" "No trabalho" tags-todo "@unb"
            ((org-agenda-overriding-header "UnB")))
@@ -882,6 +930,11 @@ Improve the display of bullet points.
                  (org-remove-inline-images)
                  (org-present-show-cursor)
                  (org-present-read-write)))))
+#+END_SRC
+
+** Org EDNA
+#+BEGIN_SRC emacs-lisp
+(org-edna-load)
 #+END_SRC
 
 ** Export
