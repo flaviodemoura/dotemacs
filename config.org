@@ -946,6 +946,14 @@ Add bootstrap styled export.
     :ensure t)
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+      (setq org-latex-pdf-process
+            (quote
+             ("pdflatex -interaction nonstopmode -output-directory %o %f" 
+              "bibtex %b" 
+              "pdflatex -interaction nonstopmode -output-directory %o %f" "pdflatex -interaction nonstopmode -output-directory %o %f")))
+#+END_SRC
+
 * Extras
 ** AucTeX
 #+BEGIN_SRC emacs-lisp
