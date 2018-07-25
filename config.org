@@ -877,9 +877,7 @@ Add bootstrap styled export.
     (setq TeX-parse-self t)
     (setq-default TeX-master nil)
     (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
-                                       (output-pdf "PDF Viewer")))
-    (setq TeX-view-program-list
-          '(("PDF Viewer" "/usr/local/bin/displayline -b %n %o %b")))
+                                       (output-pdf "Okular")))
     (add-hook 'LaTeX-mode-hook 'visual-line-mode)
     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
