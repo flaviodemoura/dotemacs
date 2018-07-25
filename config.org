@@ -7,6 +7,52 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
+** Publishing
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-publish)
+  (setq org-publish-project-alist
+        '(
+          ("homepage-dropbox"
+           :base-directory "~/Dropbox/MyOrg/homepage/"
+           :base-extension "org"
+           :publishing-directory "/flaviomouramatbr@ftp.flaviomoura.mat.br:/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :auto-preamble t
+           )
+          ("homepage-static"
+           :base-directory "~/Dropbox/MyOrg/homepage/files/"
+           :base-extension "css\\|js\\|png\\|jpg\\|jpeg\\|gif\\|pdf"
+           :publishing-directory "/flaviomouramatbr@ftp.flaviomoura.mat.br:/files/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("homepage-lc1"
+           :base-directory "~/workspace-git/LC1-github/"
+           :base-extension "org"
+           :publishing-directory "~/workspace/aulas/lc1/org/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :auto-preamble t
+           )
+          ("homepage-lc1-static"
+           :base-directory "~/workspace-git/LC1-github/files/"
+           :base-extension "pdf//|tgz"
+           :publishing-directory "/flaviomouramatbr@ftp.flaviomoura.mat.br:/files/lc1/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("homepage" :components ("homepage-dropbox" "homepage-static"))
+          ("hp-lc1" :components ("homepage-lc1" "homepage-lc1-static"))
+          ("hp-all" :components ("homepage" "hp-lc1"))))
+
+  (setq org-html-validation-link nil)
+  (global-set-key [f3] 'org-publish)
+#+END_SRC
+
 ** Shortcut for editing this file
 
 #+BEGIN_SRC emacs-lisp
@@ -46,6 +92,26 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
 ** Auto fill mode
 #+BEGIN_SRC emacs-lisp
 (setq-default auto-fill-function 'do-auto-fill)
+#+END_SRC
+
+** Flyspell 
+
+#+BEGIN_SRC emacs-lisp
+(setq ispell-dictionary "pt_BR")
+(setq-default ispell-program-name "/usr/local/bin/aspell")
+(setq ispell-list-command "--list")
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+(autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
+#+END_SRC
+
+** Calfw
+
+#+BEGIN_SRC emacs-lisp
+(require 'calfw)
+(require 'calfw-org)
+(global-set-key [f2] 'cfw:open-org-calendar)
 #+END_SRC
 
 * Preferences 
@@ -179,6 +245,13 @@ Highlight parens etc. for improved readability.
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
+
+Show parentheses matching
+
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+
 
 Highlight strings which represent colours. I only want this in programming modes, and I don't want colour names to be highlighted (=x-colors=).
 
@@ -797,6 +870,8 @@ I should comment on these more...
                              ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
                              ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
                              ))
+(setq org-todo-keywords
+      '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
   (setq org-agenda-custom-commands 
         '(("o" "No trabalho" tags-todo "@unb"
            ((org-agenda-overriding-header "UnB")))
@@ -857,6 +932,11 @@ Improve the display of bullet points.
                  (org-present-read-write)))))
 #+END_SRC
 
+** Org EDNA
+#+BEGIN_SRC emacs-lisp
+(org-edna-load)
+#+END_SRC
+
 ** Export
 
 Add bootstrap styled export.
@@ -864,6 +944,14 @@ Add bootstrap styled export.
 #+BEGIN_SRC emacs-lisp
   (use-package ox-twbs
     :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+      (setq org-latex-pdf-process
+            (quote
+             ("pdflatex -interaction nonstopmode -output-directory %o %f" 
+              "bibtex %b" 
+              "pdflatex -interaction nonstopmode -output-directory %o %f" "pdflatex -interaction nonstopmode -output-directory %o %f")))
 #+END_SRC
 
 * Extras
@@ -878,6 +966,9 @@ Add bootstrap styled export.
     (setq-default TeX-master nil)
     (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
                                        (output-pdf "Okular")))
+    #                                    (output-pdf "PDF Viewer")))
+    # (setq TeX-view-program-list
+    #       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
     (add-hook 'LaTeX-mode-hook 'visual-line-mode)
     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
