@@ -89,11 +89,6 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
   (setq custom-file (make-temp-file "emacs-custom"))
 #+END_SRC
 
-** Auto fill mode
-#+BEGIN_SRC emacs-lisp
-(setq-default auto-fill-function 'do-auto-fill)
-#+END_SRC
-
 ** Flyspell 
 
 #+BEGIN_SRC emacs-lisp
