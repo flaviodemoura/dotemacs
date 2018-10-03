@@ -89,11 +89,6 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
   (setq custom-file (make-temp-file "emacs-custom"))
 #+END_SRC
 
-** Auto fill mode
-#+BEGIN_SRC emacs-lisp
-(setq-default auto-fill-function 'do-auto-fill)
-#+END_SRC
-
 ** Flyspell 
 
 #+BEGIN_SRC emacs-lisp
@@ -299,34 +294,6 @@ Smart dash guesses _ vs - depending on context.
     (setq ido-create-new-buffer 'always)
     (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
     #+END_SRC
-
-** Project management
-
-Projectile handles folders which are in version control.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :ensure t
-    :config
-    (projectile-mode))
-#+END_SRC
-
-Tell projectile to integrate with =ivy= for completion.
-
-#+BEGIN_SRC emacs-lisp
-  (setq projectile-completion-system 'ivy)
-#+END_SRC
-
-Add some extra completion options via integration with =counsel=. In particular this enables =C-c p SPC= for smart buffer / file search, and =C-c p s s= for search via =ag=.
-
-There is no function for projectile-grep, but we could use =counsel-git-grep= which is similar. Should I bind that to =C-c p s g=?
-
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel-projectile
-    :ensure t
-    :config
-    (add-hook 'after-init-hook 'counsel-projectile-mode))
-#+END_SRC
 
 ** Fuzzy search
 
@@ -961,18 +928,17 @@ Add bootstrap styled export.
 * Extras
 ** AucTeX
 #+BEGIN_SRC emacs-lisp
-  (use-package tex
-    :ensure auctex
-    :config
-    (setq TeX-PDF-mode t)
-    (setq TeX-auto-save t)
-    (setq TeX-parse-self t)
-    (setq-default TeX-master nil)
-    (setq TeX-view-program-selection '((output-dvi "Okular")
-                                       (output-pdf "Okular")))
-    (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-    (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-    (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+    (use-package tex
+      :ensure auctex
+      :config
+      (setq TeX-PDF-mode t)
+      (setq TeX-auto-save t)
+      (setq TeX-parse-self t)
+      (setq-default TeX-master nil)
+      (setq TeX-view-program-selection '((output-dvi "Okular")
+                                         (output-pdf "Okular")))
+      (setq TeX-view-program-list
+            '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
 #+END_SRC
 
     #                                    (output-pdf "PDF Viewer")))
