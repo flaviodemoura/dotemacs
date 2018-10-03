@@ -109,8 +109,10 @@ This stops emacs adding customised settings to =init.el=. I try to avoid using c
 ** Calfw
 
 #+BEGIN_SRC emacs-lisp
-(require 'calfw)
-(require 'calfw-org)
+  (use-package calfw
+    :ensure t)
+  (use-package calfw-org
+    :ensure t)
 (global-set-key [f2] 'cfw:open-org-calendar)
 #+END_SRC
 
@@ -847,39 +849,40 @@ Since we have dotnet core why not?
 I should comment on these more...
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-startup-indented 'f)
-  (setq org-directory "~/Dropbox/MyOrg")
-  (setq org-special-ctrl-a/e 't)
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (define-key global-map "\C-cc" 'org-capture)
-  (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
-  (setq org-src-fontify-natively 't)
-  (setq org-src-tab-acts-natively t)
-  (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files (quote ("~/Dropbox/MyOrg/projetos.org"
-                                 "~/Dropbox/MyOrg/consulta.org"
-                                 "~/Dropbox/MyOrg/tickler.org")))
-  (setq org-capture-templates '(("t" "Todo [entrada]" entry
-                                 (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
-                                 "* TODO %i%?")
-                                ("T" "Tickler" entry
-                                 (file+headline "~/Dropbox/MyOrg/tickler.org" "Tickler")
-                                 "* %i%? \n %U")))
-  (setq org-refile-targets '(("~/Dropbox/MyOrg/projetos.org" :maxlevel . 3)
-                             ("~/Dropbox/MyOrg/talvez.org" :level . 1)
-                             ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
-                             ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
-                             ))
-(setq org-todo-keywords
-      '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
-  (setq org-agenda-custom-commands 
-        '(("o" "No trabalho" tags-todo "@unb"
-           ((org-agenda-overriding-header "UnB")))
-          ("h" "Em casa" tags-todo "@casa"
-           ((org-agenda-overriding-header "Casa")))))
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-iswitchb)
-(global-set-key (kbd "C-c l") 'org-store-link)
+    (setq org-startup-indented 'f)
+    (setq org-directory "~/Dropbox/MyOrg")
+    (setq org-special-ctrl-a/e 't)
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+    (define-key global-map "\C-cc" 'org-capture)
+    (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
+    (setq org-src-fontify-natively 't)
+    (setq org-src-tab-acts-natively t)
+    (setq org-src-window-setup 'current-window)
+    (setq org-file-apps org-file-apps-defaults-gnu)
+    (setq org-agenda-files (quote ("~/Dropbox/MyOrg/projetos.org"
+                                   "~/Dropbox/MyOrg/consulta.org"
+                                   "~/Dropbox/MyOrg/tickler.org")))
+    (setq org-capture-templates '(("t" "Todo [entrada]" entry
+                                   (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
+                                   "* TODO %i%?")
+                                  ("T" "Tickler" entry
+                                   (file+headline "~/Dropbox/MyOrg/tickler.org" "Tickler")
+                                   "* %i%? \n %U")))
+    (setq org-refile-targets '(("~/Dropbox/MyOrg/projetos.org" :maxlevel . 3)
+                               ("~/Dropbox/MyOrg/talvez.org" :level . 1)
+                               ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
+                               ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
+                               ))
+  (setq org-todo-keywords
+        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
+    (setq org-agenda-custom-commands 
+          '(("o" "No trabalho" tags-todo "@unb"
+             ((org-agenda-overriding-header "UnB")))
+            ("h" "Em casa" tags-todo "@casa"
+             ((org-agenda-overriding-header "Casa")))))
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c l") 'org-store-link)
 #+END_SRC
 
 ** Appearance
@@ -934,7 +937,8 @@ Improve the display of bullet points.
 
 ** Org EDNA
 #+BEGIN_SRC emacs-lisp
-(org-edna-load)
+  (use-package org-edna
+    :ensure t)
 #+END_SRC
 
 ** Export
@@ -964,15 +968,17 @@ Add bootstrap styled export.
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
     (setq-default TeX-master nil)
-    (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
+    (setq TeX-view-program-selection '((output-dvi "Okular")
                                        (output-pdf "Okular")))
-    #                                    (output-pdf "PDF Viewer")))
-    # (setq TeX-view-program-list
-    #       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
     (add-hook 'LaTeX-mode-hook 'visual-line-mode)
     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 #+END_SRC
+
+    #                                    (output-pdf "PDF Viewer")))
+    # (setq TeX-view-program-list
+    #       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
+
 ** RefTeX
 #+BEGIN_SRC emacs-lisp
     (use-package reftex
