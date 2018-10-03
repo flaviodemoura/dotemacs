@@ -938,7 +938,7 @@ Add bootstrap styled export.
       (setq TeX-view-program-selection '((output-dvi "Okular")
                                          (output-pdf "Okular")))
       (setq TeX-view-program-list
-            '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
+            '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
 #+END_SRC
 
     #                                    (output-pdf "PDF Viewer")))
