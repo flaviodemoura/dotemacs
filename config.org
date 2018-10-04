@@ -931,17 +931,18 @@ Add bootstrap styled export.
 * Extras
 ** AucTeX
 #+BEGIN_SRC emacs-lisp
-    (use-package tex
-      :ensure auctex
-      :config
-      (setq TeX-PDF-mode t)
-      (setq TeX-auto-save t)
-      (setq TeX-parse-self t)
-      (setq-default TeX-master nil)
-      (setq TeX-view-program-selection '((output-dvi "Okular")
-                                         (output-pdf "Okular")))
-      (setq TeX-view-program-list
-            '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
+      (use-package tex
+        :ensure auctex
+        :config
+        (setq TeX-PDF-mode t)
+        (setq TeX-auto-save t)
+        (setq TeX-parse-self t)
+        (setq-default TeX-master nil)
+        (setq TeX-view-program-selection '((output-dvi "Okular")
+                                           (output-pdf "Okular")))
+        (setq TeX-view-program-list
+              '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")
+                ("Okular" "okular --unique %o#src:%n\"`pwd`/./%b\""))))
 #+END_SRC
 
     #                                    (output-pdf "PDF Viewer")))
