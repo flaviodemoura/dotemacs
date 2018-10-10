@@ -819,7 +819,7 @@ I should comment on these more...
   (setq org-file-apps '((auto-mode . emacs)
                         ("\\.mm\\'" . default)
                         ("\\.x?html?\\'" . default)
-                        ("\\.pdf\\'" . "okular %s")))
+                        ("\\.pdf\\'" . default)))
   (setq org-startup-indented 'f)
   (setq org-directory "~/Dropbox/MyOrg")
   (setq org-special-ctrl-a/e 't)
@@ -928,6 +928,13 @@ Add bootstrap styled export.
               "pdflatex -interaction nonstopmode -output-directory %o %f" "pdflatex -interaction nonstopmode -output-directory %o %f")))
 #+END_SRC
 
+** Clocking time
+
+#+BEGIN_SRC emacs-lisp
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+#+END_SRC
+
 * Extras
 ** AucTeX
 #+BEGIN_SRC emacs-lisp
@@ -938,16 +945,11 @@ Add bootstrap styled export.
         (setq TeX-auto-save t)
         (setq TeX-parse-self t)
         (setq-default TeX-master nil)
-        (setq TeX-view-program-selection '((output-dvi "Okular")
-                                           (output-pdf "Okular")))
+        (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
+                                           (output-pdf "PDF Viewer")))
         (setq TeX-view-program-list
-              '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")
-                ("Okular" "okular --unique %o#src:%n\"`pwd`/./%b\""))))
+              '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
 #+END_SRC
-
-    #                                    (output-pdf "PDF Viewer")))
-    # (setq TeX-view-program-list
-    #       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b")))
 
 ** RefTeX
 #+BEGIN_SRC emacs-lisp
