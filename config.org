@@ -356,17 +356,18 @@ I should comment on these more...
 * Extras
 ** AucTeX
 #+BEGIN_SRC emacs-lisp
-      (use-package tex
-        :ensure auctex
-        :config
-        (setq TeX-PDF-mode t)
-        (setq TeX-auto-save t)
-        (setq TeX-parse-self t)
-        (setq-default TeX-master nil)
-        (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
-                                           (output-pdf "PDF Viewer")))
-        (setq TeX-view-program-list
-              '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
+  (use-package tex
+    :ensure auctex
+    :config
+    (setq TeX-PDF-mode t)
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq-default TeX-master nil)
+    (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
+                                       (output-pdf "PDF Viewer")))
+    (setq TeX-view-program-list
+          '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
+(setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
 #+END_SRC
 
 ** RefTeX
