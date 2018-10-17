@@ -48,6 +48,16 @@ If =use-package= is not installed, install it.
 
 * Preferences 
 
+As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
+
+error in process filter: Symbol's value as variable is void: default-major-mode
+
+To fix this error, add
+
+#+BEGIN_SRC emacs-lisp
+(defvar default-major-mode nil)
+#+END_SRC
+
 Smooth scroll and keep cursor at same position when scrolling
 
 #+BEGIN_SRC emacs-lisp
