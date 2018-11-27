@@ -14,6 +14,21 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
   (setq package-enable-at-startup nil)
 #+END_SRC
 
+** color-theme-modern
+
+#+BEGIN_SRC emacs-lisp
+  (load-theme 'tango-dark t)
+  (set-default-font "Courier 12")
+  (add-hook 'text-mode-hook
+            (lambda ()
+              (variable-pitch-mode 1)))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . light))
+  (flyspell-mode 1)        ;; Catch Spelling mistakes
+  (blink-cursor-mode 0)    ;; Reduce visual noise
+  (linum-mode 0)           ;; No line numbers for prose
+#+END_SRC
+
 ** Bootstrap use-package
 
 If =use-package= is not installed, install it.
@@ -34,6 +49,9 @@ If =use-package= is not installed, install it.
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
+
+(require 'auto-dictionary)
+(add-hook 'flyspell-mode-hook (lambda () (auto-dictionary-mode 1)))
 #+END_SRC
 
 ** Calfw
@@ -105,12 +123,6 @@ I don't want the error bell.
 #+END_SRC
 
 * Appearance
-
-Highlight the current line.
-
-#+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode 1)
-#+END_SRC
 
 Maximize window
 
@@ -288,7 +300,13 @@ I should comment on these more...
   (setq org-src-window-setup 'current-window)
   (setq org-agenda-files (quote ("~/Dropbox/MyOrg/projetos.org"
                                  "~/Dropbox/MyOrg/consulta.org"
-                                 "~/Dropbox/MyOrg/tickler.org")))
+                                 "~/Dropbox/MyOrg/tickler.org"
+                                 "~/Dropbox/MyOrg/zproperty.org"
+                                 "~/Dropbox/MyOrg/MSNorm.org"
+                                 "~/workspace-git/PAA-github/paa-2019-1.org"
+                                 "~/workspace-git/LC1-github/lc1-2019-1.org"
+                                 "~/workspace-git/PAA-github/paa-2018-2.org"
+                                 "~/workspace-git/LC1-github/lc1-2018-2.org")))
   (setq org-capture-templates '(("t" "Todo [entrada]" entry
                                  (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
                                  "* TODO %i%?")
@@ -324,10 +342,11 @@ I should comment on these more...
 
 ** Org Journal
 #+BEGIN_SRC emacs-lisp
-  (use-package org-journal
-    :ensure t
-    :config
-(setq org-journal-dir "~/Dropbox/MyOrg/journal"))
+      (use-package org-journal
+        :ensure t
+        :config
+    (setq org-journal-dir "~/Dropbox/MyOrg/journal")
+    (add-hook 'org-mode-hook 'turn-on-flyspell))
 #+END_SRC
 
 ** Org Present
@@ -361,6 +380,7 @@ I should comment on these more...
 #+BEGIN_SRC emacs-lisp
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
+(setq org-log-done 'time)
 #+END_SRC
 
 * Extras
@@ -378,6 +398,7 @@ I should comment on these more...
     (setq TeX-view-program-list
           '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
 (setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 #+END_SRC
 
 ** RefTeX
