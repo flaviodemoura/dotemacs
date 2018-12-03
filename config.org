@@ -14,21 +14,6 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
   (setq package-enable-at-startup nil)
 #+END_SRC
 
-** color-theme-modern
-
-#+BEGIN_SRC emacs-lisp
-  (load-theme 'tango-dark t)
-  (set-default-font "Courier 12")
-  (add-hook 'text-mode-hook
-            (lambda ()
-              (variable-pitch-mode 1)))
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (add-to-list 'default-frame-alist '(ns-appearance . light))
-  (flyspell-mode 1)        ;; Catch Spelling mistakes
-  (blink-cursor-mode 0)    ;; Reduce visual noise
-  (linum-mode 0)           ;; No line numbers for prose
-#+END_SRC
-
 ** Bootstrap use-package
 
 If =use-package= is not installed, install it.
@@ -156,6 +141,12 @@ Show parentheses matching
 
 #+BEGIN_SRC emacs-lisp
 (show-paren-mode 1)
+#+END_SRC
+
+Highlight current line
+
+#+BEGIN_SRC emacs-lisp
+(global-hl-line-mode +1)
 #+END_SRC
 
 Expand parentheses for me.
@@ -299,10 +290,13 @@ I should comment on these more...
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
   (setq org-agenda-files (quote ("~/Dropbox/MyOrg/projetos.org"
+                                 "~/Dropbox/MyOrg/pessoal.org"
+                                 "~/Dropbox/MyOrg/trabalho.org"
                                  "~/Dropbox/MyOrg/consulta.org"
                                  "~/Dropbox/MyOrg/tickler.org"
                                  "~/Dropbox/MyOrg/zproperty.org"
                                  "~/Dropbox/MyOrg/MSNorm.org"
+                                 "~/workspace-git/pts-github/russia.org"
                                  "~/workspace-git/PAA-github/paa-2019-1.org"
                                  "~/workspace-git/LC1-github/lc1-2019-1.org"
                                  "~/workspace-git/PAA-github/paa-2018-2.org"
