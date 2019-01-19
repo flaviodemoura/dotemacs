@@ -146,7 +146,7 @@ Show parentheses matching
 Highlight current line
 
 #+BEGIN_SRC emacs-lisp
-(global-hl-line-mode +1)
+(global-set-key (kbd "C-c h") 'global-hl-line-mode)
 #+END_SRC
 
 Expand parentheses for me.
@@ -220,6 +220,12 @@ Open .v files with Proof General's Coq mode
   (use-package company-coq
     :ensure t
     :hook (coq-mode . company-coq-mode))
+#+END_SRC
+
+Proof general hide completed proofs in the buffer:
+
+#+BEGIN_SRC emacs-lisp
+  (setq pg-hide-all-proofs t)
 #+END_SRC
 
 ** C
