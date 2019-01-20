@@ -300,7 +300,7 @@ I should comment on these more...
                                  "~/Dropbox/MyOrg/trabalho.org"
                                  "~/Dropbox/MyOrg/consulta.org"
                                  "~/Dropbox/MyOrg/tickler.org"
-                                 "~/Dropbox/UnB/Reescrita/zproperty.org"
+                                 "~/Dropbox/UnB/Reescrita/Zproperty/zproperty.org"
                                  "~/Dropbox/MyOrg/MSNorm.org"
                                  "~/workspace-git/pts-github/russia.org"
                                  "~/workspace-git/PAA-github/paa-2019-1.org"
