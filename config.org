@@ -283,63 +283,53 @@ Omnisharp gives completion / refactoring support, and hooks into company-mode.
 #+END_SRC
 
 * Org
+
 ** General settings.
 
 I should comment on these more...
 
 #+BEGIN_SRC emacs-lisp
-(setq org-html-htmlize-output-type 'css)
-(setq org-latex-pdf-process 
-'("%latex -interaction nonstopmode -output-directory %o %f" 
-  "%bibtex %b"
-  "%latex -interaction nonstopmode -output-directory %o %f"   
-  "%latex -interaction nonstopmode -output-directory %o %f"))
+  (setq org-html-htmlize-output-type 'css)
+  (setq org-latex-pdf-process 
+        '("%latex -interaction nonstopmode -output-directory %o %f" 
+          "%bibtex %b"
+          "%latex -interaction nonstopmode -output-directory %o %f"   
+          "%latex -interaction nonstopmode -output-directory %o %f"))
   (setq org-file-apps '((auto-mode . emacs)
-                            ("\\.mm\\'" . default)
-                            ("\\.x?html?\\'" . default)
-                            ("\\.pdf\\'" . default)))
-    (setq org-startup-indented 'f)
-    (setq org-directory "~/Dropbox/MyOrg")
-    (setq org-special-ctrl-a/e 't)
-    (setq org-default-notes-file (concat org-directory "/notes.org"))
-    (define-key global-map "\C-cc" 'org-capture)
-    (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
-    (setq org-src-fontify-natively 't)
-    (setq org-src-tab-acts-natively t)
-    (setq org-src-window-setup 'current-window)
-    (setq org-agenda-files (quote ("~/Dropbox/MyOrg/projetos.org"
-                                   "~/Dropbox/MyOrg/pessoal.org"
-                                   "~/Dropbox/MyOrg/trabalho.org"
-                                   "~/Dropbox/MyOrg/consulta.org"
-                                   "~/Dropbox/MyOrg/tickler.org"
-                                   "~/Dropbox/UnB/Reescrita/Zproperty/zproperty.org"
-                                   "~/Dropbox/MyOrg/MSNorm.org"
-                                   "~/workspace-git/pts-github/russia.org"
-                                   "~/workspace-git/PAA-github/paa-2019-1.org"
-                                   "~/workspace-git/LC1-github/lc1-2019-1.org"
-                                   "~/workspace-git/PAA-github/paa-2018-2.org"
-                                   "~/workspace-git/LC1-github/lc1-2018-2.org")))
-    (setq org-capture-templates '(("t" "Todo [entrada]" entry
-                                   (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
-                                   "* TODO %i%?")
-                                  ("T" "Tickler" entry
-                                   (file+headline "~/Dropbox/MyOrg/tickler.org" "Tickler")
-                                   "* %i%? \n %U")))
-    (setq org-refile-targets '(("~/Dropbox/MyOrg/projetos.org" :maxlevel . 3)
-                               ("~/Dropbox/MyOrg/talvez.org" :level . 1)
-                               ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
-                               ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
-                               ))
-    (setq org-todo-keywords
-          '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
-    (setq org-agenda-custom-commands 
-          '(("o" "No trabalho" tags-todo "@unb"
-             ((org-agenda-overriding-header "UnB")))
-            ("h" "Em casa" tags-todo "@casa"
-             ((org-agenda-overriding-header "Casa")))))
-    (global-set-key (kbd "C-c a") 'org-agenda)
-    (global-set-key (kbd "C-c b") 'org-iswitchb)
-    (global-set-key (kbd "C-c l") 'org-store-link)
+                        ("\\.mm\\'" . default)
+                        ("\\.x?html?\\'" . default)
+                        ("\\.pdf\\'" . default)))
+  (setq org-startup-indented 'f)
+  (setq org-directory "~/Dropbox/MyOrg")
+  (setq org-special-ctrl-a/e 't)
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (define-key global-map "\C-cc" 'org-capture)
+  (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
+  (setq org-src-fontify-natively 't)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files '("~/Dropbox/MyOrg"))
+  (setq org-capture-templates '(("t" "Todo [entrada]" entry
+                                 (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
+                                 "* TODO %i%?")
+                                ("T" "Tickler" entry
+                                 (file+headline "~/Dropbox/MyOrg/tickler.org" "Tickler")
+                                 "* %i%? \n %U")))
+  (setq org-refile-targets '(("~/Dropbox/MyOrg/projetos.org" :maxlevel . 3)
+                             ("~/Dropbox/MyOrg/talvez.org" :level . 1)
+                             ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
+                             ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
+                             ))
+  (setq org-todo-keywords
+        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
+  (setq org-agenda-custom-commands 
+        '(("o" "No trabalho" tags-todo "@unb"
+           ((org-agenda-overriding-header "UnB")))
+          ("h" "Em casa" tags-todo "@casa"
+               ((org-agenda-overriding-header "Casa")))))
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c l") 'org-store-link)
 #+END_SRC
 
 ** OrgRef
@@ -361,6 +351,19 @@ I should comment on these more...
     (add-hook 'org-mode-hook 'turn-on-flyspell))
 #+END_SRC
 
+** Org books
+
+#+BEGIN_SRC emacs-lisp
+  (require 'helm-books)
+  (load "~/.emacs.d/org-books/org-books-get-details.el")
+  (load "~/.emacs.d/org-books/org-books.el")
+  (setq org-books-file "~/Dropbox/MyOrg/mbib.org")
+  (setq org-capture-templates
+            '(("b" "book memo" entry
+               (file (concat org-directory "mbib.org"))
+               "* %(helm-books)"
+               )))
+#+END_SRC
 ** Org Present
 #+BEGIN_SRC emacs-lisp
 (autoload 'org-present "org-present" nil t)
@@ -396,6 +399,20 @@ I should comment on these more...
 #+END_SRC
 
 * Extras
+
+** LaTeX classes
+
+#+BEGIN_SRC emacs-lisp
+(with-eval-after-load 'ox-latex
+   (add-to-list 'org-latex-classes
+                '("entcs"
+                  "\\documentclass[9pt]{entcs}"
+                  ("\\chapter{%s}" . "\\chapter*{%s}")
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+#+END_SRC
+
 ** AucTeX
 #+BEGIN_SRC emacs-lisp
   (use-package tex
