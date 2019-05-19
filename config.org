@@ -7,6 +7,18 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
+** Package initialize
+
+#+BEGIN_SRC emacs-lisp
+(package-initialize)
+#+END_SRC
+
+** bbdb
+
+#+BEGIN_SRC emacs-lisp
+(setq bbdb-file "~/Dropbox/bbdb")
+#+END_SRC
+
 ** scimax
 Trying scimax
 # #+BEGIN_SRC emacs-lisp
@@ -309,17 +321,6 @@ I should comment on these more...
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
   (setq org-agenda-files '("~/Dropbox/MyOrg"))
-  (setq org-capture-templates '(("t" "Todo [entrada]" entry
-                                 (file+headline "~/Dropbox/MyOrg/entrada.org" "Tasks")
-                                 "* TODO %i%?")
-                                ("T" "Tickler" entry
-                                 (file+headline "~/Dropbox/MyOrg/tickler.org" "Tickler")
-                                 "* %i%? \n %U")))
-  (setq org-refile-targets '(("~/Dropbox/MyOrg/projetos.org" :maxlevel . 3)
-                             ("~/Dropbox/MyOrg/talvez.org" :level . 1)
-                             ("~/Dropbox/MyOrg/tickler.org" :maxlevel . 2)
-                             ("~/Dropbox/MyOrg/consulta.org" :maxlevel . 2)
-                             ))
   (setq org-todo-keywords
         '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
   (setq org-agenda-custom-commands 
@@ -407,7 +408,6 @@ I should comment on these more...
    (add-to-list 'org-latex-classes
                 '("entcs"
                   "\\documentclass[9pt]{entcs}"
-                  ("\\chapter{%s}" . "\\chapter*{%s}")
                   ("\\section{%s}" . "\\section*{%s}")
                   ("\\subsection{%s}" . "\\subsection*{%s}")
                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
