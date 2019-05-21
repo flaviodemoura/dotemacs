@@ -28,8 +28,8 @@ Trying scimax
 ** Package sources
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-  (setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-enable-at-startup nil)
 #+END_SRC
 
 ** Bootstrap use-package
@@ -37,16 +37,16 @@ Trying scimax
 If =use-package= is not installed, install it.
 
 #+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
 #+END_SRC
 
 ** Flyspell 
 
 #+BEGIN_SRC emacs-lisp
 (setq ispell-dictionary "pt_BR")
-(setq-default ispell-program-name "/usr/local/bin/aspell")
+
 (setq ispell-list-command "--list")
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
@@ -57,10 +57,10 @@ If =use-package= is not installed, install it.
 ** Calfw
 
 #+BEGIN_SRC emacs-lisp
-  (use-package calfw
-    :ensure t)
-  (use-package calfw-org
-    :ensure t)
+(use-package calfw
+:ensure t)
+(use-package calfw-org
+:ensure t)
 (global-set-key [f2] 'cfw:open-org-calendar)
 #+END_SRC
 
@@ -93,33 +93,33 @@ Increase and decrease font size
 Don't display the help screen on startup.
 
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t)
+(setq inhibit-startup-screen t)
 #+END_SRC
 
 On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
 #+BEGIN_SRC emacs-lisp
-  (setq mac-command-modifier 'meta
+(setq mac-command-modifier 'meta
         mac-option-modifier 'none)
 #+END_SRC
 
 I prefer lines to wrap.
 
 #+BEGIN_SRC emacs-lisp
-  (global-visual-line-mode 1)
+(global-visual-line-mode 1)
 #+END_SRC
 
 Let's turn off unwanted window decoration.
 
 #+BEGIN_SRC emacs-lisp
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
 #+END_SRC
 
 I don't want the error bell.
 
 #+BEGIN_SRC emacs-lisp
-  (setq ring-bell-function 'ignore)
+(setq ring-bell-function 'ignore)
 #+END_SRC
 
 * Appearance
@@ -141,15 +141,6 @@ When programming I like my editor to try to help me with keeping parentheses bal
     :diminish smartparens-mode
     :config
     (add-hook 'prog-mode-hook 'smartparens-mode))
-#+END_SRC
-
-Highlight parens etc. for improved readability.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :ensure t
-    :config
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
 Show parentheses matching
@@ -211,27 +202,18 @@ TimeMachine lets us step through the history of a file as recorded in git.
 #+END_SRC
 
 ** Coq
-
-Proof general must be installed separately via:
-
-#+BEGIN_SRC sh
-  git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
-  make -C ~/.emacs.d/lisp/PG
-#+END_SRC
-
 Open .v files with Proof General's Coq mode
 
 #+BEGIN_SRC emacs-lisp
-  (eval-after-load "proof-script" '(progn
-                                     (define-key proof-mode-map [(C-down)] 
-                                       'proof-assert-next-command-interactive)
-                                     (define-key proof-mode-map [(C-up)] 
-                                       'proof-undo-last-successful-command)
-                                     ))
+(eval-after-load "proof-script" '(progn
+(define-key proof-mode-map [(C-down)] 
+'proof-assert-next-command-interactive)
+(define-key proof-mode-map [(C-up)] 
+'proof-undo-last-successful-command)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-  (use-package company-coq
+(use-package company-coq
     :ensure t
     :hook (coq-mode . company-coq-mode))
 #+END_SRC
@@ -239,7 +221,7 @@ Open .v files with Proof General's Coq mode
 Proof general hide completed proofs in the buffer:
 
 #+BEGIN_SRC emacs-lisp
-  (setq pg-hide-all-proofs t)
+(setq pg-hide-all-proofs t)
 #+END_SRC
 
 ** C
@@ -269,27 +251,6 @@ Add flycheck support.
     :hook (flycheck-mode . flycheck-irony-setup))
 #+END_SRC
 
-** C#
-
-Dotnet core runs on linux / macos. Let's get syntax highlighting.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package csharp-mode
-    :ensure t)
-#+END_SRC
-
-Omnisharp gives completion / refactoring support, and hooks into company-mode.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package omnisharp
-    :ensure t
-    :hook ((csharp-mode . omnisharp-mode)
-           ;; TODO: 'before-save runs globally - make this buffer local?
-           (before-save . omnisharp-code-format-entire-file))
-    :config
-    (add-to-list 'company-backends 'company-omnisharp))
-#+END_SRC
-
 * Org
 
 ** General settings.
@@ -297,36 +258,37 @@ Omnisharp gives completion / refactoring support, and hooks into company-mode.
 I should comment on these more...
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-html-htmlize-output-type 'css)
-  (setq org-latex-pdf-process 
-        '("%latex -interaction nonstopmode -output-directory %o %f" 
-          "%bibtex %b"
-          "%latex -interaction nonstopmode -output-directory %o %f"   
-          "%latex -interaction nonstopmode -output-directory %o %f"))
-  (setq org-file-apps '((auto-mode . emacs)
-                        ("\\.mm\\'" . default)
-                        ("\\.x?html?\\'" . default)
-                        ("\\.pdf\\'" . default)))
-  (setq org-startup-indented 'f)
-  (setq org-directory "~/Dropbox/MyOrg")
-  (setq org-special-ctrl-a/e 't)
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (define-key global-map "\C-cc" 'org-capture)
-  (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
-  (setq org-src-fontify-natively 't)
-  (setq org-src-tab-acts-natively t)
-  (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/Dropbox/MyOrg"))
-  (setq org-todo-keywords
-        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
-  (setq org-agenda-custom-commands 
-        '(("o" "No trabalho" tags-todo "@unb"
-           ((org-agenda-overriding-header "UnB")))
-          ("h" "Em casa" tags-todo "@casa"
-               ((org-agenda-overriding-header "Casa")))))
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c b") 'org-iswitchb)
-  (global-set-key (kbd "C-c l") 'org-store-link)
+(setq org-html-htmlize-output-type 'css)
+(setq org-latex-pdf-process 
+'("%latex -interaction nonstopmode -output-directory %o %f" 
+"%bibtex %b"
+"%latex -interaction nonstopmode -output-directory %o %f"   
+"%latex -interaction nonstopmode -output-directory %o %f"))
+(setq org-file-apps '((auto-mode . emacs)
+("\\.mm\\'" . default)
+("\\.x?html?\\'" . default)
+("\\.dvi\\'" . default)
+("\\.pdf\\'" . default)))
+(setq org-startup-indented 'f)
+(setq org-directory "~/Dropbox/MyOrg")
+(setq org-special-ctrl-a/e 't)
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cc" 'org-capture)
+(setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
+(setq org-src-fontify-natively 't)
+(setq org-src-tab-acts-natively t)
+(setq org-src-window-setup 'current-window)
+(setq org-agenda-files '("~/Dropbox/MyOrg"))
+(setq org-todo-keywords
+'((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
+(setq org-agenda-custom-commands 
+'(("o" "No trabalho" tags-todo "@unb"
+((org-agenda-overriding-header "UnB")))
+("h" "Em casa" tags-todo "@casa"
+((org-agenda-overriding-header "Casa")))))
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c b") 'org-iswitchb)
+(global-set-key (kbd "C-c l") 'org-store-link)
 #+END_SRC
 
 ** OrgRef
@@ -404,11 +366,7 @@ I should comment on these more...
     (setq TeX-PDF-mode t)
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
-    (setq-default TeX-master nil)
-    (setq TeX-view-program-selection '((output-dvi "PDF Viewer")
-                                       (output-pdf "PDF Viewer")))
-    (setq TeX-view-program-list
-          '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b %n %o %b"))))
+    (setq-default TeX-master nil))
 (setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 #+END_SRC
