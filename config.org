@@ -52,9 +52,6 @@ If =use-package= is not installed, install it.
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
 (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
-
-(require 'auto-dictionary)
-(add-hook 'flyspell-mode-hook (lambda () (auto-dictionary-mode 1)))
 #+END_SRC
 
 ** Calfw
@@ -225,7 +222,6 @@ Proof general must be installed separately via:
 Open .v files with Proof General's Coq mode
 
 #+BEGIN_SRC emacs-lisp
-  (require 'proof-site "~/.emacs.d/lisp/PG/generic/proof-site")
   (eval-after-load "proof-script" '(progn
                                      (define-key proof-mode-map [(C-down)] 
                                        'proof-assert-next-command-interactive)
@@ -352,19 +348,6 @@ I should comment on these more...
     (add-hook 'org-mode-hook 'turn-on-flyspell))
 #+END_SRC
 
-** Org books
-
-#+BEGIN_SRC emacs-lisp
-  (require 'helm-books)
-  (load "~/.emacs.d/org-books/org-books-get-details.el")
-  (load "~/.emacs.d/org-books/org-books.el")
-  (setq org-books-file "~/Dropbox/MyOrg/mbib.org")
-  (setq org-capture-templates
-            '(("b" "book memo" entry
-               (file (concat org-directory "mbib.org"))
-               "* %(helm-books)"
-               )))
-#+END_SRC
 ** Org Present
 #+BEGIN_SRC emacs-lisp
 (autoload 'org-present "org-present" nil t)
