@@ -13,6 +13,12 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 (package-initialize)
 #+END_SRC
 
+** Auto fill mode
+
+#+BEGIN_SRC emacs-lisp
+(auto-fill-mode)
+#+END_SRC
+
 ** bbdb
 
 #+BEGIN_SRC emacs-lisp
@@ -45,6 +51,8 @@ If =use-package= is not installed, install it.
 ** Flyspell 
 
 #+BEGIN_SRC emacs-lisp
+(setq ispell-program-name "/usr/local/bin/aspell")
+
 (setq ispell-dictionary "pt_BR")
 
 (setq ispell-list-command "--list")
@@ -122,14 +130,6 @@ I don't want the error bell.
 (setq ring-bell-function 'ignore)
 #+END_SRC
 
-* Appearance
-
-Maximize window
-
-#+BEGIN_SRC emacs-lisp
-(add-hook 'window-setup-hook 'toggle-frame-maximized t)
-#+END_SRC
-
 * Coding
 ** Programming specific interface improvements
 
@@ -205,6 +205,14 @@ TimeMachine lets us step through the history of a file as recorded in git.
 Open .v files with Proof General's Coq mode
 
 #+BEGIN_SRC emacs-lisp
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (add-to-list 'package-archives
+               (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+(package-initialize)
+
 (eval-after-load "proof-script" '(progn
 (define-key proof-mode-map [(C-down)] 
 'proof-assert-next-command-interactive)
@@ -268,7 +276,7 @@ I should comment on these more...
 ("\\.mm\\'" . default)
 ("\\.x?html?\\'" . system)
 ("\\.dvi\\'" . system)
-("\\.pdf\\'" . system)))
+("\\.pdf\\'" . "/Applications/Skim.app/Contents/MacOS/Skim %s")))
 (setq org-startup-indented 'f)
 (setq org-directory "~/Dropbox/MyOrg")
 (setq org-special-ctrl-a/e 't)
@@ -296,9 +304,9 @@ I should comment on these more...
   (use-package org-ref
     :ensure t
     :config
-    (setq org-ref-bibliography-notes "~/Dropbox/bibliography/notes.org"
-          org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
-          org-ref-pdf-directory "~/Dropbox/bibliography/bibtex-pdfs/")) 
+    (setq org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
+          org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
+          org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")) 
 #+END_SRC
 
 ** Org Journal
@@ -369,6 +377,14 @@ I should comment on these more...
     (setq-default TeX-master nil))
 (setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+(setq TeX-view-program-list
+      '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+(custom-set-variables
+     '(TeX-source-correlate-method 'synctex)
+     '(TeX-source-correlate-mode t)
+     '(TeX-source-correlate-start-server t))
 #+END_SRC
 
 ** RefTeX
@@ -379,7 +395,7 @@ I should comment on these more...
       (setq reftex-plug-into-AUCTeX t)
       (setq reftex-use-fonts t)
       (setq reftex-toc-split-windows-fraction 0.2)
-      (setq reftex-default-bibliography '("~/Dropbox/bibliography/references.bib"))
+      (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib"))
       (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 #+END_SRC
 ** BibTeX
@@ -391,5 +407,5 @@ I should comment on these more...
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/Dropbox/bibliography/references.bib"))))
+          bibtex-completion-bibliography '("~/idrive/bibliography/references.bib"))))
 #+END_SRC
