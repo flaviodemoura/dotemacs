@@ -408,5 +408,4 @@ I should comment on these more...
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
           bibtex-completion-bibliography '("~/idrive/bibliography/references.bib"))))
-(require 'ox-bibtex)
 #+END_SRC
