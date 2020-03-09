@@ -304,9 +304,18 @@ I should comment on these more...
   (use-package org-ref
     :ensure t
     :config
-    (setq org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
+    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
           org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
-          org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")) 
+          org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
+          org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
+    (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
+          bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
+          bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
+
+    ;; open pdf with system pdf viewer (works on mac)
+    (setq bibtex-completion-pdf-open-function
+          (lambda (fpath)
+            (start-process "open" "*open*" "open" fpath)))) 
 #+END_SRC
 
 ** Org Journal
