@@ -301,22 +301,23 @@ I should comment on these more...
 
 ** OrgRef
 #+BEGIN_SRC emacs-lisp
-    (use-package org-ref
-      :ensure t
-      :config
-      (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
-            org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
-            org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
-            org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
-      (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
-            bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
-            bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
+  (use-package org-ref
+    :ensure t
+    :config
+    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
+          org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
+          org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
+          org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
+    (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
+          bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
+          bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
 
-      ;; open pdf with system pdf viewer (works on mac)
-      (setq bibtex-completion-pdf-open-function
-            (lambda (fpath)
-              (start-process "open" "*open*" "open" fpath))))
+    ;; open pdf with system pdf viewer (works on mac)
+    (setq bibtex-completion-pdf-open-function
+          (lambda (fpath)
+            (start-process "open" "*open*" "open" fpath))))
   (bibtex-set-dialect 'biblatex) 
+  (require 'doi-utils)
 #+END_SRC
 
 ** Org Journal
