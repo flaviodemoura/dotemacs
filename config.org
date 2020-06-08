@@ -7,10 +7,29 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
+** Theme
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vscode-dark-plus-theme
+    :config
+    (load-theme 'vscode-dark-plus t))
+#+END_SRC
+
 ** Package initialize
 
 #+BEGIN_SRC emacs-lisp
 (package-initialize)
+#+END_SRC
+
+** dired
+
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "dired"
+  '(progn
+     (define-key dired-mode-map (kbd "z")
+       (lambda () (interactive)
+         (let ((fn (dired-get-file-for-visit)))
+           (start-process "default-app" nil "open" fn))))))
 #+END_SRC
 
 ** Auto fill mode
