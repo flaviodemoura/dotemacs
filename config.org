@@ -325,7 +325,7 @@ I should comment on these more...
       :hook
       (after-init . org-roam-mode)
       :custom
-      (org-roam-directory "/beorg/MyOrg")
+      (org-roam-directory "/beorg/MyOrg/org-roam")
       :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
@@ -338,7 +338,7 @@ I should comment on these more...
 (setq org-roam-index-file "index.org")
 (use-package org-roam-server
 :ensure nil
-:load-path "~/beorg/MyOrg")
+:load-path "~/beorg/MyOrg/org-roam")
 (add-hook 'after-init-hook 'org-roam-mode)
 #+END_SRC emacs-lisp
 
