@@ -318,6 +318,30 @@ I should comment on these more...
 (global-set-key (kbd "C-c l") 'org-store-link)
 #+END_SRC
 
+** Org Roam 
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+      (org-roam-directory "/beorg/MyOrg/org-roam")
+      :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n j" . org-roam-jump-to-index)
+               ("C-c n b" . org-roam-switch-to-buffer)
+               ("C-c n g" . org-roam-graph))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))))
+(setq org-roam-link-title-format "R:%s")
+(setq org-roam-index-file "index.org")
+(use-package org-roam-server
+:ensure nil
+:load-path "~/beorg/MyOrg/org-roam")
+(add-hook 'after-init-hook 'org-roam-mode)
+#+END_SRC emacs-lisp
+
 ** OrgRef
 #+BEGIN_SRC emacs-lisp
   (use-package org-ref
@@ -341,11 +365,29 @@ I should comment on these more...
 
 ** Org Journal
 #+BEGIN_SRC emacs-lisp
-      (use-package org-journal
-        :ensure t
-        :config
+  (use-package org-journal
+    :bind 
+    ("C-c n j" . org-journal-new-entry)
+    :ensure t
+    :config
     (setq org-journal-dir "~/beorg/MyOrg/journal")
-    (add-hook 'org-mode-hook 'turn-on-flyspell))
+    (add-hook 'org-mode-hook 'turn-on-flyspell)
+    :custom
+    (org-journal-date-prefix "#+TITLE: ")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-dir "/beorg/MyOrg/")
+    (org-journal-date-format "%A, %d %B %Y"))
+#+END_SRC
+
+** Org download 
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-download
+  :after org
+  :bind
+  (:map org-mode-map
+        (("s-Y" . org-download-screenshot)
+         ("s-y" . org-download-yank))))
 #+END_SRC
 
 ** Org Present
