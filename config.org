@@ -1,5 +1,6 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Flávio L. C. de Moura
+#+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
 
@@ -7,44 +8,44 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
-** Theme
+** Personal data
 
 #+BEGIN_SRC emacs-lisp
-  (use-package vscode-dark-plus-theme
-    :config
-    (load-theme 'vscode-dark-plus t))
+  (setq user-full-name "Flávio L. C. de Moura"
+        user-mail-address "flavio@flaviomoura.info")
 #+END_SRC
 
 ** Package initialize
 
-#+BEGIN_SRC emacs-lisp
-(package-initialize)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+  (package-initialize)
+ #+END_SRC
 
 ** dired
 
-#+BEGIN_SRC emacs-lisp
-(eval-after-load "dired"
-  '(progn
-     (define-key dired-mode-map (kbd "z")
-       (lambda () (interactive)
-         (let ((fn (dired-get-file-for-visit)))
-           (start-process "default-app" nil "open" fn))))))
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (eval-after-load "dired"
+     '(progn
+        (define-key dired-mode-map (kbd "z")
+          (lambda () (interactive)
+            (let ((fn (dired-get-file-for-visit)))
+              (start-process "default-app" nil "open" fn))))))
+ #+END_SRC
 
 ** Auto fill mode
 
-#+BEGIN_SRC emacs-lisp
-(auto-fill-mode)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (auto-fill-mode)
+ #+END_SRC
 
 ** bbdb
 
-#+BEGIN_SRC emacs-lisp
-(setq bbdb-file "~/idrive/bbdb")
-#+END_SRC
-
+ #+BEGIN_SRC emacs-lisp
+   (setq bbdb-file "~/idrive/bbdb")
+ #+END_SRC
+ 
 ** scimax
+
 Trying scimax
 # #+BEGIN_SRC emacs-lisp
 # (load "~/workspace-git/scimax/init.el")
@@ -52,203 +53,202 @@ Trying scimax
 
 ** Package sources
 
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(setq package-enable-at-startup nil)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+   (setq package-enable-at-startup nil)
+ #+END_SRC
 
 ** Bootstrap use-package
 
-If =use-package= is not installed, install it.
+ If =use-package= is not installed, install it.
 
-#+BEGIN_SRC emacs-lisp
-(unless (package-installed-p 'use-package)
-(package-refresh-contents)
-(package-install 'use-package))
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (unless (package-installed-p 'use-package)
+   (package-refresh-contents)
+   (package-install 'use-package))
+ #+END_SRC
 
 ** Flyspell 
 
-#+BEGIN_SRC emacs-lisp
-(setq ispell-program-name "/usr/local/bin/aspell")
-
-(setq ispell-dictionary "pt_BR")
-
-(setq ispell-list-command "--list")
-(add-hook 'org-mode-hook 'turn-on-flyspell)
-(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
-(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
-(autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (setq ispell-program-name "/usr/local/bin/aspell")
+   (setq ispell-dictionary "pt_BR")
+   (setq ispell-list-command "--list")
+   (add-hook 'org-mode-hook 'turn-on-flyspell)
+   (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+   (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+   (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
+ #+END_SRC
 
 ** Calfw
 
-#+BEGIN_SRC emacs-lisp
-(use-package calfw
-:ensure t)
-(use-package calfw-org
-:ensure t)
-(global-set-key [f2] 'cfw:open-org-calendar)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (use-package calfw
+   :ensure t)
+   (use-package calfw-org
+   :ensure t)
+   (global-set-key [f2] 'cfw:open-org-calendar)
+ #+END_SRC
 
 * Preferences 
 
-As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
+ As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
 
-error in process filter: Symbol's value as variable is void: default-major-mode
+ error in process filter: Symbol's value as variable is void: default-major-mode
 
-To fix this error, add
+ To fix this error, add
 
-#+BEGIN_SRC emacs-lisp
-(defvar default-major-mode nil)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (defvar default-major-mode nil)
+ #+END_SRC
 
-Smooth scroll and keep cursor at same position when scrolling
+ Smooth scroll and keep cursor at same position when scrolling
 
-#+BEGIN_SRC emacs-lisp
-(setq scroll-step 1)
-(setq scroll-preserve-screen-position 1)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (setq scroll-step 1)
+   (setq scroll-preserve-screen-position 1)
+ #+END_SRC
 
-Increase and decrease font size
+ Increase and decrease font size
 
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "M-=") 'text-scale-increase)
-(global-set-key (kbd "M--") 'text-scale-decrease)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (global-set-key (kbd "M-=") 'text-scale-increase)
+   (global-set-key (kbd "M--") 'text-scale-decrease)
+ #+END_SRC
 
-Don't display the help screen on startup.
+ Don't display the help screen on startup.
 
-#+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-screen t)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-screen t)
+ #+END_SRC
 
-On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
+ On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
-#+BEGIN_SRC emacs-lisp
-(setq mac-command-modifier 'meta
-        mac-option-modifier 'none)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (setq mac-command-modifier 'meta
+           mac-option-modifier 'none)
+ #+END_SRC
 
-I prefer lines to wrap.
+ I prefer lines to wrap.
 
-#+BEGIN_SRC emacs-lisp
-(global-visual-line-mode 1)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (global-visual-line-mode 1)
+ #+END_SRC
 
-Let's turn off unwanted window decoration.
+ Let's turn off unwanted window decoration.
 
-#+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (tool-bar-mode -1)
+   (scroll-bar-mode -1)
+ #+END_SRC
 
-I don't want the error bell.
+ I don't want the error bell.
 
-#+BEGIN_SRC emacs-lisp
-(setq ring-bell-function 'ignore)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (setq ring-bell-function 'ignore)
+ #+END_SRC
 
 * Coding
 ** Programming specific interface improvements
 
-When programming I like my editor to try to help me with keeping parentheses balanced.
+ When programming I like my editor to try to help me with keeping parentheses balanced.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package smartparens
-    :ensure t
-    :diminish smartparens-mode
-    :config
-    (add-hook 'prog-mode-hook 'smartparens-mode))
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (use-package smartparens
+     :ensure t
+     :diminish smartparens-mode
+     :config
+     (add-hook 'prog-mode-hook 'smartparens-mode))
+ #+END_SRC
 
-Show parentheses matching
+ Show parentheses matching
 
-#+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (show-paren-mode 1)
+ #+END_SRC
 
-Highlight current line
+ Highlight current line
 
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c h") 'global-hl-line-mode)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (global-set-key (kbd "C-c h") 'global-hl-line-mode)
+ #+END_SRC
 
-Expand parentheses for me.
+ Expand parentheses for me.
 
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'electric-pair-mode)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (add-hook 'prog-mode-hook 'electric-pair-mode)
+ #+END_SRC
 
 ** Ido
-#+BEGIN_SRC emacs-lisp
-  (use-package ido
-    :ensure t
-    :config
-    (setq ido-enable-flex-matching t)
-    (setq ido-everywhere t)
-    (ido-mode t)
-    (setq ido-use-filename-at-point 'guess)
-    (setq ido-create-new-buffer 'always)
-    (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
+ #+BEGIN_SRC emacs-lisp
+   (use-package ido
+     :ensure t
+     :config
+     (setq ido-enable-flex-matching t)
+     (setq ido-everywhere t)
+     (ido-mode t)
+     (setq ido-use-filename-at-point 'guess)
+     (setq ido-create-new-buffer 'always)
+     (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
     #+END_SRC
 
 ** Git
 
-Magit is an awesome interface to git. Summon it with `C-x g`.
+ Magit is an awesome interface to git. Summon it with `C-x g`.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t
-    :bind ("C-x g" . magit-status))
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (use-package magit
+     :ensure t
+     :bind ("C-x g" . magit-status))
+ #+END_SRC
 
-Display line changes in gutter based on git history. Enable it everywhere.
+ Display line changes in gutter based on git history. Enable it everywhere.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package git-gutter
-    :ensure t
-    :config
-    (global-git-gutter-mode 't)
-    :diminish git-gutter-mode)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (use-package git-gutter
+     :ensure t
+     :config
+     (global-git-gutter-mode 't)
+     :diminish git-gutter-mode)
+ #+END_SRC
 
-TimeMachine lets us step through the history of a file as recorded in git.
+ TimeMachine lets us step through the history of a file as recorded in git.
 
-#+BEGIN_SRC emacs-lisp
-  (use-package git-timemachine
-    :ensure t)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+   (use-package git-timemachine
+     :ensure t)
+ #+END_SRC
 
 ** Coq
+
 Open .v files with Proof General's Coq mode
 
 #+BEGIN_SRC emacs-lisp
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (add-to-list 'package-archives
-               (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-(package-initialize)
+  (require 'package)
+  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                      (not (gnutls-available-p))))
+         (proto (if no-ssl "http" "https")))
+    (add-to-list 'package-archives
+                 (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+  (package-initialize)
 
-(eval-after-load "proof-script" '(progn
-(define-key proof-mode-map [(C-down)] 
-'proof-assert-next-command-interactive)
-(define-key proof-mode-map [(C-up)] 
-'proof-undo-last-successful-command)))
+  (eval-after-load "proof-script" '(progn
+  (define-key proof-mode-map [(C-down)] 
+  'proof-assert-next-command-interactive)
+  (define-key proof-mode-map [(C-up)] 
+  'proof-undo-last-successful-command)))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(use-package company-coq
-    :ensure t
-    :hook (coq-mode . company-coq-mode))
+  (use-package company-coq
+      :ensure t
+      :hook (coq-mode . company-coq-mode))
 #+END_SRC
 
 Proof general hide completed proofs in the buffer:
 
 #+BEGIN_SRC emacs-lisp
-(setq pg-hide-all-proofs t)
+  (setq pg-hide-all-proofs t)
 #+END_SRC
 
 ** C
@@ -278,167 +278,22 @@ Add flycheck support.
     :hook (flycheck-mode . flycheck-irony-setup))
 #+END_SRC
 
-* Org
-
-** General settings.
-
-I should comment on these more...
-
-#+BEGIN_SRC emacs-lisp
-(setq org-html-htmlize-output-type 'css)
-(setq org-latex-pdf-process 
-'("%pdflatex -interaction nonstopmode -output-directory %o %f" 
-"%bibtex %b"
-"%pdflatex -interaction nonstopmode -output-directory %o %f"   
-"%pdflatex -interaction nonstopmode -output-directory %o %f"))
-(setq org-file-apps '((auto-mode . emacs)
-("\\.mm\\'" . default)
-("\\.x?html?\\'" . system)
-("\\.dvi\\'" . system)
-("\\.pdf\\'" . "/Applications/Skim.app/Contents/MacOS/Skim %s")))
-(setq org-startup-indented 'f)
-(setq org-directory "~/beorg/MyOrg")
-(setq org-special-ctrl-a/e 't)
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(define-key global-map "\C-cc" 'org-capture)
-(setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
-(setq org-src-fontify-natively 't)
-(setq org-src-tab-acts-natively t)
-(setq org-src-window-setup 'current-window)
-(setq org-agenda-files '("~/beorg/MyOrg"))
-(setq org-todo-keywords
-'((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
-(setq org-agenda-custom-commands 
-'(("o" "No trabalho" tags-todo "@unb"
-((org-agenda-overriding-header "UnB")))
-("h" "Em casa" tags-todo "@casa"
-((org-agenda-overriding-header "Casa")))))
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-iswitchb)
-(global-set-key (kbd "C-c l") 'org-store-link)
-#+END_SRC
-
-** Org Roam 
-
-#+BEGIN_SRC emacs-lisp
-(use-package org-roam
-      :hook
-      (after-init . org-roam-mode)
-      :custom
-      (org-roam-directory "/beorg/MyOrg/org-roam")
-      :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n j" . org-roam-jump-to-index)
-               ("C-c n b" . org-roam-switch-to-buffer)
-               ("C-c n g" . org-roam-graph))
-              :map org-mode-map
-              (("C-c n i" . org-roam-insert))))
-(setq org-roam-link-title-format "R:%s")
-(setq org-roam-index-file "index.org")
-(use-package org-roam-server
-:ensure nil
-:load-path "~/beorg/MyOrg/org-roam")
-(add-hook 'after-init-hook 'org-roam-mode)
-#+END_SRC emacs-lisp
-
-** OrgRef
-#+BEGIN_SRC emacs-lisp
-  (use-package org-ref
-    :ensure t
-    :config
-    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
-          org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
-          org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
-          org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
-    (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
-          bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
-          bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
-
-    ;; open pdf with system pdf viewer (works on mac)
-    (setq bibtex-completion-pdf-open-function
-          (lambda (fpath)
-            (start-process "open" "*open*" "open" fpath))))
-  (bibtex-set-dialect 'biblatex) 
-  (require 'doi-utils)
-#+END_SRC
-
-** Org Journal
-#+BEGIN_SRC emacs-lisp
-  (use-package org-journal
-    :bind 
-    ("C-c n j" . org-journal-new-entry)
-    :ensure t
-    :config
-    (setq org-journal-dir "~/beorg/MyOrg/journal")
-    (add-hook 'org-mode-hook 'turn-on-flyspell)
-    :custom
-    (org-journal-date-prefix "#+TITLE: ")
-    (org-journal-file-format "%Y-%m-%d.org")
-    (org-journal-dir "/beorg/MyOrg/")
-    (org-journal-date-format "%A, %d %B %Y"))
-#+END_SRC
-
-** Org download 
-
-#+BEGIN_SRC emacs-lisp
-(use-package org-download
-  :after org
-  :bind
-  (:map org-mode-map
-        (("s-Y" . org-download-screenshot)
-         ("s-y" . org-download-yank))))
-#+END_SRC
-
-** Org Present
-#+BEGIN_SRC emacs-lisp
-(autoload 'org-present "org-present" nil t)
-
-(eval-after-load "org-present"
-  '(progn
-     (add-hook 'org-present-mode-hook
-               (lambda ()
-                 (org-present-big)
-                 (org-display-inline-images)
-                 (org-present-hide-cursor)
-                 (org-present-read-only)))
-     (add-hook 'org-present-mode-quit-hook
-               (lambda ()
-                 (org-present-small)
-                 (org-remove-inline-images)
-                 (org-present-show-cursor)
-                 (org-present-read-write)))))
-#+END_SRC
-
-** Org EDNA
-#+BEGIN_SRC emacs-lisp
-  (use-package org-edna
-    :ensure t)
-#+END_SRC
-
-** Clocking time
-
-#+BEGIN_SRC emacs-lisp
-(setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
-(setq org-log-done 'time)
-#+END_SRC
-
 * Extras
 
 ** LaTeX classes
 
-#+BEGIN_SRC emacs-lisp
-(with-eval-after-load 'ox-latex
-   (add-to-list 'org-latex-classes
-                '("entcs"
-                  "\\documentclass[9pt]{entcs}"
-                  ("\\section{%s}" . "\\section*{%s}")
-                  ("\\subsection{%s}" . "\\subsection*{%s}")
-                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+ #+BEGIN_SRC emacs-lisp
+   (with-eval-after-load 'ox-latex
+      (add-to-list 'org-latex-classes
+                   '("entcs"
+                     "\\documentclass[9pt]{entcs}"
+                     ("\\section{%s}" . "\\section*{%s}")
+                     ("\\subsection{%s}" . "\\subsection*{%s}")
+                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 #+END_SRC
 
 ** AucTeX
+
 #+BEGIN_SRC emacs-lisp
   (use-package tex
     :ensure auctex
@@ -460,17 +315,20 @@ I should comment on these more...
 #+END_SRC
 
 ** RefTeX
+
 #+BEGIN_SRC emacs-lisp
-    (use-package reftex
-      :ensure t
-      :config
-      (setq reftex-plug-into-AUCTeX t)
-      (setq reftex-use-fonts t)
-      (setq reftex-toc-split-windows-fraction 0.2)
-      (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib"))
-      (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
+  (use-package reftex
+    :ensure t
+    :config
+    (setq reftex-plug-into-AUCTeX t)
+    (setq reftex-use-fonts t)
+    (setq reftex-toc-split-windows-fraction 0.2)
+    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib"))
+    (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 #+END_SRC
+
 ** BibTeX
+
 #+BEGIN_SRC emacs-lisp
 (use-package bibtex
   :ensure nil
@@ -481,3 +339,153 @@ I should comment on these more...
           bibtex-text-indentation 20
           bibtex-completion-bibliography '("~/idrive/bibliography/references.bib"))))
 #+END_SRC
+
+* Org
+
+** General settings.
+
+I should comment on these more...
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-html-htmlize-output-type 'css)
+  (setq org-latex-pdf-process 
+  '("%pdflatex -interaction nonstopmode -output-directory %o %f" 
+  "%bibtex %b"
+  "%pdflatex -interaction nonstopmode -output-directory %o %f"   
+  "%pdflatex -interaction nonstopmode -output-directory %o %f"))
+  (setq org-file-apps '((auto-mode . emacs)
+  ("\\.mm\\'" . default)
+  ("\\.x?html?\\'" . system)
+  ("\\.dvi\\'" . system)
+  ("\\.pdf\\'" . "/Applications/Skim.app/Contents/MacOS/Skim %s")))
+  (setq org-startup-indented 'f)
+  (setq org-directory "~/idrive/org")
+  (setq org-special-ctrl-a/e 't)
+  (setq org-default-notes-file (concat org-directory "/notes.org"))
+  (define-key global-map "\C-cc" 'org-capture)
+  (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
+  (setq org-src-fontify-natively 't)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files '("~/idrive/org"))
+  (setq org-todo-keywords
+  '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
+  (setq org-agenda-custom-commands 
+  '(("o" "No trabalho" tags-todo "@unb"
+  ((org-agenda-overriding-header "UnB")))
+  ("h" "Em casa" tags-todo "@casa"
+  ((org-agenda-overriding-header "Casa")))))
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c l") 'org-store-link)
+#+END_SRC
+
+** Org Roam 
+# #+BEGIN_SRC emacs-lisp
+# (use-package org-roam
+#       :hook
+#       (after-init . org-roam-mode)
+#       :custom
+#       (org-roam-directory "/idrive/org")
+#       :bind (:map org-roam-mode-map
+#               (("C-c n l" . org-roam)
+#                ("C-c n f" . org-roam-find-file)
+#                ("C-c n j" . org-roam-jump-to-index)
+#                ("C-c n b" . org-roam-switch-to-buffer)
+#                ("C-c n g" . org-roam-graph))
+#               :map org-mode-map
+#               (("C-c n i" . org-roam-insert))))
+# (require 'org-roam-protocol)
+# (setq org-roam-link-title-format "R:%s")
+# (setq org-roam-index-file "index.org")
+# (use-package org-roam-server
+# :ensure nil
+# :load-path "~/idrive/org/roam-server")
+# (add-hook 'after-init-hook 'org-roam-mode)
+# #+END_SRC emacs-lisp
+
+** OrgRef
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-ref
+    :ensure t
+    :config
+    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
+          org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
+          org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
+          org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
+    (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
+          bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
+          bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
+
+    ;; open pdf with system pdf viewer (works on mac)
+    (setq bibtex-completion-pdf-open-function
+          (lambda (fpath)
+            (start-process "open" "*open*" "open" fpath))))
+  (bibtex-set-dialect 'biblatex) 
+  (require 'doi-utils)
+#+END_SRC
+
+** Org Journal
+
+#+BEGIN_SRC emacs-lisp
+  (use-package org-journal
+    :bind 
+    ("C-c n j" . org-journal-new-entry)
+    :ensure t
+    :config
+    (setq org-journal-dir "~/idrive/org/journal")
+    (add-hook 'org-mode-hook 'turn-on-flyspell)
+    :custom
+    (org-journal-date-prefix "#+TITLE: ")
+    (org-journal-file-format "%Y-%m-%d.org")
+    (org-journal-dir "/beorg/MyOrg/")
+    (org-journal-date-format "%A, %d %B %Y"))
+#+END_SRC
+
+** Org download 
+
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-download
+#     :after org
+#     :bind
+#     (:map org-mode-map
+#           (("s-Y" . org-download-screenshot)
+#            ("s-y" . org-download-yank))))
+# #+END_SRC
+
+** Org Present
+
+# #+BEGIN_SRC emacs-lisp
+#   (autoload 'org-present "org-present" nil t)
+
+#   (eval-after-load "org-present"
+#     '(progn
+#        (add-hook 'org-present-mode-hook
+#                  (lambda ()
+#                    (org-present-big)
+#                    (org-display-inline-images)
+#                    (org-present-hide-cursor)
+#                    (org-present-read-only)))
+#        (add-hook 'org-present-mode-quit-hook
+#                  (lambda ()
+#                    (org-present-small)
+#                    (org-remove-inline-images)
+#                    (org-present-show-cursor)
+#                    (org-present-read-write)))))
+#  #+END_SRC
+
+** Org EDNA
+
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-edna
+#     :ensure t)
+# #+END_SRC
+
+** Clocking time
+
+# #+BEGIN_SRC emacs-lisp
+#   (setq org-clock-persist 'history)
+#   (org-clock-persistence-insinuate)
+#   (setq org-log-done 'time)
+# #+END_SRC
