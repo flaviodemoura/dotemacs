@@ -1,0 +1,2 @@
+(org-babel-load-file "~/workspace-git/dotemacs/config.org")
+(org-reload)
