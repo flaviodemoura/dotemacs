@@ -42,6 +42,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
  #+BEGIN_SRC emacs-lisp
    (setq bbdb-file "~/idrive/bbdb")
+   (require 'bbdb)
  #+END_SRC
  
 ** scimax
@@ -80,17 +81,7 @@ Trying scimax
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
  #+END_SRC
 
-** Calfw
-
- #+BEGIN_SRC emacs-lisp
-   (use-package calfw
-   :ensure t)
-   (use-package calfw-org
-   :ensure t)
-   (global-set-key [f2] 'cfw:open-org-calendar)
- #+END_SRC
-
-* Preferences 
+* Preferences
 
  As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
 
@@ -341,7 +332,6 @@ Add flycheck support.
 #+END_SRC
 
 * Org
-
 ** General settings.
 
 I should comment on these more...
@@ -359,7 +349,7 @@ I should comment on these more...
   ("\\.dvi\\'" . system)
   ("\\.pdf\\'" . "/Applications/Skim.app/Contents/MacOS/Skim %s")))
   (setq org-startup-indented 'f)
-  (setq org-directory "~/idrive/org")
+  (setq org-directory "~/idrive/bibliography/bibtex-pdfs")
   (setq org-special-ctrl-a/e 't)
   (setq org-default-notes-file (concat org-directory "/notes.org"))
   (define-key global-map "\C-cc" 'org-capture)
@@ -367,7 +357,7 @@ I should comment on these more...
   (setq org-src-fontify-natively 't)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/idrive/org"))
+  (setq org-agenda-files '("~/idrive/bibliography/bibtex-pdfs"))
   (setq org-todo-keywords
   '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
   (setq org-agenda-custom-commands 
@@ -380,29 +370,58 @@ I should comment on these more...
   (global-set-key (kbd "C-c l") 'org-store-link)
 #+END_SRC
 
-** Org Roam 
-# #+BEGIN_SRC emacs-lisp
-# (use-package org-roam
-#       :hook
-#       (after-init . org-roam-mode)
-#       :custom
-#       (org-roam-directory "/idrive/org")
-#       :bind (:map org-roam-mode-map
-#               (("C-c n l" . org-roam)
-#                ("C-c n f" . org-roam-find-file)
-#                ("C-c n j" . org-roam-jump-to-index)
-#                ("C-c n b" . org-roam-switch-to-buffer)
-#                ("C-c n g" . org-roam-graph))
-#               :map org-mode-map
-#               (("C-c n i" . org-roam-insert))))
-# (require 'org-roam-protocol)
-# (setq org-roam-link-title-format "R:%s")
-# (setq org-roam-index-file "index.org")
-# (use-package org-roam-server
-# :ensure nil
-# :load-path "~/idrive/org/roam-server")
-# (add-hook 'after-init-hook 'org-roam-mode)
-# #+END_SRC emacs-lisp
+** Org Roam
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+      (org-roam-directory "/idrive/bibliography/bibtex-pdfs")
+      :bind (:map org-roam-mode-map
+             (("C-c n l" . org-roam)
+              ("C-c n f" . org-roam-find-file)
+              ("C-c n j" . org-roam-jump-to-index)
+              ("C-c n b" . org-roam-switch-to-buffer)
+              ("C-c n g" . org-roam-graph))
+             :map org-mode-map
+             (("C-c n i" . org-roam-insert))))
+(require 'org-roam-protocol)
+(setq org-roam-link-title-format "R:%s")
+(setq org-roam-index-file "flavio.org")
+(use-package org-roam-server
+ :ensure nil
+ :load-path "~/idrive/bibliography/bibtex-pdfs/roam-server")
+  (add-hook 'after-init-hook 'org-roam-mode)
+  (require 'company-org-roam)
+  (push 'company-org-roam company-backends)
+  (require 'time-stamp)
+  (add-hook 'write-file-functions 'time-stamp)
+  (setq org-roam-graph-viewer "/usr/bin/open")
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           "%?"
+           :file-name "${slug}"
+           :head "#+TITLE: ${title} \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::
+#+ROAM_KEY: ${ref}
+- source :: ${ref}"
+           :unnarrowed t)))
+  (setq org-roam-capture-templates
+        '(("d" "default" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "${slug}"
+           :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
+           :unnarrowed t)))
+ #+END_SRC emacs-lisp
+
+** Org Roam Bibtex
+
+#+BEGIN_SRC emacs-lisp
+ (use-package org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :bind (:map org-mode-map
+         (("C-c n a" . orb-note-actions))))
+#+END_SRC emacs-lisp
 
 ** OrgRef
 
@@ -426,6 +445,16 @@ I should comment on these more...
   (require 'doi-utils)
 #+END_SRC
 
+** Calfw
+
+ #+BEGIN_SRC emacs-lisp
+   (use-package calfw
+   :ensure t)
+   (use-package calfw-org
+   :ensure t)
+   (global-set-key [f2] 'cfw:open-org-calendar)
+ #+END_SRC
+
 ** Org Journal
 
 #+BEGIN_SRC emacs-lisp
@@ -434,7 +463,7 @@ I should comment on these more...
     ("C-c n j" . org-journal-new-entry)
     :ensure t
     :config
-    (setq org-journal-dir "~/idrive/org/journal")
+    (setq org-journal-dir "~/idrive/bibliography/bibtex-pdfs")
     (add-hook 'org-mode-hook 'turn-on-flyspell)
     :custom
     (org-journal-date-prefix "#+TITLE: ")
@@ -443,7 +472,7 @@ I should comment on these more...
     (org-journal-date-format "%A, %d %B %Y"))
 #+END_SRC
 
-** Org download 
+** Org download
 
 # #+BEGIN_SRC emacs-lisp
 #   (use-package org-download
