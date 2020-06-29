@@ -1,0 +1,230 @@
+(setq user-full-name "Flávio L. C. de Moura"
+      user-mail-address "flavio@flaviomoura.info")
+
+(eval-after-load "dired"
+  '(progn
+     (define-key dired-mode-map (kbd "z")
+       (lambda () (interactive)
+         (let ((fn (dired-get-file-for-visit)))
+           (start-process "default-app" nil "open" fn))))))
+
+(auto-fill-mode)
+
+(setq bbdb-file "~/idrive/bbdb")
+(require 'bbdb)
+
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-enable-at-startup nil)
+
+(unless (package-installed-p 'use-package)
+(package-refresh-contents)
+(package-install 'use-package))
+
+(setq ispell-program-name "/usr/local/bin/aspell")
+(setq ispell-dictionary "pt_BR")
+(setq ispell-list-command "--list")
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+(autoload 'tex-mode-flyspell-verify "flyspell" "" t)
+
+(defvar default-major-mode nil)
+
+(setq scroll-step 1)
+(setq scroll-preserve-screen-position 1)
+
+(global-set-key (kbd "M-=") 'text-scale-increase)
+(global-set-key (kbd "M--") 'text-scale-decrease)
+
+(setq inhibit-startup-screen t)
+
+(setq mac-command-modifier 'meta
+        mac-option-modifier 'none)
+
+(global-visual-line-mode 1)
+
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(setq ring-bell-function 'ignore)
+
+(use-package smartparens
+  :ensure t
+  :diminish smartparens-mode
+  :config
+  (add-hook 'prog-mode-hook 'smartparens-mode))
+
+(show-paren-mode 1)
+
+(global-set-key (kbd "C-c h") 'global-hl-line-mode)
+
+(add-hook 'prog-mode-hook 'electric-pair-mode)
+
+(use-package ido
+  :ensure t
+  :config
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode t)
+  (setq ido-use-filename-at-point 'guess)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
+
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status))
+
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode 't)
+  :diminish git-gutter-mode)
+
+(use-package git-timemachine
+  :ensure t)
+
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (add-to-list 'package-archives
+               (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+(package-initialize)
+
+(eval-after-load "proof-script" '(progn
+(define-key proof-mode-map [(C-down)] 
+'proof-assert-next-command-interactive)
+(define-key proof-mode-map [(C-up)] 
+'proof-undo-last-successful-command)))
+
+(use-package company-coq
+    :ensure t
+    :hook (coq-mode . company-coq-mode))
+
+(setq pg-hide-all-proofs t)
+
+(use-package irony
+  :ensure t
+  :hook (c-mode . irony-mode))
+
+(use-package company-irony
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-irony))
+
+(use-package flycheck-irony
+  :ensure t
+  :hook (flycheck-mode . flycheck-irony-setup))
+
+(with-eval-after-load 'ox-latex
+   (add-to-list 'org-latex-classes
+                '("entcs"
+                  "\\documentclass[9pt]{entcs}"
+                  ("\\section{%s}" . "\\section*{%s}")
+                  ("\\subsection{%s}" . "\\subsection*{%s}")
+                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+
+(use-package tex
+    :ensure auctex
+    :config
+    (setq TeX-PDF-mode t)
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq-default TeX-master nil))
+(setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+(setq TeX-view-program-list
+      '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+
+(custom-set-variables
+     '(TeX-source-correlate-method 'synctex)
+     '(TeX-source-correlate-mode t)
+     '(TeX-source-correlate-start-server t))
+
+(use-package reftex
+  :ensure t
+  :config
+  (setq reftex-plug-into-AUCTeX t)
+  (setq reftex-use-fonts t)
+  (setq reftex-toc-split-windows-fraction 0.2)
+  (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib"))
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
+
+(use-package bibtex
+  :ensure nil
+  :config
+  (progn
+    (setq bibtex-dialect 'biblatex
+          bibtex-align-at-equal-sign t
+          bibtex-text-indentation 20
+          bibtex-completion-bibliography '("~/idrive/bibliography/references.bib"))))
+
+(setq org-html-htmlize-output-type 'css)
+(setq org-latex-pdf-process 
+'("%pdflatex -interaction nonstopmode -output-directory %o %f" 
+"%bibtex %b"
+"%pdflatex -interaction nonstopmode -output-directory %o %f"   
+"%pdflatex -interaction nonstopmode -output-directory %o %f"))
+(setq org-file-apps '((auto-mode . emacs)
+("\\.mm\\'" . default)
+("\\.x?html?\\'" . system)
+("\\.dvi\\'" . system)
+("\\.pdf\\'" . "/Applications/Skim.app/Contents/MacOS/Skim %s")))
+(setq org-startup-indented 'f)
+(setq org-directory "~/idrive/bibliography/bibtex-pdfs")
+(setq org-special-ctrl-a/e 't)
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cc" 'org-capture)
+(setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
+(setq org-src-fontify-natively 't)
+(setq org-src-tab-acts-natively t)
+(setq org-src-window-setup 'current-window)
+(setq org-agenda-files '("~/idrive/bibliography/bibtex-pdfs"))
+(setq org-todo-keywords
+'((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "|" "CANCELLED(c)" "DONE(d)")))
+(setq org-agenda-custom-commands 
+'(("o" "No trabalho" tags-todo "@unb"
+((org-agenda-overriding-header "UnB")))
+("h" "Em casa" tags-todo "@casa"
+((org-agenda-overriding-header "Casa")))))
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c b") 'org-iswitchb)
+(global-set-key (kbd "C-c l") 'org-store-link)
+
+(use-package org-ref
+  :ensure t
+  :config
+  (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
+        org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
+        org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
+        org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
+  (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
+        bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
+        bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
+
+  ;; open pdf with system pdf viewer (works on mac)
+  (setq bibtex-completion-pdf-open-function
+        (lambda (fpath)
+          (start-process "open" "*open*" "open" fpath))))
+(bibtex-set-dialect 'biblatex) 
+(require 'doi-utils)
+
+(use-package calfw
+:ensure t)
+(use-package calfw-org
+:ensure t)
+(global-set-key [f2] 'cfw:open-org-calendar)
+
+(use-package org-journal
+  :bind 
+  ("C-c n j" . org-journal-new-entry)
+  :ensure t
+  :config
+  (setq org-journal-dir "~/idrive/bibliography/bibtex-pdfs")
+  (add-hook 'org-mode-hook 'turn-on-flyspell)
+  :custom
+  (org-journal-date-prefix "#+TITLE: ")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-dir "/beorg/MyOrg/")
+  (org-journal-date-format "%A, %d %B %Y"))

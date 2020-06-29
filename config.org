@@ -8,6 +8,14 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
+** Theme
+
+#+BEGIN_SRC emacs-lisp
+(use-package vscode-dark-plus-theme
+  :config
+  (load-theme 'vscode-dark-plus t))
+#+END_SRC emacs-lisp
+
 ** Personal data
 
 #+BEGIN_SRC emacs-lisp
@@ -17,9 +25,11 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 ** Package initialize
 
- #+BEGIN_SRC emacs-lisp
-  (package-initialize)
- #+END_SRC
+Already done in the .emacs file
+
+ # #+BEGIN_SRC emacs-lisp
+ #  (package-initialize)
+ # #+END_SRC
 
 ** dired
 
@@ -376,7 +386,7 @@ I should comment on these more...
       :hook
       (after-init . org-roam-mode)
       :custom
-      (org-roam-directory "/idrive/bibliography/bibtex-pdfs")
+      (org-roam-directory "~/idrive/bibliography/bibtex-pdfs")
       :bind (:map org-roam-mode-map
              (("C-c n l" . org-roam)
               ("C-c n f" . org-roam-find-file)
