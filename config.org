@@ -8,14 +8,6 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 * Setup
 
-** Theme
-
-#+BEGIN_SRC emacs-lisp
-(use-package vscode-dark-plus-theme
-  :config
-  (load-theme 'vscode-dark-plus t))
-#+END_SRC emacs-lisp
-
 ** Personal data
 
 #+BEGIN_SRC emacs-lisp
@@ -25,11 +17,35 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 ** Package initialize
 
-Already done in the .emacs file
+ #+BEGIN_SRC emacs-lisp
+  (package-initialize)
+ #+END_SRC
 
- # #+BEGIN_SRC emacs-lisp
- #  (package-initialize)
- # #+END_SRC
+** Bootstrap use-package
+
+ If =use-package= is not installed, install it.
+
+ #+BEGIN_SRC emacs-lisp
+   (unless (package-installed-p 'use-package)
+   (package-refresh-contents)
+   (package-install 'use-package))
+ #+END_SRC
+
+** Package sources
+
+ #+BEGIN_SRC emacs-lisp
+   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+   (setq package-enable-at-startup nil)
+ #+END_SRC
+
+** Theme
+
+#+BEGIN_SRC emacs-lisp
+ (use-package vscode-dark-plus-theme
+  :ensure t
+  :config
+   (load-theme 'vscode-dark-plus t))
+#+END_SRC emacs-lisp
 
 ** dired
 
@@ -51,34 +67,12 @@ Already done in the .emacs file
 ** bbdb
 
  #+BEGIN_SRC emacs-lisp
-   (setq bbdb-file "~/idrive/bbdb")
-   (require 'bbdb)
+ (use-package bbdb
+ :ensure t
+ :config
+   (setq bbdb-file "~/idrive/bbdb"))
  #+END_SRC
  
-** scimax
-
-Trying scimax
-# #+BEGIN_SRC emacs-lisp
-# (load "~/workspace-git/scimax/init.el")
-# #+END_SRC
-
-** Package sources
-
- #+BEGIN_SRC emacs-lisp
-   (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-   (setq package-enable-at-startup nil)
- #+END_SRC
-
-** Bootstrap use-package
-
- If =use-package= is not installed, install it.
-
- #+BEGIN_SRC emacs-lisp
-   (unless (package-installed-p 'use-package)
-   (package-refresh-contents)
-   (package-install 'use-package))
- #+END_SRC
-
 ** Flyspell 
 
  #+BEGIN_SRC emacs-lisp
@@ -90,6 +84,13 @@ Trying scimax
    (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
  #+END_SRC
+
+** scimax
+
+Trying scimax
+# #+BEGIN_SRC emacs-lisp
+# (load "~/workspace-git/scimax/init.el")
+# #+END_SRC
 
 * Preferences
 
@@ -225,31 +226,21 @@ Trying scimax
 Open .v files with Proof General's Coq mode
 
 #+BEGIN_SRC emacs-lisp
-  (require 'package)
-  (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                      (not (gnutls-available-p))))
-         (proto (if no-ssl "http" "https")))
-    (add-to-list 'package-archives
-                 (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-  (package-initialize)
-
-  (eval-after-load "proof-script" '(progn
-  (define-key proof-mode-map [(C-down)] 
-  'proof-assert-next-command-interactive)
-  (define-key proof-mode-map [(C-up)] 
-  'proof-undo-last-successful-command)))
+ (use-package proof-general
+  :ensure t
+  :config
+   (eval-after-load "proof-script" '(progn
+   (define-key proof-mode-map [(C-down)] 
+   'proof-assert-next-command-interactive)
+   (define-key proof-mode-map [(C-up)] 
+   'proof-undo-last-successful-command))))
+   (setq pg-hide-all-proofs t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-coq
       :ensure t
       :hook (coq-mode . company-coq-mode))
-#+END_SRC
-
-Proof general hide completed proofs in the buffer:
-
-#+BEGIN_SRC emacs-lisp
-  (setq pg-hide-all-proofs t)
 #+END_SRC
 
 ** C
@@ -324,7 +315,7 @@ Add flycheck support.
     (setq reftex-plug-into-AUCTeX t)
     (setq reftex-use-fonts t)
     (setq reftex-toc-split-windows-fraction 0.2)
-    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib"))
+    (setq reftex-default-bibliography '("~/idrive/bibliography/zotLib.bib"))
     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 #+END_SRC
 
@@ -338,7 +329,7 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/idrive/bibliography/references.bib"))))
+          bibtex-completion-bibliography '("~/idrive/bibliography/zotLib.bib"))))
 #+END_SRC
 
 * Org
@@ -439,11 +430,11 @@ I should comment on these more...
   (use-package org-ref
     :ensure t
     :config
-    (setq reftex-default-bibliography '("~/idrive/bibliography/references.bib")
-          org-ref-default-bibliography '("~/idrive/bibliography/references.bib")
+    (setq reftex-default-bibliography '("~/idrive/bibliography/zotLib.bib")
+          org-ref-default-bibliography '("~/idrive/bibliography/zotLib.bib")
           org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
           org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
-    (setq bibtex-completion-bibliography "~/idrive/bibliography/references.bib"
+    (setq bibtex-completion-bibliography "~/idrive/bibliography/zotLib.bib"
           bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
           bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
 
@@ -484,36 +475,43 @@ I should comment on these more...
 
 ** Org download
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package org-download
-#     :after org
-#     :bind
-#     (:map org-mode-map
-#           (("s-Y" . org-download-screenshot)
-#            ("s-y" . org-download-yank))))
-# #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org-download
+    :after org
+    :bind
+    (:map org-mode-map
+          (("s-Y" . org-download-screenshot)
+           ("s-y" . org-download-yank))))
+#+END_SRC
 
 ** Org Present
 
-# #+BEGIN_SRC emacs-lisp
-#   (autoload 'org-present "org-present" nil t)
+#+BEGIN_SRC emacs-lisp
+  (autoload 'org-present "org-present" nil t)
 
-#   (eval-after-load "org-present"
-#     '(progn
-#        (add-hook 'org-present-mode-hook
-#                  (lambda ()
-#                    (org-present-big)
-#                    (org-display-inline-images)
-#                    (org-present-hide-cursor)
-#                    (org-present-read-only)))
-#        (add-hook 'org-present-mode-quit-hook
-#                  (lambda ()
-#                    (org-present-small)
-#                    (org-remove-inline-images)
-#                    (org-present-show-cursor)
-#                    (org-present-read-write)))))
-#  #+END_SRC
+  (eval-after-load "org-present"
+    '(progn
+       (add-hook 'org-present-mode-hook
+                 (lambda ()
+                   (org-present-big)
+                   (org-display-inline-images)
+                   (org-present-hide-cursor)
+                   (org-present-read-only)))
+       (add-hook 'org-present-mode-quit-hook
+                 (lambda ()
+                   (org-present-small)
+                   (org-remove-inline-images)
+                   (org-present-show-cursor)
+                   (org-present-read-write)))))
+ #+END_SRC
 
+** Clocking time
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+  (setq org-log-done 'time)
+#+END_SRC
 ** Org EDNA
 
 # #+BEGIN_SRC emacs-lisp
@@ -521,10 +519,3 @@ I should comment on these more...
 #     :ensure t)
 # #+END_SRC
 
-** Clocking time
-
-# #+BEGIN_SRC emacs-lisp
-#   (setq org-clock-persist 'history)
-#   (org-clock-persistence-insinuate)
-#   (setq org-log-done 'time)
-# #+END_SRC
