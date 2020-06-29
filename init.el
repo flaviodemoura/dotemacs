@@ -1,19 +1,54 @@
-;; add MELPA package server
-(require 'package)
+;;; init.el --- My Emacs configuration
 
-(add-to-list 'package-archives 
-  '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; Copyright (C) 2014 Mathieu Marques
 
-(unless package-archive-contents
-  (package-refresh-contents))
+;; Author: Mathieu Marques <mathieumarques78@gmail.com>
+;; Created: October 16, 2014
+;; Homepage: https://github.com/angrybacon/dotemacs
+;; Keywords: abbrev, convenience, faces, maint, outlines, vc
 
-(package-initialize)
+;; This program is free software. You can redistribute it and/or modify it under
+;; the terms of the Do What The Fuck You Want To Public License, version 2 as
+;; published by Sam Hocevar.
+;;
+;; This program is distributed in the hope that it will be useful, but WITHOUT
+;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+;; FOR A PARTICULAR PURPOSE.
+;;
+;; You should have received a copy of the Do What The Fuck You Want To Public
+;; License along with this program. If not, see http://www.wtfpl.net/.
 
-;; if not yet installed, install package use-package
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
+;;; Commentary:
 
-;; load org package and our emacs-config.org file
-(require 'org)
-(org-babel-load-file "config.org") 
+;; Following lines load an Org file and build the configuration code out of it.
 
+;;; Code:
+
+(let ((gc-cons-percentage .6)
+      (gc-cons-threshold most-positive-fixnum))
+
+  ;; Set repositories
+  (require 'package)
+  (setq-default
+   load-prefer-newer t
+   package-enable-at-startup nil)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (package-initialize)
+
+  ;; Install dependencies
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package t))
+  (setq-default
+   use-package-always-defer t
+   use-package-always-ensure t)
+
+  ;; Use latest Org
+  (use-package org :ensure org-plus-contrib)
+
+  ;; Tangle configuration
+  (org-babel-load-file (expand-file-name "config.org" user-emacs-directory))
+  (garbage-collect))
+
+;;; init.el ends here
