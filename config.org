@@ -13,29 +13,29 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Flávio L. C. de Moura")
   (setq user-mail-address "flavio@flaviomoura.info")
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Bootstrap use-package
 
  If =use-package= is not installed, install it.
 
- #+BEGIN_SRC emacs-lisp
- (require 'package)
- (add-to-list 'package-archives
- '("melpa" . "https://melpa.org/packages/") t)
- (package-initialize)
+ # #+BEGIN_SRC emacs-lisp
+ # (require 'package)
+ # (add-to-list 'package-archives
+ # '("melpa" . "https://melpa.org/packages/") t)
+ # (package-initialize)
  
- ;; Bootstrap 'use-package'
- (eval-after-load 'gnutls
- '(add-to-list 'gnutls-trustfiles "/etc/ssl/cert.pem"))
- (unless (package-installed-p 'use-package)
- (package-refresh-contents)
- (package-install 'use-package))
- (eval-when-compile
- (require 'use-package))
- (require 'bind-key)
- (setq use-package-always-ensure t)
- #+END_SRC emacs-lisp
+ # ;; Bootstrap 'use-package'
+ # (eval-after-load 'gnutls
+ # '(add-to-list 'gnutls-trustfiles "/etc/ssl/cert.pem"))
+ # (unless (package-installed-p 'use-package)
+ # (package-refresh-contents)
+ # (package-install 'use-package))
+ # (eval-when-compile
+ # (require 'use-package))
+ # (require 'bind-key)
+ # (setq use-package-always-ensure t)
+ # #+END_SRC 
 
 ** Theme
 
@@ -44,13 +44,13 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
   :ensure t
   :config
    (load-theme 'vscode-dark-plus t))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Auto fill mode
 
  #+BEGIN_SRC emacs-lisp
    (auto-fill-mode)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
 ** bbdb
 
@@ -59,7 +59,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
  :ensure t
  :config
    (setq bbdb-file "~/idrive/bbdb"))
- #+END_SRC emacs-lisp
+ #+END_SRC 
  
 ** Flyspell 
 
@@ -71,7 +71,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
    (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
    (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
 ** Dired
 
@@ -85,14 +85,14 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
  #            (lambda () (interactive)
  #              (let ((fn (dired-get-file-for-visit)))
  #                (start-process "default-app" nil "open" fn)))))))
- # #+END_SRC emacs-lisp
+ # #+END_SRC 
 
 ** scimax
 
 Trying scimax
 # #+BEGIN_SRC emacs-lisp
 # (load "~/workspace-git/scimax/init.el")
-# #+END_SRC emacs-lisp
+# #+END_SRC 
 
 * Preferences
 
@@ -104,53 +104,53 @@ Trying scimax
 
  #+BEGIN_SRC emacs-lisp
    (defvar default-major-mode nil)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Smooth scroll and keep cursor at same position when scrolling
 
  #+BEGIN_SRC emacs-lisp
    (setq scroll-step 1)
    (setq scroll-preserve-screen-position 1)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Increase and decrease font size
 
  #+BEGIN_SRC emacs-lisp
    (global-set-key (kbd "M-=") 'text-scale-increase)
    (global-set-key (kbd "M--") 'text-scale-decrease)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Don't display the help screen on startup.
 
  #+BEGIN_SRC emacs-lisp
    (setq inhibit-startup-screen t)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
  #+BEGIN_SRC emacs-lisp
    (setq mac-command-modifier 'meta
            mac-option-modifier 'none)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  I prefer lines to wrap.
 
  #+BEGIN_SRC emacs-lisp
    (global-visual-line-mode 1)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Let's turn off unwanted window decoration.
 
  #+BEGIN_SRC emacs-lisp
    (tool-bar-mode -1)
    (scroll-bar-mode -1)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  I don't want the error bell.
 
  #+BEGIN_SRC emacs-lisp
    (setq ring-bell-function 'ignore)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
 * Coding
 ** Programming specific interface improvements
@@ -163,25 +163,25 @@ Trying scimax
      :diminish smartparens-mode
      :config
      (add-hook 'prog-mode-hook 'smartparens-mode))
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Show parentheses matching
 
  #+BEGIN_SRC emacs-lisp
    (show-paren-mode 1)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Highlight current line
 
  #+BEGIN_SRC emacs-lisp
    (global-set-key (kbd "C-c h") 'global-hl-line-mode)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Expand parentheses for me.
 
  #+BEGIN_SRC emacs-lisp
    (add-hook 'prog-mode-hook 'electric-pair-mode)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
 ** Git
 
@@ -191,7 +191,7 @@ Trying scimax
    (use-package magit
      :ensure t
      :bind ("C-x g" . magit-status))
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  Display line changes in gutter based on git history. Enable it everywhere.
 
@@ -201,14 +201,14 @@ Trying scimax
      :config
      (global-git-gutter-mode 't)
      :diminish git-gutter-mode)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
  TimeMachine lets us step through the history of a file as recorded in git.
 
  #+BEGIN_SRC emacs-lisp
    (use-package git-timemachine
      :ensure t)
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
 ** Coq
 
@@ -224,13 +224,13 @@ Open .v files with Proof General's Coq mode
    (define-key proof-mode-map [(C-up)] 
    'proof-undo-last-successful-command))))
    (setq pg-hide-all-proofs t)
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 #+BEGIN_SRC emacs-lisp
   (use-package company-coq
       :ensure t
       :hook (coq-mode . company-coq-mode))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** C
 
@@ -240,7 +240,7 @@ Emacs has a great built in C/C++ mode, but we can improve on it with =irony-mode
   (use-package irony
     :ensure t
     :hook (c-mode . irony-mode))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 Add company mode support.
 
@@ -249,7 +249,7 @@ Add company mode support.
     :ensure t
     :config
     (add-to-list 'company-backends 'company-irony))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 Add flycheck support.
 
@@ -257,21 +257,21 @@ Add flycheck support.
   (use-package flycheck-irony
     :ensure t
     :hook (flycheck-mode . flycheck-irony-setup))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Ido
 
- # #+BEGIN_SRC emacs-lisp
- #   (use-package ido
- #     :ensure t
- #     :config
- #     (setq ido-enable-flex-matching t)
- #     (setq ido-everywhere t)
- #     (ido-mode t)
- #     (setq ido-use-filename-at-point 'guess)
- #     (setq ido-create-new-buffer 'always)
- #     (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
- #    #+END_SRC emacs-lisp
+ #+BEGIN_SRC emacs-lisp
+   (use-package ido
+     :ensure t
+     :config
+     (setq ido-enable-flex-matching t)
+     (setq ido-everywhere t)
+     (ido-mode t)
+     (setq ido-use-filename-at-point 'guess)
+     (setq ido-create-new-buffer 'always)
+     (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
+    #+END_SRC 
 
 * Extras
 
@@ -285,7 +285,7 @@ Add flycheck support.
                      ("\\section{%s}" . "\\section*{%s}")
                      ("\\subsection{%s}" . "\\subsection*{%s}")
                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** AucTeX
 
@@ -307,7 +307,7 @@ Add flycheck support.
      '(TeX-source-correlate-method 'synctex)
      '(TeX-source-correlate-mode t)
      '(TeX-source-correlate-start-server t))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** BibTeX
 
@@ -319,8 +319,8 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/idrive/bibliography/zotLib.bib"))))
-#+END_SRC emacs-lisp
+          bibtex-completion-bibliography '("~/idrive/bibliography/bibtex-pdfs/zotLib.bib"))))
+#+END_SRC 
 
 ** RefTeX
 
@@ -331,9 +331,9 @@ Add flycheck support.
 #     (setq reftex-plug-into-AUCTeX t)
 #     (setq reftex-use-fonts t)
 #     (setq reftex-toc-split-windows-fraction 0.2)
-#     (setq reftex-default-bibliography '("~/idrive/bibliography/zotLib.bib"))
+#     (setq reftex-default-bibliography '("~/idrive/bibliography/bibtex-pdfs/zotLib.bib"))
 #     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
-# #+END_SRC emacs-lisp
+# #+END_SRC 
 
 * Org
 ** General settings.
@@ -372,7 +372,7 @@ I should comment on these more...
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c b") 'org-iswitchb)
   (global-set-key (kbd "C-c l") 'org-store-link)
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Org Roam
 #+BEGIN_SRC emacs-lisp
@@ -408,7 +408,7 @@ I should comment on these more...
 :file-name "${slug}"
 :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
 :unnarrowed t)))
-#+END_SRC emacs-lisp
+#+END_SRC 
             
 ** Org Roam Bibtex
 
@@ -418,7 +418,7 @@ I should comment on these more...
   :hook (org-roam-mode . org-roam-bibtex-mode)
   :bind (:map org-mode-map
          (("C-c n a" . orb-note-actions))))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** OrgRef
 
@@ -426,19 +426,18 @@ I should comment on these more...
   (use-package org-ref
     :ensure t
     :config
-    (setq reftex-default-bibliography '("~/idrive/bibliography/zotLib.bib")
-          org-ref-default-bibliography '("~/idrive/bibliography/zotLib.bib")
+    (setq reftex-default-bibliography '("~/idrive/bibliography/bibtex-pdfs/zotLib.bib")
+          org-ref-default-bibliography '("~/idrive/bibliography/bibtex-pdfs/zotLib.bib")
           org-ref-bibliography-notes "~/idrive/bibliography/notes.org"
           org-ref-pdf-directory "~/idrive/bibliography/bibtex-pdfs/")
-    (setq bibtex-completion-bibliography "~/idrive/bibliography/zotLib.bib"
+    (setq bibtex-completion-bibliography "~/idrive/bibliography/bibtex-pdfs/zotLib.bib"
           bibtex-completion-library-path "~/idrive/bibliography/bibtex-pdfs"
           bibtex-completion-notes-path "~/idrive/bibliography/helm-bibtex-notes")
     (setq bibtex-completion-pdf-open-function
           (lambda (fpath)
             (start-process "open" "*open*" "open" fpath))))
-  (bibtex-set-dialect 'biblatex)
   (require 'doi-utils)
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Org Journal
 
@@ -455,7 +454,7 @@ I should comment on these more...
     (org-journal-file-format "%Y-%m-%d.org")
     (org-journal-dir "/beorg/MyOrg/")
     (org-journal-date-format "%A, %d %B %Y"))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Org download
 
@@ -466,7 +465,7 @@ I should comment on these more...
     (:map org-mode-map
           (("s-Y" . org-download-screenshot)
            ("s-y" . org-download-yank))))
-#+END_SRC emacs-lisp
+#+END_SRC 
 
 ** Org Present
 
@@ -487,7 +486,7 @@ I should comment on these more...
                    (org-remove-inline-images)
                    (org-present-show-cursor)
                    (org-present-read-write)))))
- #+END_SRC emacs-lisp
+ #+END_SRC 
 
 ** Clocking time
 
@@ -495,7 +494,7 @@ I should comment on these more...
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
   (setq org-log-done 'time)
-#+END_SRC emacs-lisp
+#+END_SRC 
 ** Calfw
 
  # #+BEGIN_SRC emacs-lisp
@@ -504,12 +503,12 @@ I should comment on these more...
  #   (use-package calfw-org
  #   :ensure t)
  #   (global-set-key [f2] 'cfw:open-org-calendar)
- # #+END_SRC emacs-lisp
+ # #+END_SRC 
 
 ** Org EDNA
 
 # #+BEGIN_SRC emacs-lisp
 #   (use-package org-edna
 #     :ensure t)
-# #+END_SRC emacs-lisp
+# #+END_SRC 
 
