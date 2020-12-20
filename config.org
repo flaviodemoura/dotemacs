@@ -218,11 +218,11 @@ Open .v files with Proof General's Coq mode
    (setq pg-hide-all-proofs t)
 #+END_SRC 
 
-#+BEGIN_SRC emacs-lisp
-  (use-package company-coq
-      :ensure t
-      :hook (coq-mode . company-coq-mode))
-#+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package company-coq
+#       :ensure t
+#       :hook (coq-mode . company-coq-mode))
+# #+END_SRC 
 
 ** C
 
@@ -315,16 +315,21 @@ Add flycheck support.
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
     (setq-default TeX-master nil))
-(setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
-(setq TeX-view-program-list
-      '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+  (setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+  (setq TeX-view-program-list
+        '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
 
-(custom-set-variables
-     '(TeX-source-correlate-method 'synctex)
-     '(TeX-source-correlate-mode t)
-     '(TeX-source-correlate-start-server t))
+  (custom-set-variables
+   '(TeX-source-correlate-method 'synctex)
+   '(TeX-source-correlate-mode t)
+   '(TeX-source-correlate-start-server t))
+
+  (require 'auctex-latexmk)
+  (auctex-latexmk-setup)
+  (setq auctex-latexmk-inherit-TeX-PDF-mode t)
+  (setq TeX-file-line-error nil)
 #+END_SRC 
 
 ** BibTeX
@@ -433,7 +438,7 @@ I should comment on these more...
                 :map org-mode-map
                 (("C-c n i" . org-roam-insert))))
 
-  (setq org-roam-index-file "flavio.org")
+  (setq org-roam-index-file "inicial.org")
   (add-hook 'after-init-hook 'org-roam-mode)
   (require 'time-stamp)
   (add-hook 'write-file-functions 'time-stamp)
@@ -441,7 +446,7 @@ I should comment on these more...
   (setq org-roam-capture-templates
   '(("d" "default" plain (function org-roam--capture-get-point)
   "%?"
-  :file-name "${slug}"
+  :file-name "%<%Y%m%d%H%M%S>-${slug}"
   :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
   :unnarrowed t)))
 #+END_SRC 
@@ -476,7 +481,6 @@ I should comment on these more...
     :custom
     (org-journal-date-prefix "#+TITLE: ")
     (org-journal-file-format "%Y-%m-%d.org")
-    (org-journal-dir "/beorg/MyOrg/")
     (org-journal-date-format "%A, %d %B %Y"))
 #+END_SRC 
 
