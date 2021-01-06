@@ -3,6 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
+#+last_modified: [2021-01-06 Qua 10:59]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -423,32 +424,107 @@ I should comment on these more...
 
 ** Org Roam
 #+BEGIN_SRC emacs-lisp
-  (use-package org-roam
-    :ensure t
-    :hook
-    (after-init . org-roam-mode)
-    :custom
-    (org-roam-directory "~/beorg/org")
-    :bind (:map org-roam-mode-map
-                (("C-c n l" . org-roam)
-                 ("C-c n f" . org-roam-find-file)
-                 ("C-c n j" . org-roam-jump-to-index)
-                 ("C-c n b" . org-roam-switch-to-buffer)
-                 ("C-c n g" . org-roam-graph))
-                :map org-mode-map
-                (("C-c n i" . org-roam-insert))))
+    (defun zp/org-find-time-file-property (property &optional anywhere)
+      "Return the position of the time file PROPERTY if it exists.
+    When ANYWHERE is non-nil, search beyond the preamble."
+      (save-excursion
+        (goto-char (point-min))
+        (let ((first-heading
+               (save-excursion
+                 (re-search-forward org-outline-regexp-bol nil t))))
+          (when (re-search-forward (format "^#\\+%s:" property)
+                                   (if anywhere nil first-heading)
+                                   t)
+            (point)))))
 
-  (setq org-roam-index-file "inicial.org")
-  (add-hook 'after-init-hook 'org-roam-mode)
-  (require 'time-stamp)
-  (add-hook 'write-file-functions 'time-stamp)
-  (setq org-roam-graph-viewer "/usr/bin/open")
-  (setq org-roam-capture-templates
-  '(("d" "default" plain (function org-roam--capture-get-point)
-  "%?"
-  :file-name "%<%Y%m%d%H%M%S>-${slug}"
-  :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
-  :unnarrowed t)))
+    (defun zp/org-has-time-file-property-p (property &optional anywhere)
+      "Return the position of time file PROPERTY if it is defined.
+    As a special case, return -1 if the time file PROPERTY exists but
+    is not defined."
+      (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+        (save-excursion
+          (goto-char pos)
+          (if (and (looking-at-p " ")
+                   (progn (forward-char)
+                          (org-at-timestamp-p 'lax)))
+              pos
+            -1))))
+
+    (defun zp/org-set-time-file-property (property &optional anywhere pos)
+      "Set the time file PROPERTY in the preamble.
+    When ANYWHERE is non-nil, search beyond the preamble.
+    If the position of the file PROPERTY has already been computed,
+    it can be passed in POS."
+      (when-let ((pos (or pos
+                          (zp/org-find-time-file-property property))))
+        (save-excursion
+          (goto-char pos)
+          (if (looking-at-p " ")
+              (forward-char)
+            (insert " "))
+          (delete-region (point) (line-end-position))
+          (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+            (insert now)))))
+
+    (defun zp/org-set-last-modified ()
+      "Update the LAST_MODIFIED file property in the preamble."
+      (when (derived-mode-p 'org-mode)
+        (zp/org-set-time-file-property "LAST_MODIFIED")))
+
+    (use-package org-roam
+      :ensure t
+      :hook
+      ((after-init . org-roam-mode)
+       (before-save . zp/org-set-last-modified))
+      :custom
+      (org-roam-directory "~/beorg/org")
+      :bind (:map org-roam-mode-map
+                  (("C-c n l" . org-roam)
+                   ("C-c n f" . org-roam-find-file)
+                   ("C-c n j" . org-roam-jump-to-index)
+                   ("C-c n b" . org-roam-switch-to-buffer)
+                   ("C-c n g" . org-roam-graph))
+                  :map org-mode-map
+                  (("C-c n i" . org-roam-insert))))
+
+    (setq org-roam-index-file "inicial.org")
+    (add-hook 'after-init-hook 'org-roam-mode)
+    (setq org-roam-graph-viewer "/usr/bin/open")
+    (setq org-roam-capture-templates
+          '(("d" "default" plain (function org-roam--capture-get-point)
+             "%?"
+             :file-name "%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
+             :unnarrowed t)))
+
+  (defvar dynamic-agenda-files nil
+    "dynamic generate agenda files list when changing org state")
+
+  (defun update-dynamic-agenda-hook ()
+    (let ((done (or (not org-state) ;; nil when no TODO list
+                    (member org-state org-done-keywords)))
+          (file (buffer-file-name))
+          (agenda (funcall (ad-get-orig-definition 'org-agenda-files)) ))
+      (unless (member file agenda)
+        (if done
+            (save-excursion
+              (goto-char (point-min))
+              ;; Delete file from dynamic files when all TODO entry changed to DONE
+              (unless (search-forward-regexp org-not-done-heading-regexp nil t)
+                (customize-save-variable
+                 'dynamic-agenda-files
+                 (cl-delete-if (lambda (k) (string= k file))
+                               dynamic-agenda-files))))
+          ;; Add this file to dynamic agenda files
+          (unless (member file dynamic-agenda-files)
+            (customize-save-variable 'dynamic-agenda-files
+                                     (add-to-list 'dynamic-agenda-files file)))))))
+
+  (defun dynamic-agenda-files-advice (orig-val)
+    (union orig-val dynamic-agenda-files :test #'equal))
+
+  (advice-add 'org-agenda-files :filter-return #'dynamic-agenda-files-advice)
+  (add-to-list 'org-after-todo-state-change-hook 'update-dynamic-agenda-hook t)
 #+END_SRC 
             
 ** Org Roam Bibtex
@@ -468,6 +544,7 @@ I should comment on these more...
    (use-package org-noter
      :ensure t)
 #+end_src
+
 ** Org Journal
 
 #+BEGIN_SRC emacs-lisp
