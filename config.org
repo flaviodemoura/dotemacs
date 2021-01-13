@@ -24,20 +24,20 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
    #+end_src
 ** Theme
 
-#+BEGIN_SRC emacs-lisp
-(use-package modus-vivendi-theme
-   :ensure t
-   :config
-    (load-theme 'modus-vivendi t))
-  ;; (use-package modus-operandi-theme
-  ;;  :ensure t
-  ;;  :config
-  ;;   (load-theme 'modus-operandi t))
-  ;; ;; (use-package vscode-dark-plus-theme
-  ;;  :ensure t
-  ;;  :config
-  ;;   (load-theme 'vscode-dark-plus t))
-#+END_SRC 
+;; #+BEGIN_SRC emacs-lisp
+  ;; (use-package modus-vivendi-theme
+  ;;    :ensure t
+  ;;    :config
+  ;;     (load-theme 'modus-vivendi t))
+    ;; (use-package modus-operandi-theme
+    ;;  :ensure t
+    ;;  :config
+    ;;   (load-theme 'modus-operandi t))
+    ;; ;; (use-package vscode-dark-plus-theme
+    ;;  :ensure t
+    ;;  :config
+    ;;   (load-theme 'vscode-dark-plus t))
+;; #+END_SRC 
 
 ** Auto fill mode
 
@@ -320,17 +320,17 @@ Add flycheck support.
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
   (setq TeX-view-program-list
-        '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+	'(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
 
   (custom-set-variables
    '(TeX-source-correlate-method 'synctex)
    '(TeX-source-correlate-mode t)
    '(TeX-source-correlate-start-server t))
 
-  (require 'auctex-latexmk)
-  (auctex-latexmk-setup)
-  (setq auctex-latexmk-inherit-TeX-PDF-mode t)
-  (setq TeX-file-line-error nil)
+  ;; (require 'auctex-latexmk)
+  ;; (auctex-latexmk-setup)
+  ;; (setq auctex-latexmk-inherit-TeX-PDF-mode t)
+  ;; (setq TeX-file-line-error nil)
 #+END_SRC 
 
 ** BibTeX
