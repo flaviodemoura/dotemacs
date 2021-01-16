@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-01-06 Qua 10:59]
+#+last_modified: [2021-01-16 Sáb 14:16]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -496,35 +496,6 @@ I should comment on these more...
              :file-name "%<%Y%m%d%H%M%S>-${slug}"
              :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
              :unnarrowed t)))
-
-  (defvar dynamic-agenda-files nil
-    "dynamic generate agenda files list when changing org state")
-
-  (defun update-dynamic-agenda-hook ()
-    (let ((done (or (not org-state) ;; nil when no TODO list
-                    (member org-state org-done-keywords)))
-          (file (buffer-file-name))
-          (agenda (funcall (ad-get-orig-definition 'org-agenda-files)) ))
-      (unless (member file agenda)
-        (if done
-            (save-excursion
-              (goto-char (point-min))
-              ;; Delete file from dynamic files when all TODO entry changed to DONE
-              (unless (search-forward-regexp org-not-done-heading-regexp nil t)
-                (customize-save-variable
-                 'dynamic-agenda-files
-                 (cl-delete-if (lambda (k) (string= k file))
-                               dynamic-agenda-files))))
-          ;; Add this file to dynamic agenda files
-          (unless (member file dynamic-agenda-files)
-            (customize-save-variable 'dynamic-agenda-files
-                                     (add-to-list 'dynamic-agenda-files file)))))))
-
-  (defun dynamic-agenda-files-advice (orig-val)
-    (union orig-val dynamic-agenda-files :test #'equal))
-
-  (advice-add 'org-agenda-files :filter-return #'dynamic-agenda-files-advice)
-  (add-to-list 'org-after-todo-state-change-hook 'update-dynamic-agenda-hook t)
 #+END_SRC 
             
 ** Org Roam Bibtex
