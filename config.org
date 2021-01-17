@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-01-16 Sáb 14:16]
+#+last_modified: [2021-01-17 Dom 11:25]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -367,35 +367,53 @@ I should comment on these more...
 #+BEGIN_SRC emacs-lisp
   (setq org-html-htmlize-output-type 'css)
   (setq org-latex-pdf-process 
-  '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
-  "%bibtex %b"
-  "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
-  "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
+        '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
+          "%bibtex %b"
+          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
+          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
   (setq org-file-apps '((auto-mode . emacs)
-  ("\\.mm\\'" . default)
-  ("\\.x?html?\\'" . system)
-  ("\\.dvi\\'" . system)
-  ("\\.pdf\\'" . org-pdfview-open)))
+                        ("\\.mm\\'" . default)
+                        ("\\.x?html?\\'" . system)
+                        ("\\.dvi\\'" . system)
+                        ("\\.pdf\\'" . org-pdfview-open)))
   (setq org-startup-indented 'f)
-  (setq org-directory "~/beorg/org/pdfs")
+  (setq org-directory "~/beorg/org/")
   (setq org-special-ctrl-a/e 't)
-  (setq org-default-notes-file (concat org-directory "/notes.org"))
-  (define-key global-map "\C-cc" 'org-capture)
-  (setq org-mobile-directory "~/Dropbox/Aplicativos/MobileOrg")
+  (setq org-default-notes-file (concat org-directory "notes.org"))
   (setq org-src-fontify-natively 't)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/beorg/org/"))
+  (setq org-agenda-files (list "~/beorg/org/"
+                               "~/beorg/orgOLD/"))
   (setq org-todo-keywords
-  '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
+        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
   (setq org-agenda-custom-commands 
-  '(("o" "No trabalho" tags-todo "@unb"
-  ((org-agenda-overriding-header "UnB")))
-  ("h" "Em casa" tags-todo "@casa"
-  ((org-agenda-overriding-header "Casa")))))
+        '(("o" "No trabalho" tags-todo "@unb"
+           ((org-agenda-overriding-header "UnB")))
+          ("h" "Em casa" tags-todo "@casa"
+           ((org-agenda-overriding-header "Casa")))))
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c b") 'org-iswitchb)
   (global-set-key (kbd "C-c l") 'org-store-link)
+  (setq org-publish-project-alist
+        '(("ensino"
+           :base-directory "~/beorg/org/ensino"
+           :base-extension "org"
+           :publishing-directory "~/workspace-git/flaviodemoura.github.io/"
+           :publishing-function org-html-publish-to-html
+           :headline-levels 3
+           :section-numbers nil
+           :with-toc nil
+           :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
+           :html-preamble t)
+
+          ("images"
+           :base-directory "~/beorg/org/jpeg/"
+           :base-extension "jpg\\|gif\\|png"
+           :publishing-directory "~/workspace-git/flaviodemoura.github.io/files"
+           :publishing-function org-publish-attachment)
+
+          ("website" :components ("ensino" "images" ))))
 #+END_SRC 
 
 ** Orgit
