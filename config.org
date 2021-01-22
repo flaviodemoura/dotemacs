@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-01-19 Ter 05:11]
+#+last_modified: [2021-01-21 Qui 11:36]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -385,6 +385,7 @@ I should comment on these more...
   (setq org-src-window-setup 'current-window)
   (setq org-agenda-files '("~/beorg/org"
                            "~/beorg/orgOLD"
+                           "~/Dropbox/org"
                            "~/idrive/workspace-github/VFP-github"
                            "~/idrive/workspace-github/LC1-github"
                            "~/idrive/workspace-github/PAA-github"))
@@ -402,7 +403,7 @@ I should comment on these more...
         '(("lc1"
            :base-directory "~/idrive/workspace-github/LC1-github"
            :base-extension "org"
-           :publishing-directory "~/workspace-git/flaviodemoura.github.io/"
+           :publishing-directory "~/idrive/workspace-github/flaviodemoura.github.io/"
            :publishing-function org-html-publish-to-html
            :headline-levels 3
            :section-numbers nil
@@ -413,7 +414,7 @@ I should comment on these more...
           ("paa"
            :base-directory "~/idrive/workspace-github/PAA-github"
            :base-extension "org"
-           :publishing-directory "~/workspace-git/flaviodemoura.github.io/"
+           :publishing-directory "~/idrive/workspace-github/flaviodemoura.github.io/"
            :publishing-function org-html-publish-to-html
            :headline-levels 3
            :section-numbers nil
@@ -424,7 +425,7 @@ I should comment on these more...
           ("images"
            :base-directory "~/beorg/org/jpeg/"
            :base-extension "jpg\\|gif\\|png"
-           :publishing-directory "~/workspace-git/flaviodemoura.github.io/files"
+           :publishing-directory "~/idrive/workspace-github/flaviodemoura.github.io/files"
            :publishing-function org-publish-attachment)
 
           ("ensino" :components ("lc1" "paa" ))))
@@ -438,20 +439,21 @@ I should comment on these more...
 ** OrgRef
 
 #+BEGIN_SRC emacs-lisp
-  (use-package org-ref
-    :ensure t
-    :config
-    (setq reftex-default-bibliography '("~/beorg/org/zotLib.bib")
-          org-ref-default-bibliography '("~/beorg/org/zotLib.bib")
-          org-ref-bibliography-notes "~/beorg/org/notes.org"
-          org-ref-pdf-directory "~/beorg/org/pdfs/")
-    (setq bibtex-completion-bibliography "~/beorg/org/zotLib.bib"
-          bibtex-completion-library-path "~/beorg/org/pdfs"
-          bibtex-completion-notes-path "~/beorg/org/")
-    (setq bibtex-completion-pdf-open-function
-          (lambda (fpath)
-            (start-process "open" "*open*" "open" fpath))))
-  (require 'doi-utils)
+    (use-package org-ref
+      :ensure t
+      :config
+      (setq reftex-default-bibliography '("~/beorg/org/zotLib.bib")
+            org-ref-default-bibliography '("~/beorg/org/zotLib.bib")
+            org-ref-bibliography-notes "~/beorg/org/notes.org"
+            org-ref-pdf-directory "~/beorg/org/pdfs/")
+      (setq bibtex-completion-bibliography "~/beorg/org/zotLib.bib"
+            bibtex-completion-library-path "~/beorg/org/pdfs"
+            bibtex-completion-notes-path "~/beorg/org/")
+      (setq bibtex-completion-pdf-open-function
+            (lambda (fpath)
+              (start-process "open" "*open*" "open" fpath))))
+    (require 'doi-utils)
+  (setq org-ref-latex-bib-resolve-func #'expand-file-name)
 #+END_SRC 
 
 ** Org Roam
