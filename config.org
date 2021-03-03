@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-01-21 Qui 11:36]
+#+last_modified: [2021-02-24 Qua 05:28]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -343,7 +343,7 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/beorg/org/zotLib.bib"))))
+          bibtex-completion-bibliography '("~/Dropbox/org/zotLib.bib"))))
 #+END_SRC 
 
 ** RefTeX
@@ -355,7 +355,7 @@ Add flycheck support.
 #     (setq reftex-plug-into-AUCTeX t)
 #     (setq reftex-use-fonts t)
 #     (setq reftex-toc-split-windows-fraction 0.2)
-#     (setq reftex-default-bibliography '("~/beorg/org/zotLib.bib"))
+#     (setq reftex-default-bibliography '("~/Dropbox/org/zotLib.bib"))
 #     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 # #+END_SRC 
 
@@ -377,18 +377,13 @@ I should comment on these more...
                         ("\\.dvi\\'" . system)
                         ("\\.pdf\\'" . org-pdfview-open)))
   (setq org-startup-indented 'f)
-  (setq org-directory "~/beorg/org/")
+  (setq org-directory "~/Dropbox/org/")
   (setq org-special-ctrl-a/e 't)
   (setq org-default-notes-file (concat org-directory "notes.org"))
   (setq org-src-fontify-natively 't)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/beorg/org"
-                           "~/beorg/orgOLD"
-                           "~/Dropbox/org"
-                           "~/idrive/workspace-github/VFP-github"
-                           "~/idrive/workspace-github/LC1-github"
-                           "~/idrive/workspace-github/PAA-github"))
+  (setq org-agenda-files (directory-files-recursively "~/Dropbox/" "\\.org$"))
   (setq org-todo-keywords
         '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
   (setq org-agenda-custom-commands 
@@ -401,9 +396,9 @@ I should comment on these more...
   (global-set-key (kbd "C-c l") 'org-store-link)
   (setq org-publish-project-alist
         '(("lc1"
-           :base-directory "~/idrive/workspace-github/LC1-github"
+           :base-directory "~/Dropbox/workspace-github/LC1-github"
            :base-extension "org"
-           :publishing-directory "~/idrive/workspace-github/flaviodemoura.github.io/"
+           :publishing-directory "~/Dropbox/workspace-github/flaviodemoura.github.io/"
            :publishing-function org-html-publish-to-html
            :headline-levels 3
            :section-numbers nil
@@ -412,9 +407,9 @@ I should comment on these more...
            :html-preamble t)
 
           ("paa"
-           :base-directory "~/idrive/workspace-github/PAA-github"
+           :base-directory "~/Dropbox/workspace-github/PAA-github"
            :base-extension "org"
-           :publishing-directory "~/idrive/workspace-github/flaviodemoura.github.io/"
+           :publishing-directory "~/Dropbox/workspace-github/flaviodemoura.github.io/"
            :publishing-function org-html-publish-to-html
            :headline-levels 3
            :section-numbers nil
@@ -423,9 +418,9 @@ I should comment on these more...
            :html-preamble t)
 
           ("images"
-           :base-directory "~/beorg/org/jpeg/"
+           :base-directory "~/Dropbox/org/jpeg/"
            :base-extension "jpg\\|gif\\|png"
-           :publishing-directory "~/idrive/workspace-github/flaviodemoura.github.io/files"
+           :publishing-directory "~/Dropbox/workspace-github/flaviodemoura.github.io/files"
            :publishing-function org-publish-attachment)
 
           ("ensino" :components ("lc1" "paa" ))))
@@ -442,13 +437,13 @@ I should comment on these more...
     (use-package org-ref
       :ensure t
       :config
-      (setq reftex-default-bibliography '("~/beorg/org/zotLib.bib")
-            org-ref-default-bibliography '("~/beorg/org/zotLib.bib")
-            org-ref-bibliography-notes "~/beorg/org/notes.org"
-            org-ref-pdf-directory "~/beorg/org/pdfs/")
-      (setq bibtex-completion-bibliography "~/beorg/org/zotLib.bib"
-            bibtex-completion-library-path "~/beorg/org/pdfs"
-            bibtex-completion-notes-path "~/beorg/org/")
+      (setq reftex-default-bibliography '("~/Dropbox/org/zotLib.bib")
+            org-ref-default-bibliography '("~/Dropbox/org/zotLib.bib")
+            org-ref-bibliography-notes "~/Dropbox/org/notes.org"
+            org-ref-pdf-directory "~/Dropbox/org/pdfs/")
+      (setq bibtex-completion-bibliography "~/Dropbox/org/zotLib.bib"
+            bibtex-completion-library-path "~/Dropbox/org/pdfs"
+            bibtex-completion-notes-path "~/Dropbox/org/")
       (setq bibtex-completion-pdf-open-function
             (lambda (fpath)
               (start-process "open" "*open*" "open" fpath))))
@@ -511,7 +506,7 @@ I should comment on these more...
       ((after-init . org-roam-mode)
        (before-save . zp/org-set-last-modified))
       :custom
-      (org-roam-directory "~/beorg/org")
+      (org-roam-directory "~/Dropbox/org")
       :bind (:map org-roam-mode-map
                   (("C-c n l" . org-roam)
                    ("C-c n f" . org-roam-find-file)
@@ -557,10 +552,14 @@ I should comment on these more...
     :bind 
     ("C-c n j" . org-journal-new-entry)
     :ensure t
+    :defer t
     :config
-    (setq org-journal-dir "~/beorg/org/journal")
+    (setq org-journal-dir "~/Dropbox/org/journal")
     (add-hook 'org-mode-hook 'turn-on-flyspell)
+    (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
+    (add-to-list 'org-agenda-files org-journal-dir)
     :custom
+    (org-journal-enable-agenda-integration t)
     (org-journal-date-prefix "#+TITLE: ")
     (org-journal-file-format "%Y-%m-%d.org")
     (org-journal-date-format "%A, %d %B %Y"))
