@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-02-24 Qua 05:28]
+#+last_modified: [2021-03-09 ter 06:10]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -529,14 +529,14 @@ I should comment on these more...
             
 ** Org Roam Bibtex
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-roam-bibtex
-    :ensure t
-    :after org-roam
-    :hook (org-roam-mode . org-roam-bibtex-mode)
-    :bind (:map org-mode-map
-                (("C-c n a" . orb-note-actions))))
-#+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-roam-bibtex
+#     :ensure t
+#     :after org-roam
+#     :hook (org-roam-mode . org-roam-bibtex-mode)
+#     :bind (:map org-mode-map
+#                 (("C-c n a" . orb-note-actions))))
+# #+END_SRC 
 
 ** Org Noter
 
