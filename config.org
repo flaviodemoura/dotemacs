@@ -16,13 +16,24 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
   (setq user-mail-address "flavio@flaviomoura.info")
 #+END_SRC 
 
+** Cedilla in Emacs
+
+Did not work:
+
+(bind-key "' c" (lambda () (insert-char #o347)))
+
+(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç")))
+
+(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347)))
+
+
 ** Try
    
-   #+begin_src emacs-lisp
-   (use-package try
-   :ensure t)
-   #+end_src
-
+   # #+begin_src emacs-lisp
+   # (use-package try
+   # :ensure t)
+   # #+end_src
+   
 ** Theme
 
 # #+BEGIN_SRC emacs-lisp
@@ -58,7 +69,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 ** Flyspell 
 
  #+BEGIN_SRC emacs-lisp
-   (setq ispell-program-name "/usr/local/bin/aspell")
+   (setq ispell-program-name "/usr/bin/aspell")
    (setq ispell-dictionary "pt_BR")
    (setq ispell-list-command "--list")
    (add-hook 'org-mode-hook 'turn-on-flyspell)
@@ -123,10 +134,10 @@ Trying scimax
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
- #+BEGIN_SRC emacs-lisp
-   (setq mac-command-modifier 'meta
-         mac-option-modifier 'none)
- #+END_SRC 
+ # #+BEGIN_SRC emacs-lisp
+ #   (setq mac-command-modifier 'meta
+ #         mac-option-modifier 'none)
+ # #+END_SRC 
 
  I prefer lines to wrap.
 
@@ -623,7 +634,7 @@ I should comment on these more...
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
   (setq org-log-done 'time)
-#+END_SRC 
+#+END_SRC
 
 ** Calfw
 
