@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-02-24 Qua 05:28]
+#+last_modified: [2021-03-12 Sex 12:36]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -22,22 +22,23 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
    (use-package try
    :ensure t)
    #+end_src
+
 ** Theme
 
-;; #+BEGIN_SRC emacs-lisp
-  ;; (use-package modus-vivendi-theme
-  ;;    :ensure t
-  ;;    :config
-  ;;     (load-theme 'modus-vivendi t))
-    ;; (use-package modus-operandi-theme
-    ;;  :ensure t
-    ;;  :config
-    ;;   (load-theme 'modus-operandi t))
-    ;; ;; (use-package vscode-dark-plus-theme
-    ;;  :ensure t
-    ;;  :config
-    ;;   (load-theme 'vscode-dark-plus t))
-;; #+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package modus-vivendi-theme
+#      :ensure t
+#      :config
+#       (load-theme 'modus-vivendi t))
+#     (use-package modus-operandi-theme
+#      :ensure t
+#      :config
+#       (load-theme 'modus-operandi t))
+#     (use-package vscode-dark-plus-theme
+#      :ensure t
+#      :config
+#       (load-theme 'vscode-dark-plus t))
+# #+END_SRC 
 
 ** Auto fill mode
 
@@ -51,7 +52,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
  (use-package bbdb
  :ensure t
  :config
-   (setq bbdb-file "~/idrive/bbdb"))
+   (setq bbdb-file "~/Dropbox/bbdb"))
  #+END_SRC 
  
 ** Flyspell 
@@ -83,6 +84,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 ** scimax
 
 Trying scimax
+
 # #+BEGIN_SRC emacs-lisp
 # (load "~/workspace-git/scimax/init.el")
 # #+END_SRC 
@@ -108,10 +110,10 @@ Trying scimax
 
  Increase and decrease font size
 
- #+BEGIN_SRC emacs-lisp
-   (global-set-key (kbd "M-=") 'text-scale-increase)
-   (global-set-key (kbd "M--") 'text-scale-decrease)
- #+END_SRC 
+ # #+BEGIN_SRC emacs-lisp
+ #   (global-set-key (kbd "M-=") 'text-scale-increase)
+ #   (global-set-key (kbd "M--") 'text-scale-decrease)
+ # #+END_SRC 
 
  Don't display the help screen on startup.
 
@@ -150,13 +152,13 @@ Trying scimax
 
  When programming I like my editor to try to help me with keeping parentheses balanced.
 
- #+BEGIN_SRC emacs-lisp
-   (use-package smartparens
-     :ensure t
-     :diminish smartparens-mode
-     :config
-     (add-hook 'prog-mode-hook 'smartparens-mode))
- #+END_SRC 
+ # #+BEGIN_SRC emacs-lisp
+ #   (use-package smartparens
+ #     :ensure t
+ #     :diminish smartparens-mode
+ #     :config
+ #     (add-hook 'prog-mode-hook 'smartparens-mode))
+ # #+END_SRC 
 
  Show parentheses matching
 
@@ -167,6 +169,7 @@ Trying scimax
  Highlight current line
 
  #+BEGIN_SRC emacs-lisp
+   (global-hl-line-mode 1)
    (global-set-key (kbd "C-c h") 'global-hl-line-mode)
  #+END_SRC 
 
@@ -294,6 +297,7 @@ Add flycheck support.
    :init
    (global-set-key [remap other-window] 'ace-window))
    #+end_src
+
 ** LaTeX classes
 
  #+BEGIN_SRC emacs-lisp
@@ -427,10 +431,12 @@ I should comment on these more...
 #+END_SRC 
 
 ** Orgit
+
 #+begin_src emacs-lisp
 (use-package orgit
 :ensure t)
 #+end_src
+
 ** OrgRef
 
 #+BEGIN_SRC emacs-lisp
@@ -452,98 +458,99 @@ I should comment on these more...
 #+END_SRC 
 
 ** Org Roam
-#+BEGIN_SRC emacs-lisp
-    (defun zp/org-find-time-file-property (property &optional anywhere)
-      "Return the position of the time file PROPERTY if it exists.
-    When ANYWHERE is non-nil, search beyond the preamble."
-      (save-excursion
-        (goto-char (point-min))
-        (let ((first-heading
-               (save-excursion
-                 (re-search-forward org-outline-regexp-bol nil t))))
-          (when (re-search-forward (format "^#\\+%s:" property)
-                                   (if anywhere nil first-heading)
-                                   t)
-            (point)))))
 
-    (defun zp/org-has-time-file-property-p (property &optional anywhere)
-      "Return the position of time file PROPERTY if it is defined.
-    As a special case, return -1 if the time file PROPERTY exists but
-    is not defined."
-      (when-let ((pos (zp/org-find-time-file-property property anywhere)))
-        (save-excursion
-          (goto-char pos)
-          (if (and (looking-at-p " ")
-                   (progn (forward-char)
-                          (org-at-timestamp-p 'lax)))
-              pos
-            -1))))
+# #+BEGIN_SRC emacs-lisp
+#     (defun zp/org-find-time-file-property (property &optional anywhere)
+#       "Return the position of the time file PROPERTY if it exists.
+#     When ANYWHERE is non-nil, search beyond the preamble."
+#       (save-excursion
+#         (goto-char (point-min))
+#         (let ((first-heading
+#                (save-excursion
+#                  (re-search-forward org-outline-regexp-bol nil t))))
+#           (when (re-search-forward (format "^#\\+%s:" property)
+#                                    (if anywhere nil first-heading)
+#                                    t)
+#             (point)))))
 
-    (defun zp/org-set-time-file-property (property &optional anywhere pos)
-      "Set the time file PROPERTY in the preamble.
-    When ANYWHERE is non-nil, search beyond the preamble.
-    If the position of the file PROPERTY has already been computed,
-    it can be passed in POS."
-      (when-let ((pos (or pos
-                          (zp/org-find-time-file-property property))))
-        (save-excursion
-          (goto-char pos)
-          (if (looking-at-p " ")
-              (forward-char)
-            (insert " "))
-          (delete-region (point) (line-end-position))
-          (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
-            (insert now)))))
+#     (defun zp/org-has-time-file-property-p (property &optional anywhere)
+#       "Return the position of time file PROPERTY if it is defined.
+#     As a special case, return -1 if the time file PROPERTY exists but
+#     is not defined."
+#       (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+#         (save-excursion
+#           (goto-char pos)
+#           (if (and (looking-at-p " ")
+#                    (progn (forward-char)
+#                           (org-at-timestamp-p 'lax)))
+#               pos
+#             -1))))
 
-    (defun zp/org-set-last-modified ()
-      "Update the LAST_MODIFIED file property in the preamble."
-      (when (derived-mode-p 'org-mode)
-        (zp/org-set-time-file-property "LAST_MODIFIED")))
+#     (defun zp/org-set-time-file-property (property &optional anywhere pos)
+#       "Set the time file PROPERTY in the preamble.
+#     When ANYWHERE is non-nil, search beyond the preamble.
+#     If the position of the file PROPERTY has already been computed,
+#     it can be passed in POS."
+#       (when-let ((pos (or pos
+#                           (zp/org-find-time-file-property property))))
+#         (save-excursion
+#           (goto-char pos)
+#           (if (looking-at-p " ")
+#               (forward-char)
+#             (insert " "))
+#           (delete-region (point) (line-end-position))
+#           (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+#             (insert now)))))
 
-    (use-package org-roam
-      :ensure t
-      :hook
-      ((after-init . org-roam-mode)
-       (before-save . zp/org-set-last-modified))
-      :custom
-      (org-roam-directory "~/Dropbox/org")
-      :bind (:map org-roam-mode-map
-                  (("C-c n l" . org-roam)
-                   ("C-c n f" . org-roam-find-file)
-                   ("C-c n j" . org-roam-jump-to-index)
-                   ("C-c n b" . org-roam-switch-to-buffer)
-                   ("C-c n g" . org-roam-graph))
-                  :map org-mode-map
-                  (("C-c n i" . org-roam-insert))))
+#     (defun zp/org-set-last-modified ()
+#       "Update the LAST_MODIFIED file property in the preamble."
+#       (when (derived-mode-p 'org-mode)
+#         (zp/org-set-time-file-property "LAST_MODIFIED")))
 
-    (setq org-roam-index-file "inicial.org")
-    (add-hook 'after-init-hook 'org-roam-mode)
-    (setq org-roam-graph-viewer "/usr/bin/open")
-    (setq org-roam-capture-templates
-          '(("d" "default" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
-             :unnarrowed t)))
-#+END_SRC 
+#     (use-package org-roam
+#       :ensure t
+#       :hook
+#       ((after-init . org-roam-mode)
+#        (before-save . zp/org-set-last-modified))
+#       :custom
+#       (org-roam-directory "~/Dropbox/org")
+#       :bind (:map org-roam-mode-map
+#                   (("C-c n l" . org-roam)
+#                    ("C-c n f" . org-roam-find-file)
+#                    ("C-c n j" . org-roam-jump-to-index)
+#                    ("C-c n b" . org-roam-switch-to-buffer)
+#                    ("C-c n g" . org-roam-graph))
+#                   :map org-mode-map
+#                   (("C-c n i" . org-roam-insert))))
+
+#     (setq org-roam-index-file "inicial.org")
+#     (add-hook 'after-init-hook 'org-roam-mode)
+#     (setq org-roam-graph-viewer "/usr/bin/open")
+#     (setq org-roam-capture-templates
+#           '(("d" "default" plain (function org-roam--capture-get-point)
+#              "%?"
+#              :file-name "%<%Y%m%d%H%M%S>-${slug}"
+#              :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
+#              :unnarrowed t)))
+# #+END_SRC 
             
 ** Org Roam Bibtex
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-roam-bibtex
-    :ensure t
-    :after org-roam
-    :hook (org-roam-mode . org-roam-bibtex-mode)
-    :bind (:map org-mode-map
-                (("C-c n a" . orb-note-actions))))
-#+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-roam-bibtex
+#     :ensure t
+#     :after org-roam
+#     :hook (org-roam-mode . org-roam-bibtex-mode)
+#     :bind (:map org-mode-map
+#                 (("C-c n a" . orb-note-actions))))
+# #+END_SRC 
 
 ** Org Noter
 
-#+begin_src emacs-lisp
-   (use-package org-noter
-     :ensure t)
-#+end_src
+# #+begin_src emacs-lisp
+#    (use-package org-noter
+#      :ensure t)
+# #+end_src
 
 ** Org Journal
 
@@ -567,48 +574,49 @@ I should comment on these more...
 
 ** Org download
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-download
-    :after org
-    :bind
-    (:map org-mode-map
-          (("s-Y" . org-download-screenshot)
-           ("s-y" . org-download-yank))))
-#+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-download
+#     :after org
+#     :bind
+#     (:map org-mode-map
+#           (("s-Y" . org-download-screenshot)
+#            ("s-y" . org-download-yank))))
+# #+END_SRC 
 
 ** Org Present
 
-#+BEGIN_SRC emacs-lisp
-  (autoload 'org-present "org-present" nil t)
+# #+BEGIN_SRC emacs-lisp
+#   (autoload 'org-present "org-present" nil t)
 
-  (eval-after-load "org-present"
-    '(progn
-       (add-hook 'org-present-mode-hook
-                 (lambda ()
-                   (org-present-big)
-                   (org-display-inline-images)
-                   (org-present-hide-cursor)
-                   (org-present-read-only)))
-       (add-hook 'org-present-mode-quit-hook
-                 (lambda ()
-                   (org-present-small)
-                   (org-remove-inline-images)
-                   (org-present-show-cursor)
-                   (org-present-read-write)))))
- #+END_SRC 
+#   (eval-after-load "org-present"
+#     '(progn
+#        (add-hook 'org-present-mode-hook
+#                  (lambda ()
+#                    (org-present-big)
+#                    (org-display-inline-images)
+#                    (org-present-hide-cursor)
+#                    (org-present-read-only)))
+#        (add-hook 'org-present-mode-quit-hook
+#                  (lambda ()
+#                    (org-present-small)
+#                    (org-remove-inline-images)
+#                    (org-present-show-cursor)
+#                    (org-present-read-write)))))
+#  #+END_SRC 
 
 ** Org reveal 
 
-#+begin_src emacs-lisp
-(use-package ox-reveal
-:ensure ox-reveal)
+# #+begin_src emacs-lisp
+# (use-package ox-reveal
+# :ensure ox-reveal)
 
-(setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
-(setq org-reveal-mathjax t)
+# (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+# (setq org-reveal-mathjax t)
 
-(use-package htmlize
-:ensure t)
-#+end_src
+# (use-package htmlize
+# :ensure t)
+# #+end_src
+
 ** Clocking time
 
 #+BEGIN_SRC emacs-lisp
@@ -616,6 +624,7 @@ I should comment on these more...
   (org-clock-persistence-insinuate)
   (setq org-log-done 'time)
 #+END_SRC 
+
 ** Calfw
 
  # #+BEGIN_SRC emacs-lisp
