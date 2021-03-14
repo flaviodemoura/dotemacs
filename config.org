@@ -69,7 +69,7 @@ Did not work:
 ** Flyspell 
 
  #+BEGIN_SRC emacs-lisp
-   (setq ispell-program-name "/usr/bin/aspell")
+   (setq ispell-program-name "/usr/local/bin/aspell")
    (setq ispell-dictionary "pt_BR")
    (setq ispell-list-command "--list")
    (add-hook 'org-mode-hook 'turn-on-flyspell)
