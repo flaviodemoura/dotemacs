@@ -122,10 +122,10 @@ Trying scimax
 
  Increase and decrease font size
 
- # #+BEGIN_SRC emacs-lisp
- #   (global-set-key (kbd "M-=") 'text-scale-increase)
- #   (global-set-key (kbd "M--") 'text-scale-decrease)
- # #+END_SRC 
+ #+BEGIN_SRC emacs-lisp
+   (global-set-key (kbd "M-=") 'text-scale-increase)
+   (global-set-key (kbd "M--") 'text-scale-decrease)
+ #+END_SRC 
 
  Don't display the help screen on startup.
 
