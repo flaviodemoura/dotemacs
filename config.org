@@ -26,6 +26,7 @@ Did not work:
 
 (global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347)))
 
+It is working in lubuntu, but I didn't find a solution to ubuntu.
 
 ** Try
    
@@ -69,7 +70,7 @@ Did not work:
 ** Flyspell 
 
  #+BEGIN_SRC emacs-lisp
-   (setq ispell-program-name "/usr/bin/aspell")
+   (setq ispell-program-name "/usr/local/bin/aspell")
    (setq ispell-dictionary "pt_BR")
    (setq ispell-list-command "--list")
    (add-hook 'org-mode-hook 'turn-on-flyspell)
@@ -134,10 +135,10 @@ Trying scimax
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
- # #+BEGIN_SRC emacs-lisp
- #   (setq mac-command-modifier 'meta
- #         mac-option-modifier 'none)
- # #+END_SRC 
+ #+BEGIN_SRC emacs-lisp
+   (setq mac-command-modifier 'meta
+         mac-option-modifier 'none)
+ #+END_SRC 
 
  I prefer lines to wrap.
 
