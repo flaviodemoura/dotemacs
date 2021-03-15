@@ -128,8 +128,8 @@ Trying scimax
 
  Don't display the help screen on startup.
 
- #+BEGIN_SRC emacs-lisp
-   (setq inhibit-startup-screen t)
+ # #+BEGIN_SRC emacs-lisp
+ #   (setq inhibit-startup-screen t)
  #+END_SRC 
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
@@ -335,7 +335,7 @@ Add flycheck support.
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
   (setq TeX-view-program-list
-	'(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b")))
+	'(("PDF Viewer" "okular --unique %o#src:%n%b")))
 
   (custom-set-variables
    '(TeX-source-correlate-method 'synctex)
