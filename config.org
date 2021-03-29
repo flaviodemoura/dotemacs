@@ -121,10 +121,10 @@ Trying scimax
 
  Increase and decrease font size
 
- # #+BEGIN_SRC emacs-lisp
- #   (global-set-key (kbd "M-=") 'text-scale-increase)
- #   (global-set-key (kbd "M--") 'text-scale-decrease)
- # #+END_SRC 
+ #+BEGIN_SRC emacs-lisp
+   (global-set-key (kbd "M-=") 'text-scale-increase)
+   (global-set-key (kbd "M--") 'text-scale-decrease)
+ #+END_SRC 
 
  Don't display the help screen on startup.
 
@@ -284,20 +284,20 @@ Add flycheck support.
 ** Pdf tools
 
 #+BEGIN_SRC emacs-lisp
- (use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install)
-  )
+   (use-package pdf-tools
+    :ensure t
+    :config
+    (pdf-tools-install)
+    )
 
-(defun org-pdf-app (file-path link-without-schema)
-  "Open pdf file using pdf-tools and go to the specified page."
-  (let* ((page (if (not (string-match "\\.pdf::\\([0-9]+\\)\\'"
-                                      link-without-schema))
-                   1
-                 (string-to-number (match-string 1 link-without-schema)))))
-    (find-file-other-window file-path)
-    (pdf-view-goto-page page)))
+  ;; (defun org-pdf-app (file-path link-without-schema)
+  ;;   "Open pdf file using pdf-tools and go to the specified page."
+  ;;   (let* ((page (if (not (string-match "\\.pdf::\\([0-9]+\\)\\'"
+  ;;                                       link-without-schema))
+  ;;                    1
+  ;;                  (string-to-number (match-string 1 link-without-schema)))))
+  ;;     (find-file-other-window file-path)
+  ;;     (pdf-view-goto-page page)))
 #+END_SRC
 
 ** Ace window
@@ -358,7 +358,7 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/Dropbox/org/zotLib.bib"))))
+          bibtex-completion-bibliography '("~/workspace/org/zotLib.bib"))))
 #+END_SRC 
 
 ** RefTeX
@@ -370,7 +370,7 @@ Add flycheck support.
 #     (setq reftex-plug-into-AUCTeX t)
 #     (setq reftex-use-fonts t)
 #     (setq reftex-toc-split-windows-fraction 0.2)
-#     (setq reftex-default-bibliography '("~/Dropbox/org/zotLib.bib"))
+#     (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib"))
 #     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 # #+END_SRC 
 
@@ -390,15 +390,15 @@ I should comment on these more...
                         ("\\.mm\\'" . default)
                         ("\\.x?html?\\'" . system)
                         ("\\.dvi\\'" . system)
-                        ("\\.pdf\\'" . org-pdfview-open)))
+                        ("\\.pdf\\'" . default)))
   (setq org-startup-indented 'f)
-  (setq org-directory "~/Dropbox/org/")
+  (setq org-directory "~/workspace/org/")
   (setq org-special-ctrl-a/e 't)
   (setq org-default-notes-file (concat org-directory "notes.org"))
   (setq org-src-fontify-natively 't)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files (directory-files-recursively "~/Dropbox/" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
   (setq org-todo-keywords
         '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
   (setq org-agenda-custom-commands 
@@ -411,9 +411,9 @@ I should comment on these more...
   (global-set-key (kbd "C-c l") 'org-store-link)
   (setq org-publish-project-alist
         '(("lc1"
-           :base-directory "~/Dropbox/workspace-github/LC1-github"
+           :base-directory "~/workspace/LC1-github"
            :base-extension "org"
-           :publishing-directory "~/Dropbox/workspace-github/flaviodemoura.github.io/"
+           :publishing-directory "~/workspace/flaviodemoura.github.io/"
            :publishing-function org-html-publish-to-html
            :headline-levels 3
            :section-numbers nil
@@ -422,9 +422,9 @@ I should comment on these more...
            :html-preamble t)
 
           ("paa"
-           :base-directory "~/Dropbox/workspace-github/PAA-github"
+           :base-directory "~/workspace/PAA-github"
            :base-extension "org"
-           :publishing-directory "~/Dropbox/workspace-github/flaviodemoura.github.io/"
+           :publishing-directory "~/workspace/flaviodemoura.github.io/"
            :publishing-function org-html-publish-to-html
            :headline-levels 3
            :section-numbers nil
@@ -433,9 +433,9 @@ I should comment on these more...
            :html-preamble t)
 
           ("images"
-           :base-directory "~/Dropbox/org/jpeg/"
+           :base-directory "~/workspace/org/jpeg/"
            :base-extension "jpg\\|gif\\|png"
-           :publishing-directory "~/Dropbox/workspace-github/flaviodemoura.github.io/files"
+           :publishing-directory "~/workspace/flaviodemoura.github.io/files"
            :publishing-function org-publish-attachment)
 
           ("ensino" :components ("lc1" "paa" ))))
@@ -454,13 +454,13 @@ I should comment on these more...
     (use-package org-ref
       :ensure t
       :config
-      (setq reftex-default-bibliography '("~/Dropbox/org/zotLib.bib")
-            org-ref-default-bibliography '("~/Dropbox/org/zotLib.bib")
-            org-ref-bibliography-notes "~/Dropbox/org/notes.org"
-            org-ref-pdf-directory "~/Dropbox/org/pdfs/")
-      (setq bibtex-completion-bibliography "~/Dropbox/org/zotLib.bib"
-            bibtex-completion-library-path "~/Dropbox/org/pdfs"
-            bibtex-completion-notes-path "~/Dropbox/org/")
+      (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
+            org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
+            org-ref-bibliography-notes "~/workspace/org/notes.org"
+            org-ref-pdf-directory "~/Dropbox/pdfs/")
+      (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
+            bibtex-completion-library-path "~/Dropbox/pdfs"
+            bibtex-completion-notes-path "~/workspace/org/")
       (setq bibtex-completion-pdf-open-function
             (lambda (fpath)
               (start-process "open" "*open*" "open" fpath))))
@@ -524,7 +524,7 @@ I should comment on these more...
 #       ((after-init . org-roam-mode)
 #        (before-save . zp/org-set-last-modified))
 #       :custom
-#       (org-roam-directory "~/Dropbox/org")
+#       (org-roam-directory "~/workspace/org")
 #       :bind (:map org-roam-mode-map
 #                   (("C-c n l" . org-roam)
 #                    ("C-c n f" . org-roam-find-file)
@@ -572,7 +572,7 @@ I should comment on these more...
     :ensure t
     :defer t
     :config
-    (setq org-journal-dir "~/Dropbox/org/journal")
+    (setq org-journal-dir "~/workspace/org/journal")
     (add-hook 'org-mode-hook 'turn-on-flyspell)
     (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
     (add-to-list 'org-agenda-files org-journal-dir)
