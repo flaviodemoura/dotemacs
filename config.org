@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-07-08 Qui 04:35]
+#+last_modified: [2021-07-08 Qui 04:37]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -22,12 +22,11 @@ Did not work:
 
 (bind-key "' c" (lambda () (insert-char #o347)))
 
-(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç"))) 
+(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç")))
 
-This worked partially, but other dead keys were wrong:
-(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347))) 
+(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347)))
 
-Solution: setxkbmap -model abnt2 -layout us -variant intl added in .xinitrc
+It is working in lubuntu, but I didn't find a solution to ubuntu.
 
 ** Try
    
@@ -73,7 +72,7 @@ Solution: setxkbmap -model abnt2 -layout us -variant intl added in .xinitrc
  #+BEGIN_SRC emacs-lisp
    (require 'flycheck-grammarly)
    (setq grammarly-username "contato@flaviomoura.mat.br") 
-   (setq grammarly-password "De045kruvmej!")
+   (setq grammarly-password "De045kruvmej!") 
    (setq ispell-program-name "/usr/local/bin/aspell")
    (setq ispell-dictionary "pt_BR")
    (setq ispell-list-command "--list")
@@ -133,9 +132,9 @@ Trying scimax
 
  Don't display the help screen on startup.
 
- # #+BEGIN_SRC emacs-lisp
- #   (setq inhibit-startup-screen t)
- # #+END_SRC 
+ #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-screen t)
+ #+END_SRC 
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
