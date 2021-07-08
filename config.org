@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-03-12 Sex 12:36]
+#+last_modified: [2021-06-21 seg 16:08]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -78,6 +78,28 @@ Did not work:
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
  #+END_SRC 
 
+** Grammarly 
+
+ #+BEGIN_SRC emacs-lisp
+   (require 'grammarly)
+   (setq grammarly-username "contato@flaviomoura.mat.br")
+   (setq grammarly-password "De045kruvmej!")
+   (require 'flycheck-grammarly)
+   (require 'flymake-grammarly)
+   (add-hook 'text-mode-hook 'flymake-grammarly-load)
+   (add-hook 'latex-mode-hook 'flymake-grammarly-load)
+   (add-hook 'org-mode-hook 'flymake-grammarly-load)
+   (add-hook 'markdown-mode-hook 'flymake-grammarly-load)
+ #+END_SRC 
+
+ 
+** writegood-mode
+
+#+BEGIN_SRC emacs-lisp
+(require 'writegood-mode)
+(global-set-key "\C-cg" 'writegood-mode)
+#+END_SRC 
+ 
 ** Dired
 
  # #+BEGIN_SRC emacs-lisp
@@ -283,22 +305,22 @@ Add flycheck support.
 * Extras
 ** Pdf tools
 
-#+BEGIN_SRC emacs-lisp
-   (use-package pdf-tools
-    :ensure t
-    :config
-    (pdf-tools-install)
-    )
+# #+BEGIN_SRC emacs-lisp
+#    (use-package pdf-tools
+#     :ensure t
+#     :config
+#     (pdf-tools-install)
+#     )
 
-  ;; (defun org-pdf-app (file-path link-without-schema)
-  ;;   "Open pdf file using pdf-tools and go to the specified page."
-  ;;   (let* ((page (if (not (string-match "\\.pdf::\\([0-9]+\\)\\'"
-  ;;                                       link-without-schema))
-  ;;                    1
-  ;;                  (string-to-number (match-string 1 link-without-schema)))))
-  ;;     (find-file-other-window file-path)
-  ;;     (pdf-view-goto-page page)))
-#+END_SRC
+#   ;; (defun org-pdf-app (file-path link-without-schema)
+#   ;;   "Open pdf file using pdf-tools and go to the specified page."
+#   ;;   (let* ((page (if (not (string-match "\\.pdf::\\([0-9]+\\)\\'"
+#   ;;                                       link-without-schema))
+#   ;;                    1
+#   ;;                  (string-to-number (match-string 1 link-without-schema)))))
+#   ;;     (find-file-other-window file-path)
+#   ;;     (pdf-view-goto-page page)))
+# #+END_SRC
 
 ** Ace window
 
@@ -380,65 +402,114 @@ Add flycheck support.
 I should comment on these more...
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-html-htmlize-output-type 'css)
-  (setq org-latex-pdf-process 
-        '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
-          "%bibtex %b"
-          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
-          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
-  (setq org-file-apps '((auto-mode . emacs)
-                        ("\\.mm\\'" . default)
-                        ("\\.x?html?\\'" . system)
-                        ("\\.dvi\\'" . system)
-                        ("\\.pdf\\'" . default)))
-  (setq org-startup-indented 'f)
-  (setq org-directory "~/workspace/org/")
-  (setq org-special-ctrl-a/e 't)
-  (setq org-default-notes-file (concat org-directory "notes.org"))
-  (setq org-src-fontify-natively 't)
-  (setq org-src-tab-acts-natively t)
-  (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
-  (setq org-todo-keywords
-        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
-  (setq org-agenda-custom-commands 
-        '(("o" "No trabalho" tags-todo "@unb"
-           ((org-agenda-overriding-header "UnB")))
-          ("h" "Em casa" tags-todo "@casa"
-           ((org-agenda-overriding-header "Casa")))))
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c b") 'org-iswitchb)
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (setq org-publish-project-alist
-        '(("lc1"
-           :base-directory "~/workspace/LC1-github"
-           :base-extension "org"
-           :publishing-directory "~/workspace/flaviodemoura.github.io/"
-           :publishing-function org-html-publish-to-html
-           :headline-levels 3
-           :section-numbers nil
-           :with-toc nil
-           :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
-           :html-preamble t)
 
-          ("paa"
-           :base-directory "~/workspace/PAA-github"
-           :base-extension "org"
-           :publishing-directory "~/workspace/flaviodemoura.github.io/"
-           :publishing-function org-html-publish-to-html
-           :headline-levels 3
-           :section-numbers nil
-           :with-toc nil
-           :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
-           :html-preamble t)
-
-          ("images"
-           :base-directory "~/workspace/org/jpeg/"
-           :base-extension "jpg\\|gif\\|png"
-           :publishing-directory "~/workspace/flaviodemoura.github.io/files"
-           :publishing-function org-publish-attachment)
-
-          ("ensino" :components ("lc1" "paa" ))))
+ (defun zp/org-find-time-file-property (property &optional anywhere)
+   "Return the position of the time file PROPERTY if it exists.
+ When ANYWHERE is non-nil, search beyond the preamble."
+   (save-excursion
+     (goto-char (point-min))
+     (let ((first-heading
+            (save-excursion
+              (re-search-forward org-outline-regexp-bol nil t))))
+       (when (re-search-forward (format "^#\\+%s:" property)
+                                (if anywhere nil first-heading)
+                                t)
+         (point)))))
+  
+ (defun zp/org-has-time-file-property-p (property &optional anywhere)
+   "Return the position of time file PROPERTY if it is defined.
+ As a special case, return -1 if the time file PROPERTY exists but
+ is not defined."
+   (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+     (save-excursion
+       (goto-char pos)
+       (if (and (looking-at-p " ")
+                (progn (forward-char)
+                       (org-at-timestamp-p 'lax)))
+           pos
+         -1))))
+  
+ (defun zp/org-set-time-file-property (property &optional anywhere pos)
+   "Set the time file PROPERTY in the preamble.
+ When ANYWHERE is non-nil, search beyond the preamble.
+ If the position of the file PROPERTY has already been computed,
+ it can be passed in POS."
+   (when-let ((pos (or pos
+                       (zp/org-find-time-file-property property))))
+     (save-excursion
+       (goto-char pos)
+       (if (looking-at-p " ")
+           (forward-char)
+         (insert " "))
+       (delete-region (point) (line-end-position))
+       (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+         (insert now)))))
+  
+ (defun zp/org-set-last-modified ()
+   "Update the LAST_MODIFIED file property in the preamble."
+   (when (derived-mode-p 'org-mode)
+     (zp/org-set-time-file-property "LAST_MODIFIED")))
+  
+    (setq org-html-htmlize-output-type 'css)
+    (setq org-latex-pdf-process 
+          '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
+            "%bibtex %b"
+            "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
+            "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
+    (setq org-file-apps '((auto-mode . emacs)
+                          ("\\.mm\\'" . default)
+                          ("\\.x?html?\\'" . system)
+                          ("\\.dvi\\'" . system)
+                          ("\\.pdf\\'" . default)))
+    (setq org-startup-indented 'f)
+    (setq org-directory "~/workspace/org/")
+    (setq org-special-ctrl-a/e 't)
+    (setq org-default-notes-file (concat org-directory "notes.org"))
+    (setq org-src-fontify-natively 't)
+    (setq org-src-tab-acts-natively t)
+    (setq org-src-window-setup 'current-window)
+    (setq org-deadline-warning-days 90)
+    (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
+    (setq org-todo-keywords
+          '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
+    (setq org-agenda-custom-commands 
+          '(("o" "No trabalho" tags-todo "@unb"
+             ((org-agenda-overriding-header "UnB")))
+            ("h" "Em casa" tags-todo "@casa"
+             ((org-agenda-overriding-header "Casa")))))
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c b") 'org-iswitchb)
+    (global-set-key (kbd "C-c l") 'org-store-link)
+    (setq org-publish-project-alist
+          '(("lc1"
+             :base-directory "~/workspace/LC1-github"
+             :base-extension "org"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/"
+             :publishing-function org-html-publish-to-html
+             :headline-levels 3
+             :section-numbers nil
+             :with-toc nil
+             :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
+             :html-preamble t)
+    
+            ("paa"
+             :base-directory "~/workspace/PAA-github"
+             :base-extension "org"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/"
+             :publishing-function org-html-publish-to-html
+             :headline-levels 3
+             :section-numbers nil
+             :with-toc nil
+             :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
+             :html-preamble t)
+    
+            ("images"
+             :base-directory "~/workspace/org/jpeg/"
+             :base-extension "jpg\\|gif\\|png"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/files"
+             :publishing-function org-publish-attachment)
+    
+            ("ensino" :components ("lc1" "paa" ))))
 #+END_SRC 
 
 ** Orgit
@@ -470,80 +541,33 @@ I should comment on these more...
 
 ** Org Roam
 
-# #+BEGIN_SRC emacs-lisp
-#     (defun zp/org-find-time-file-property (property &optional anywhere)
-#       "Return the position of the time file PROPERTY if it exists.
-#     When ANYWHERE is non-nil, search beyond the preamble."
-#       (save-excursion
-#         (goto-char (point-min))
-#         (let ((first-heading
-#                (save-excursion
-#                  (re-search-forward org-outline-regexp-bol nil t))))
-#           (when (re-search-forward (format "^#\\+%s:" property)
-#                                    (if anywhere nil first-heading)
-#                                    t)
-#             (point)))))
+#+BEGIN_SRC emacs-lisp
+    (use-package org-roam
+      :ensure t
+      :hook
+      ((after-init . org-roam-mode)
+       (before-save . zp/org-set-last-modified))
+      :custom
+      (org-roam-directory "~/workspace/org")
+      :bind (:map org-roam-mode-map
+                  (("C-c n l" . org-roam)
+                   ("C-c n f" . org-roam-find-file)
+                   ("C-c n j" . org-roam-jump-to-index)
+                   ("C-c n b" . org-roam-switch-to-buffer)
+                   ("C-c n g" . org-roam-graph))
+                  :map org-mode-map
+                  (("C-c n i" . org-roam-insert))))
 
-#     (defun zp/org-has-time-file-property-p (property &optional anywhere)
-#       "Return the position of time file PROPERTY if it is defined.
-#     As a special case, return -1 if the time file PROPERTY exists but
-#     is not defined."
-#       (when-let ((pos (zp/org-find-time-file-property property anywhere)))
-#         (save-excursion
-#           (goto-char pos)
-#           (if (and (looking-at-p " ")
-#                    (progn (forward-char)
-#                           (org-at-timestamp-p 'lax)))
-#               pos
-#             -1))))
-
-#     (defun zp/org-set-time-file-property (property &optional anywhere pos)
-#       "Set the time file PROPERTY in the preamble.
-#     When ANYWHERE is non-nil, search beyond the preamble.
-#     If the position of the file PROPERTY has already been computed,
-#     it can be passed in POS."
-#       (when-let ((pos (or pos
-#                           (zp/org-find-time-file-property property))))
-#         (save-excursion
-#           (goto-char pos)
-#           (if (looking-at-p " ")
-#               (forward-char)
-#             (insert " "))
-#           (delete-region (point) (line-end-position))
-#           (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
-#             (insert now)))))
-
-#     (defun zp/org-set-last-modified ()
-#       "Update the LAST_MODIFIED file property in the preamble."
-#       (when (derived-mode-p 'org-mode)
-#         (zp/org-set-time-file-property "LAST_MODIFIED")))
-
-#     (use-package org-roam
-#       :ensure t
-#       :hook
-#       ((after-init . org-roam-mode)
-#        (before-save . zp/org-set-last-modified))
-#       :custom
-#       (org-roam-directory "~/workspace/org")
-#       :bind (:map org-roam-mode-map
-#                   (("C-c n l" . org-roam)
-#                    ("C-c n f" . org-roam-find-file)
-#                    ("C-c n j" . org-roam-jump-to-index)
-#                    ("C-c n b" . org-roam-switch-to-buffer)
-#                    ("C-c n g" . org-roam-graph))
-#                   :map org-mode-map
-#                   (("C-c n i" . org-roam-insert))))
-
-#     (setq org-roam-index-file "inicial.org")
-#     (add-hook 'after-init-hook 'org-roam-mode)
-#     (setq org-roam-graph-viewer "/usr/bin/open")
-#     (setq org-roam-capture-templates
-#           '(("d" "default" plain (function org-roam--capture-get-point)
-#              "%?"
-#              :file-name "%<%Y%m%d%H%M%S>-${slug}"
-#              :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
-#              :unnarrowed t)))
-# #+END_SRC 
+    (setq org-roam-index-file "inicial.org")
+    (add-hook 'after-init-hook 'org-roam-mode)
+    (setq org-roam-graph-viewer "/usr/bin/open")
+    (setq org-roam-capture-templates
+          '(("d" "default" plain (function org-roam--capture-get-point)
+             "%?"
+             :file-name "%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
+             :unnarrowed t)))
+#+END_SRC 
             
 ** Org Roam Bibtex
 
