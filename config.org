@@ -22,11 +22,12 @@ Did not work:
 
 (bind-key "' c" (lambda () (insert-char #o347)))
 
-(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç")))
+(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç"))) 
 
-(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347)))
+This worked partially, but other dead keys were wrong:
+(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347))) 
 
-It is working in lubuntu, but I didn't find a solution to ubuntu.
+Solution: setxkbmap -model abnt2 -layout us -variant intl added in .xinitrc
 
 ** Try
    
@@ -132,9 +133,9 @@ Trying scimax
 
  Don't display the help screen on startup.
 
- #+BEGIN_SRC emacs-lisp
-   (setq inhibit-startup-screen t)
- #+END_SRC 
+ # #+BEGIN_SRC emacs-lisp
+ #   (setq inhibit-startup-screen t)
+ # #+END_SRC 
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
