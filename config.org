@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-07-16 Sex 04:54]
+#+last_modified: [2021-07-16 Sex 04:56]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -411,7 +411,7 @@ I should comment on these more...
         (setq org-src-fontify-natively 't)
         (setq org-src-tab-acts-natively t)
         (setq org-src-window-setup 'current-window)
-        (setq org-agenda-files (directory-files-recursively "~/workspace" "\\.org$"))
+        (setq org-agenda-files (directory-files-recursively "~/Dropbox" "\\.org$"))
         (setq org-todo-keywords
               '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
         (setq org-agenda-custom-commands 
