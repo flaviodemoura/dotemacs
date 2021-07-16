@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-07-08 Qui 04:37]
+#+last_modified: [2021-07-16 Sex 04:54]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -370,7 +370,7 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/workspace/org/zotLib.bib"))))
+          bibtex-completion-bibliography '("~/Dropbox/org/zotLib.bib"))))
 #+END_SRC 
 
 ** RefTeX
@@ -382,7 +382,7 @@ Add flycheck support.
 #     (setq reftex-plug-into-AUCTeX t)
 #     (setq reftex-use-fonts t)
 #     (setq reftex-toc-split-windows-fraction 0.2)
-#     (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib"))
+#     (setq reftex-default-bibliography '("~/Dropbox/org/zotLib.bib"))
 #     (add-hook 'LaTeX-mode-hook 'turn-on-reftex))
 # #+END_SRC 
 
@@ -405,7 +405,7 @@ I should comment on these more...
                               ("\\.pdf\\'" . default)))
         (setq org-startup-indented 'f)
         (setq org-deadline-warning-days 180)
-        (setq org-directory "~/workspace/org/")
+        (setq org-directory "~/Dropbox/org/")
         (setq org-special-ctrl-a/e 't)
         (setq org-default-notes-file (concat org-directory "notes.org"))
         (setq org-src-fontify-natively 't)
@@ -447,7 +447,7 @@ I should comment on these more...
                  :html-preamble t)
 
                 ("images"
-                 :base-directory "~/workspace/org/jpeg/"
+                 :base-directory "~/Dropbox/org/jpeg/"
                  :base-extension "jpg\\|gif\\|png"
                  :publishing-directory "~/workspace/flaviodemoura.github.io/files"
                  :publishing-function org-publish-attachment)
@@ -521,13 +521,13 @@ I should comment on these more...
     (use-package org-ref
       :ensure t
       :config
-      (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
-            org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
-            org-ref-bibliography-notes "~/workspace/org/notes.org"
+      (setq reftex-default-bibliography '("~/Dropbox/org/zotLib.bib")
+            org-ref-default-bibliography '("~/Dropbox/org/zotLib.bib")
+            org-ref-bibliography-notes "~/Dropbox/org/notes.org"
             org-ref-pdf-directory "~/Dropbox/pdfs/")
-      (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
+      (setq bibtex-completion-bibliography "~/Dropbox/org/zotLib.bib"
             bibtex-completion-library-path "~/Dropbox/pdfs"
-            bibtex-completion-notes-path "~/workspace/org/")
+            bibtex-completion-notes-path "~/Dropbox/org/")
       (setq bibtex-completion-pdf-open-function
             (lambda (fpath)
               (start-process "open" "*open*" "open" fpath))))
@@ -639,7 +639,7 @@ I should comment on these more...
     :ensure t
     :defer t
     :config
-    (setq org-journal-dir "~/workspace/org/journal")
+    (setq org-journal-dir "~/Dropbox/org/journal")
     (add-hook 'org-mode-hook 'turn-on-flyspell)
     (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
     (add-to-list 'org-agenda-files org-journal-dir)
