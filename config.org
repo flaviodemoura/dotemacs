@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-07-18 Dom 03:58]
+#+last_modified: [2021-07-19 Seg 06:00]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -393,139 +393,146 @@ I should comment on these more...
         (setq org-agenda-files (directory-files-recursively "~/Dropbox" "\\.org$"))
         
 #+BEGIN_SRC emacs-lisp
-        (setq org-html-htmlize-output-type 'css)
-        (setq org-latex-pdf-process 
-              '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
-                "%bibtex %b"
-                "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
-                "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
-        (setq org-file-apps '((auto-mode . emacs)
-                              ("\\.mm\\'" . default)
-                              ("\\.x?html?\\'" . system)
-                              ("\\.dvi\\'" . system)
-                              ("\\.pdf\\'" . default)))
-        (setq org-startup-indented 'f)
-        (setq org-deadline-warning-days 180)
-        (setq org-directory "~/Dropbox/org/")
-        (setq org-special-ctrl-a/e 't)
-        (setq org-default-notes-file (concat org-directory "notes.org"))
-        (setq org-src-fontify-natively 't)
-        (setq org-src-tab-acts-natively t)
-        (setq org-src-window-setup 'current-window)
+          (setq org-html-htmlize-output-type 'css)
+          (setq org-latex-pdf-process 
+                '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
+                  "%bibtex %b"
+                  "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
+                  "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
+          (setq org-file-apps '((auto-mode . emacs)
+                                ("\\.mm\\'" . default)
+                                ("\\.x?html?\\'" . system)
+                                ("\\.dvi\\'" . system)
+                                ("\\.pdf\\'" . default)))
+          (setq org-startup-indented 'f)
+          (setq org-deadline-warning-days 180)
+          (setq org-directory "~/Dropbox/org/")
+          (setq org-special-ctrl-a/e 't)
+          (setq org-default-notes-file (concat org-directory "notes.org"))
+          (setq org-src-fontify-natively 't)
+          (setq org-src-tab-acts-natively t)
+          (setq org-src-window-setup 'current-window)
 
-        (setq org-todo-keywords
-              '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
-        (setq org-agenda-custom-commands 
-              '(("o" "No trabalho" tags-todo "@unb"
-                 ((org-agenda-overriding-header "UnB")))
-                ("h" "Em casa" tags-todo "@casa"
-                 ((org-agenda-overriding-header "Casa")))))
-        (global-set-key (kbd "C-c a") 'org-agenda)
-        (global-set-key (kbd "C-c b") 'org-iswitchb)
-        (global-set-key (kbd "C-c l") 'org-store-link)
+          (setq org-todo-keywords
+                '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
+          (setq org-agenda-custom-commands 
+                '(("o" "No trabalho" tags-todo "@unb"
+                   ((org-agenda-overriding-header "UnB")))
+                  ("h" "Em casa" tags-todo "@casa"
+                   ((org-agenda-overriding-header "Casa")))))
+          (global-set-key (kbd "C-c a") 'org-agenda)
+          (global-set-key (kbd "C-c b") 'org-iswitchb)
+          (global-set-key (kbd "C-c l") 'org-store-link)
 
-        (setq org-publish-project-alist
-              '(("lc1"
-                 :base-directory "~/workspace/LC1-github"
-                 :base-extension "org"
-                 :publishing-directory "~/workspace/flaviodemoura.github.io/"
-                 :publishing-function org-html-publish-to-html
-                 :headline-levels 3
-                 :section-numbers nil
-                 :with-toc nil
-                 :html-head "<link rel="stylesheet" type="text/css" href="files/maarek.css"/>"
-                 :html-preamble t)
+  (setq org-html-postamble t)
 
-                ("paa"
-                 :base-directory "~/workspace/PAA-github"
-                 :base-extension "org"
-                 :publishing-directory "~/workspace/flaviodemoura.github.io/"
-                 :publishing-function org-html-publish-to-html
-                 :headline-levels 3
-                 :section-numbers nil
-                 :with-toc nil
-                 :html-head "<link rel="stylesheet" type="text/css" href="files/maarek.css"/>"
-                 :html-preamble t)
+  (setq org-html-postamble-format 
+        '(("en" "<p class=\"author\">Author: %a</p>
+     <p class=\"date\">Last modified: %C </p>
+     <p id=\"source-link\" class=\"source\"></p>")))
 
-                ("images"
-                 :base-directory "~/Dropbox/org/jpeg/"
-                 :base-extension "jpg\\|gif\\|png"
-                 :publishing-directory "~/workspace/flaviodemoura.github.io/files"
-                 :publishing-function org-publish-attachment)
+  (setq org-publish-project-alist
+        '(("lc1"
+                   :base-directory "~/workspace/LC1-github"
+                   :base-extension "org"
+                   :publishing-directory "~/workspace/flaviodemoura.github.io/"
+                   :publishing-function org-html-publish-to-html
+                   :headline-levels 3
+                   :section-numbers nil
+                   :with-toc nil
+                   :html-head "<link rel="stylesheet" type="text/css" href="files/maarek.css"/>"
+                   :html-preamble t)
 
-                ("ensino" :components ("lc1" "paa" ))))
+                  ("paa"
+                   :base-directory "~/workspace/PAA-github"
+                   :base-extension "org"
+                   :publishing-directory "~/workspace/flaviodemoura.github.io/"
+                   :publishing-function org-html-publish-to-html
+                   :headline-levels 3
+                   :section-numbers nil
+                   :with-toc nil
+                   :html-head "<link rel="stylesheet" type="text/css" href="files/maarek.css"/>"
+                   :html-preamble t)
 
-        (defun zp/org-find-time-file-property (property &optional anywhere)
-          "Return the position of the time file PROPERTY if it exists.
-          When ANYWHERE is non-nil, search beyond the preamble."
-          (save-excursion
-            (goto-char (point-min))
-            (let ((first-heading
-                   (save-excursion
-                     (re-search-forward org-outline-regexp-bol nil t))))
-              (when (re-search-forward (format "^#\\+%s:" property)
-                                       (if anywhere nil first-heading)
-                                       t)
-                (point)))))
+                  ("images"
+                   :base-directory "~/Dropbox/org/jpeg/"
+                   :base-extension "jpg\\|gif\\|png"
+                   :publishing-directory "~/workspace/flaviodemoura.github.io/files"
+                   :publishing-function org-publish-attachment)
 
-        (defun zp/org-has-time-file-property-p (property &optional anywhere)
-          "Return the position of time file PROPERTY if it is defined.
-          As a special case, return -1 if the time file PROPERTY exists but
-          is not defined."
-          (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+                  ("ensino" :components ("lc1" "paa" ))))
+
+          (defun zp/org-find-time-file-property (property &optional anywhere)
+            "Return the position of the time file PROPERTY if it exists.
+            When ANYWHERE is non-nil, search beyond the preamble."
             (save-excursion
-              (goto-char pos)
-              (if (and (looking-at-p " ")
-                       (progn (forward-char)
-                              (org-at-timestamp-p 'lax)))
-                  pos
-                -1))))
+              (goto-char (point-min))
+              (let ((first-heading
+                     (save-excursion
+                       (re-search-forward org-outline-regexp-bol nil t))))
+                (when (re-search-forward (format "^#\\+%s:" property)
+                                         (if anywhere nil first-heading)
+                                         t)
+                  (point)))))
 
-        (defun zp/org-set-time-file-property (property &optional anywhere pos)
-          "Set the time file PROPERTY in the preamble.
-          When ANYWHERE is non-nil, search beyond the preamble.
-          If the position of the file PROPERTY has already been computed,
-          it can be passed in POS."
-          (when-let ((pos (or pos
-                              (zp/org-find-time-file-property property))))
-            (save-excursion
-              (goto-char pos)
-              (if (looking-at-p " ")
-                  (forward-char)
-                (insert " "))
-              (delete-region (point) (line-end-position))
-              (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
-                (insert now)))))
+          (defun zp/org-has-time-file-property-p (property &optional anywhere)
+            "Return the position of time file PROPERTY if it is defined.
+            As a special case, return -1 if the time file PROPERTY exists but
+            is not defined."
+            (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+              (save-excursion
+                (goto-char pos)
+                (if (and (looking-at-p " ")
+                         (progn (forward-char)
+                                (org-at-timestamp-p 'lax)))
+                    pos
+                  -1))))
 
-        (defun zp/org-set-last-modified ()
-          "Update the LAST_MODIFIED file property in the preamble."
-          (when (derived-mode-p 'org-mode)
-            (zp/org-set-time-file-property "LAST_MODIFIED")))
+          (defun zp/org-set-time-file-property (property &optional anywhere pos)
+            "Set the time file PROPERTY in the preamble.
+            When ANYWHERE is non-nil, search beyond the preamble.
+            If the position of the file PROPERTY has already been computed,
+            it can be passed in POS."
+            (when-let ((pos (or pos
+                                (zp/org-find-time-file-property property))))
+              (save-excursion
+                (goto-char pos)
+                (if (looking-at-p " ")
+                    (forward-char)
+                  (insert " "))
+                (delete-region (point) (line-end-position))
+                (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+                  (insert now)))))
 
-    (defun skx-org-mode-before-save-hook ()
-      (when (eq major-mode 'org-mode)
-        (zp/org-set-last-modified)))
+          (defun zp/org-set-last-modified ()
+            "Update the LAST_MODIFIED file property in the preamble."
+            (when (derived-mode-p 'org-mode)
+              (zp/org-set-time-file-property "LAST_MODIFIED")))
 
-    (add-hook 'before-save-hook #'skx-org-mode-before-save-hook)
-  (defun org-get-agenda-files-recursively (dir)
-    "Get org agenda files from root DIR."
-    (directory-files-recursively dir "\.org$"))
+      (defun skx-org-mode-before-save-hook ()
+        (when (eq major-mode 'org-mode)
+          (zp/org-set-last-modified)))
 
-  (defun org-set-agenda-files-recursively (dir)
-    "Set org-agenda files from root DIR."
-    (setq org-agenda-files 
-          (org-get-agenda-files-recursively dir)))
+      (add-hook 'before-save-hook #'skx-org-mode-before-save-hook)
+    (defun org-get-agenda-files-recursively (dir)
+      "Get org agenda files from root DIR."
+      (directory-files-recursively dir "\.org$"))
 
-  (defun org-add-agenda-files-recursively (dir)
-    "Add org-agenda files from root DIR."
-    (nconc org-agenda-files 
-           (org-get-agenda-files-recursively dir)))
+    (defun org-set-agenda-files-recursively (dir)
+      "Set org-agenda files from root DIR."
+      (setq org-agenda-files 
+            (org-get-agenda-files-recursively dir)))
 
-  (setq org-agenda-files nil) ; zero out for testing
+    (defun org-add-agenda-files-recursively (dir)
+      "Add org-agenda files from root DIR."
+      (nconc org-agenda-files 
+             (org-get-agenda-files-recursively dir)))
 
-  (org-set-agenda-files-recursively "~/workspace") ; test set
+    (setq org-agenda-files nil) ; zero out for testing
 
-  (org-add-agenda-files-recursively "~/Dropbox") ; test add 
+    (org-set-agenda-files-recursively "~/workspace") ; test set
+
+    (org-add-agenda-files-recursively "~/Dropbox") ; test add 
 #+END_SRC 
 
 ** Orgit
