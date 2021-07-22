@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-07-21 Qua 14:43]
+#+last_modified: [2021-07-21 Qua 14:47]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -202,7 +202,7 @@ Trying scimax
    (use-package magit
      :ensure t
      :bind ("C-x g" . magit-status))
-   (setq magit-repository-directories '("~/workspace/" . 2))
+   (setq magit-repository-directories '(("\~/workspace/" . 1)))
  #+END_SRC 
 
  Display line changes in gutter based on git history. Enable it everywhere.
