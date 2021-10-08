@@ -77,28 +77,6 @@ Did not work:
    (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
  #+END_SRC 
-
-** Grammarly 
-
- #+BEGIN_SRC emacs-lisp
-   (require 'grammarly)
-   (setq grammarly-username "contato@flaviomoura.mat.br")
-   (setq grammarly-password "De045kruvmej!")
-   (require 'flycheck-grammarly)
-   (require 'flymake-grammarly)
-   (add-hook 'text-mode-hook 'flymake-grammarly-load)
-   (add-hook 'latex-mode-hook 'flymake-grammarly-load)
-   (add-hook 'org-mode-hook 'flymake-grammarly-load)
-   (add-hook 'markdown-mode-hook 'flymake-grammarly-load)
- #+END_SRC 
-
- 
-** writegood-mode
-
-#+BEGIN_SRC emacs-lisp
-(require 'writegood-mode)
-(global-set-key "\C-cg" 'writegood-mode)
-#+END_SRC 
  
 ** Dired
 
