@@ -3,7 +3,7 @@
 #+EMAIL: flavio@flaviomoura.info
 #+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-06-21 seg 16:08]
+#+last_modified: [2021-10-08 sex 18:13]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -25,7 +25,6 @@ Did not work:
 (global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç")))
 
 (global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347)))
-
 
 ** Try
    
@@ -195,9 +194,12 @@ Trying scimax
  Magit is an awesome interface to git. Summon it with `C-x g`.
 
  #+BEGIN_SRC emacs-lisp
-   (use-package magit
-     :ensure t
-     :bind ("C-x g" . magit-status))
+      (use-package magit
+        :ensure t
+        :bind ("C-x g" . magit-status))
+
+      (use-package forge
+        :ensure t)
  #+END_SRC 
 
  Display line changes in gutter based on git history. Enable it everywhere.
@@ -283,22 +285,12 @@ Add flycheck support.
 * Extras
 ** Pdf tools
 
-# #+BEGIN_SRC emacs-lisp
-#    (use-package pdf-tools
-#     :ensure t
-#     :config
-#     (pdf-tools-install)
-#     )
-
-#   ;; (defun org-pdf-app (file-path link-without-schema)
-#   ;;   "Open pdf file using pdf-tools and go to the specified page."
-#   ;;   (let* ((page (if (not (string-match "\\.pdf::\\([0-9]+\\)\\'"
-#   ;;                                       link-without-schema))
-#   ;;                    1
-#   ;;                  (string-to-number (match-string 1 link-without-schema)))))
-#   ;;     (find-file-other-window file-path)
-#   ;;     (pdf-view-goto-page page)))
-# #+END_SRC
+#+BEGIN_SRC emacs-lisp
+   (use-package pdf-tools
+    :ensure t
+    :config
+    (pdf-tools-install))
+#+END_SRC
 
 ** Ace window
 
@@ -312,10 +304,17 @@ Add flycheck support.
 ** LaTeX classes
 
  #+BEGIN_SRC emacs-lisp
-   (with-eval-after-load 'ox-latex
-      (add-to-list 'org-latex-classes
-                   '("entcs"
-                     "\\documentclass[9pt]{entcs}"
+      (with-eval-after-load 'ox-latex
+         (add-to-list 'org-latex-classes
+                      '("entcs"
+                        "\\documentclass[9pt]{entcs}"
+                        ("\\section{%s}" . "\\section*{%s}")
+                        ("\\subsection{%s}" . "\\subsection*{%s}")
+                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+         (add-to-list 'org-latex-classes
+                   '("myreport"
+                     "\\documentclass[11pt]{report}"
+                     ("\\chapter{%s}" . "\\chapter*{%s}")
                      ("\\section{%s}" . "\\section*{%s}")
                      ("\\subsection{%s}" . "\\subsection*{%s}")
                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
@@ -438,7 +437,7 @@ I should comment on these more...
                           ("\\.mm\\'" . default)
                           ("\\.x?html?\\'" . system)
                           ("\\.dvi\\'" . system)
-                          ("\\.pdf\\'" . default)))
+                          ("\\.pdf\\'" . "/usr/bin/okular %s")))
     (setq org-startup-indented 'f)
     (setq org-directory "~/workspace/org/")
     (setq org-special-ctrl-a/e 't)
@@ -499,53 +498,53 @@ I should comment on these more...
 
 ** OrgRef
 
-#+BEGIN_SRC emacs-lisp
-    (use-package org-ref
-      :ensure t
-      :config
-      (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
-            org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
-            org-ref-bibliography-notes "~/workspace/org/notes.org"
-            org-ref-pdf-directory "~/Dropbox/pdfs/")
-      (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
-            bibtex-completion-library-path "~/Dropbox/pdfs"
-            bibtex-completion-notes-path "~/workspace/org/")
-      (setq bibtex-completion-pdf-open-function
-            (lambda (fpath)
-              (start-process "open" "*open*" "open" fpath))))
-    (require 'doi-utils)
-  (setq org-ref-latex-bib-resolve-func #'expand-file-name)
-#+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#     (use-package org-ref
+#       :ensure t
+#       :config
+#       (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
+#             org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
+#             org-ref-bibliography-notes "~/workspace/org/notes.org"
+#             org-ref-pdf-directory "~/Dropbox/pdfs/")
+#       (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
+#             bibtex-completion-library-path "~/Dropbox/pdfs"
+#             bibtex-completion-notes-path "~/workspace/org/")
+#       (setq bibtex-completion-pdf-open-function
+#             (lambda (fpath)
+#               (start-process "open" "*open*" "open" fpath))))
+#     (require 'doi-utils)
+#   (setq org-ref-latex-bib-resolve-func #'expand-file-name)
+# #+END_SRC 
 
 ** Org Roam
 
-#+BEGIN_SRC emacs-lisp
-    (use-package org-roam
-      :ensure t
-      :hook
-      ((after-init . org-roam-mode)
-       (before-save . zp/org-set-last-modified))
-      :custom
-      (org-roam-directory "~/workspace/org")
-      :bind (:map org-roam-mode-map
-                  (("C-c n l" . org-roam)
-                   ("C-c n f" . org-roam-find-file)
-                   ("C-c n j" . org-roam-jump-to-index)
-                   ("C-c n b" . org-roam-switch-to-buffer)
-                   ("C-c n g" . org-roam-graph))
-                  :map org-mode-map
-                  (("C-c n i" . org-roam-insert))))
+# #+BEGIN_SRC emacs-lisp
+#     (use-package org-roam
+#       :ensure t
+#       :hook
+#       ((after-init . org-roam-mode)
+#        (before-save . zp/org-set-last-modified))
+#       :custom
+#       (org-roam-directory "~/workspace/org")
+#       :bind (:map org-roam-mode-map
+#                   (("C-c n l" . org-roam)
+#                    ("C-c n f" . org-roam-find-file)
+#                    ("C-c n j" . org-roam-jump-to-index)
+#                    ("C-c n b" . org-roam-switch-to-buffer)
+#                    ("C-c n g" . org-roam-graph))
+#                   :map org-mode-map
+#                   (("C-c n i" . org-roam-insert))))
 
-    (setq org-roam-index-file "inicial.org")
-    (add-hook 'after-init-hook 'org-roam-mode)
-    (setq org-roam-graph-viewer "/usr/bin/open")
-    (setq org-roam-capture-templates
-          '(("d" "default" plain (function org-roam--capture-get-point)
-             "%?"
-             :file-name "%<%Y%m%d%H%M%S>-${slug}"
-             :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
-             :unnarrowed t)))
-#+END_SRC 
+#     (setq org-roam-index-file "inicial.org")
+#     (add-hook 'after-init-hook 'org-roam-mode)
+#     (setq org-roam-graph-viewer "/usr/bin/open")
+#     (setq org-roam-capture-templates
+#           '(("d" "default" plain (function org-roam--capture-get-point)
+#              "%?"
+#              :file-name "%<%Y%m%d%H%M%S>-${slug}"
+#              :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
+#              :unnarrowed t)))
+# #+END_SRC 
             
 ** Org Roam Bibtex
 
