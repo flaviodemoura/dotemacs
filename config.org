@@ -13,7 +13,7 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Flávio L. C. de Moura")
-  (setq user-mail-address "flavio@flaviomoura.info")
+  (setq user-mail-address "contato@flaviomoura.mat.br")
 #+END_SRC 
 
 ** Cedilla in Emacs
