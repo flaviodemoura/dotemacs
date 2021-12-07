@@ -194,12 +194,15 @@ Trying scimax
  Magit is an awesome interface to git. Summon it with `C-x g`.
 
  #+BEGIN_SRC emacs-lisp
-      (use-package magit
-        :ensure t
-        :bind ("C-x g" . magit-status))
+               (use-package magit
+                 :ensure t
+                 :bind ("C-x g" . magit-status)
+                 :config
+                 (setq magit-repository-directories '(("~/.emacs.d" . 0)
+                                                      ("~/workspace/" . 2))))
 
-      (use-package forge
-        :ensure t)
+               (use-package forge
+                 :ensure t)
  #+END_SRC 
 
  Display line changes in gutter based on git history. Enable it everywhere.
@@ -518,36 +521,50 @@ I should comment on these more...
 
 ** Org Roam
 
-# #+BEGIN_SRC emacs-lisp
-#     (use-package org-roam
-#       :ensure t
-#       :hook
-#       ((after-init . org-roam-mode)
-#        (before-save . zp/org-set-last-modified))
-#       :custom
-#       (org-roam-directory "~/workspace/org")
-#       :bind (:map org-roam-mode-map
-#                   (("C-c n l" . org-roam)
-#                    ("C-c n f" . org-roam-find-file)
-#                    ("C-c n j" . org-roam-jump-to-index)
-#                    ("C-c n b" . org-roam-switch-to-buffer)
-#                    ("C-c n g" . org-roam-graph))
-#                   :map org-mode-map
-#                   (("C-c n i" . org-roam-insert))))
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam
+  :ensure t
+  :init
+  (setq org-roam-v2-ack t)
+  :custom
+  (org-roam-directory "~/Dropbox/orgroam")
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  (org-roam-setup))
+#+END_SRC
 
-#     (setq org-roam-index-file "inicial.org")
-#     (add-hook 'after-init-hook 'org-roam-mode)
-#     (setq org-roam-graph-viewer "/usr/bin/open")
-#     (setq org-roam-capture-templates
-#           '(("d" "default" plain (function org-roam--capture-get-point)
-#              "%?"
-#              :file-name "%<%Y%m%d%H%M%S>-${slug}"
-#              :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
-#              :unnarrowed t)))
-# #+END_SRC 
+Old config:
+
+    (use-package org-roam
+      :ensure t
+      :hook
+      ((after-init . org-roam-mode)
+       (before-save . zp/org-set-last-modified))
+      :custom
+      (org-roam-directory "~/workspace/org")
+      :bind (:map org-roam-mode-map
+                  (("C-c n l" . org-roam)
+                   ("C-c n f" . org-roam-find-file)
+                   ("C-c n j" . org-roam-jump-to-index)
+                   ("C-c n b" . org-roam-switch-to-buffer)
+                   ("C-c n g" . org-roam-graph))
+                  :map org-mode-map
+                  (("C-c n i" . org-roam-insert))))
+
+    (setq org-roam-index-file "inicial.org")
+    (add-hook 'after-init-hook 'org-roam-mode)
+    (setq org-roam-graph-viewer "/usr/bin/open")
+    (setq org-roam-capture-templates
+          '(("d" "default" plain (function org-roam--capture-get-point)
+             "%?"
+             :file-name "%<%Y%m%d%H%M%S>-${slug}"
+             :head "#+TITLE: ${title}\n \n#+CREATED: %U\n#+LAST_MODIFIED: %U\n#+ROAM_ALIAS: \n\n- tags ::  "
+             :unnarrowed t)))
             
 ** Org Roam Bibtex
-
+  
 # #+BEGIN_SRC emacs-lisp
 #   (use-package org-roam-bibtex
 #     :ensure t
