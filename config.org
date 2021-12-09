@@ -288,12 +288,12 @@ Add flycheck support.
 * Extras
 ** Pdf tools
 
-#+BEGIN_SRC emacs-lisp
-   (use-package pdf-tools
-    :ensure t
-    :config
-    (pdf-tools-install))
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#    (use-package pdf-tools
+#     :ensure t
+#     :config
+#     (pdf-tools-install))
+# #+END_SRC
 
 ** Ace window
 
