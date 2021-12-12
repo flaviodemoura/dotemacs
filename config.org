@@ -449,7 +449,7 @@ I should comment on these more...
     (setq org-src-tab-acts-natively t)
     (setq org-src-window-setup 'current-window)
     (setq org-deadline-warning-days 90)
-    (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
+    (setq org-agenda-files (directory-files-recursively "~/Dropbox/orgroam" "\\.org$"))
     (setq org-todo-keywords
           '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
     (setq org-agenda-custom-commands 
@@ -491,6 +491,8 @@ I should comment on these more...
     
             ("ensino" :components ("lc1" "paa" ))))
 #+END_SRC 
+
+    (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
 
 ** Orgit
 
@@ -583,23 +585,23 @@ Old config:
 
 ** Org Journal
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-journal
-    :bind 
-    ("C-c n j" . org-journal-new-entry)
-    :ensure t
-    :defer t
-    :config
-    (setq org-journal-dir "~/workspace/org/journal")
-    (add-hook 'org-mode-hook 'turn-on-flyspell)
-    (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
-    (add-to-list 'org-agenda-files org-journal-dir)
-    :custom
-    (org-journal-enable-agenda-integration t)
-    (org-journal-date-prefix "#+TITLE: ")
-    (org-journal-file-format "%Y-%m-%d.org")
-    (org-journal-date-format "%A, %d %B %Y"))
-#+END_SRC 
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-journal
+#     :bind 
+#     ("C-c n j" . org-journal-new-entry)
+#     :ensure t
+#     :defer t
+#     :config
+#     (setq org-journal-dir "~/workspace/org/journal")
+#     (add-hook 'org-mode-hook 'turn-on-flyspell)
+#     (setq org-agenda-file-regexp "\\`\\\([^.].*\\.org\\\|[0-9]\\\{8\\\}\\\(\\.gpg\\\)?\\\)\\'")
+#     (add-to-list 'org-agenda-files org-journal-dir)
+#     :custom
+#     (org-journal-enable-agenda-integration t)
+#     (org-journal-date-prefix "#+TITLE: ")
+#     (org-journal-file-format "%Y-%m-%d.org")
+#     (org-journal-date-format "%A, %d %B %Y"))
+# #+END_SRC 
 
 ** Org download
 
