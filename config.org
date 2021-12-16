@@ -673,3 +673,17 @@ Old config:
 #     :ensure t)
 # #+END_SRC 
 
+
+** Xournal and Krita
+
+#+BEGIN_SRC emacs-lisp
+  (use-package quelpa
+    :ensure t)
+  (use-package org-krita
+    :ensure t
+    :quelpa (org-krita :fetcher github :repo "lepisma/org-krita" :files ("*.el" "resources"))
+    :config (add-hook 'org-mode-hook org-krita-mode))
+  (use-package org-xournalpp
+    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+    :hook (org-mode . org-xournalpp-mode))
+  #+END_SRC

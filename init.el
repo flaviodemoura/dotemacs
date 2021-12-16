@@ -9,9 +9,12 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(require 'quelpa-use-package)
+
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
 (require 'org)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -22,7 +25,7 @@
  '(TeX-source-correlate-start-server t)
  '(package-selected-packages
    (quote
-    (use-package proof-general pdf-tools orgit org-roam org-journal git-timemachine git-gutter forge flycheck-irony company-irony bbdb auctex ace-window))))
+    (org-xournalpp org-krita quelpa-use-package proof-general pdf-tools orgit org-roam org-journal git-timemachine git-gutter forge flycheck-irony company-irony bbdb auctex ace-window))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
