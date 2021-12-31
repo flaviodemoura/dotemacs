@@ -62,7 +62,7 @@ Did not work:
  (use-package bbdb
  :ensure t
  :config
-   (setq bbdb-file "~/Dropbox/bbdb"))
+   (setq bbdb-file "~/pCloudDrive/bbdb"))
  #+END_SRC 
  
 ** Flyspell 
@@ -449,7 +449,7 @@ I should comment on these more...
     (setq org-src-tab-acts-natively t)
     (setq org-src-window-setup 'current-window)
     (setq org-deadline-warning-days 90)
-    (setq org-agenda-files (directory-files-recursively "~/Dropbox/orgroam" "\\.org$"))
+    (setq org-agenda-files (directory-files-recursively "~/pCloudDrive/orgroam" "\\.org$"))
     (setq org-todo-keywords
           '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
     (setq org-agenda-custom-commands 
@@ -503,38 +503,38 @@ I should comment on these more...
 
 ** OrgRef
 
-# #+BEGIN_SRC emacs-lisp
-#     (use-package org-ref
-#       :ensure t
-#       :config
-#       (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
-#             org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
-#             org-ref-bibliography-notes "~/workspace/org/notes.org"
-#             org-ref-pdf-directory "~/Dropbox/pdfs/")
-#       (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
-#             bibtex-completion-library-path "~/Dropbox/pdfs"
-#             bibtex-completion-notes-path "~/workspace/org/")
-#       (setq bibtex-completion-pdf-open-function
-#             (lambda (fpath)
-#               (start-process "open" "*open*" "open" fpath))))
-#     (require 'doi-utils)
-#   (setq org-ref-latex-bib-resolve-func #'expand-file-name)
-# #+END_SRC 
+#+BEGIN_SRC emacs-lisp
+    (use-package org-ref
+      :ensure t
+      :config
+      (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
+            org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
+            org-ref-bibliography-notes "~/workspace/org/notes.org"
+            org-ref-pdf-directory "~/pCloudDrive/pdfs/")
+      (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
+            bibtex-completion-library-path "~/pCloudDrive/pdfs"
+            bibtex-completion-notes-path "~/workspace/org/")
+      (setq bibtex-completion-pdf-open-function
+            (lambda (fpath)
+              (start-process "open" "*open*" "open" fpath))))
+    (require 'doi-utils)
+  (setq org-ref-latex-bib-resolve-func #'expand-file-name)
+#+END_SRC 
 
 ** Org Roam
 
 #+BEGIN_SRC emacs-lisp
-(use-package org-roam
-  :ensure t
-  :init
-  (setq org-roam-v2-ack t)
-  :custom
-  (org-roam-directory "~/Dropbox/orgroam")
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert))
-  :config
-  (org-roam-setup))
+  (use-package org-roam
+    :ensure t
+    :init
+    (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory "~/pCloudDrive/orgroam")
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n i" . org-roam-node-insert))
+    :config
+    (org-roam-setup))
 #+END_SRC
 
 Old config:
@@ -676,14 +676,14 @@ Old config:
 
 ** Xournal and Krita
 
-#+BEGIN_SRC emacs-lisp
-  (use-package quelpa
-    :ensure t)
-  (use-package org-krita
-    :ensure t
-    :quelpa (org-krita :fetcher github :repo "lepisma/org-krita" :files ("*.el" "resources"))
-    :config (add-hook 'org-mode-hook org-krita-mode))
-  (use-package org-xournalpp
-    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-    :hook (org-mode . org-xournalpp-mode))
-  #+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package quelpa
+#     :ensure t)
+#   (use-package org-krita
+#     :ensure t
+#     :quelpa (org-krita :fetcher github :repo "lepisma/org-krita" :files ("*.el" "resources"))
+#     :config (add-hook 'org-mode-hook org-krita-mode))
+#   (use-package org-xournalpp
+#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+#     :hook (org-mode . org-xournalpp-mode))
+#   #+END_SRC
