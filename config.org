@@ -99,6 +99,14 @@ Trying scimax
 # (load "~/workspace-git/scimax/init.el")
 # #+END_SRC 
 
+** Counsel
+
+ #+BEGIN_SRC emacs-lisp
+ (use-package counsel
+ :ensure t)
+ #+END_SRC 
+
+
 * Preferences
 
  As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
@@ -501,25 +509,70 @@ I should comment on these more...
 :ensure t)
 #+end_src
 
-** OrgRef
+** OrgRef v3
 
 #+BEGIN_SRC emacs-lisp
-    (use-package org-ref
-      :ensure t
-      :config
-      (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
-            org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
-            org-ref-bibliography-notes "~/workspace/org/notes.org"
-            org-ref-pdf-directory "~/pCloudDrive/pdfs/")
-      (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
-            bibtex-completion-library-path "~/pCloudDrive/pdfs"
-            bibtex-completion-notes-path "~/workspace/org/")
-      (setq bibtex-completion-pdf-open-function
+      (use-package ivy-bibtex
+        :ensure t
+        :init
+        (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
+                                             "~/workspace/org/zotLib.bib")
+            bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
+            bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
+            bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+
+            bibtex-completion-additional-search-fields '(keywords)
+            bibtex-completion-display-formats
+            '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+              (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+              (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+              (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+              (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+            bibtex-completion-pdf-open-function
             (lambda (fpath)
-              (start-process "open" "*open*" "open" fpath))))
-    (require 'doi-utils)
-  (setq org-ref-latex-bib-resolve-func #'expand-file-name)
-#+END_SRC 
+              (call-process "open" nil 0 nil fpath))))
+
+  (use-package org-ref
+    :ensure nil
+    :init
+    (require 'bibtex)
+
+    (setq bibtex-autokey-year-length 4
+          bibtex-autokey-name-year-separator "-"
+          bibtex-autokey-year-title-separator "-"
+          bibtex-autokey-titleword-separator "-"
+          bibtex-autokey-titlewords 2
+          bibtex-autokey-titlewords-stretch 1
+          bibtex-autokey-titleword-length 5
+          org-ref-bibtex-hydra-key-binding (kbd "H-b"))
+
+    (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
+    (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
+    (require 'org-ref-ivy)
+    (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+      org-ref-insert-label-function 'org-ref-insert-label-link
+      org-ref-insert-ref-function 'org-ref-insert-ref-link
+      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+    (require 'org-ref-arxiv)
+    (require 'org-ref-scopus)
+    (require 'org-ref-wos))
+
+#+END_SRC
+
+  old config
+  :config
+          (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
+                org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
+                org-ref-bibliography-notes "~/workspace/org/notes.org"
+                org-ref-pdf-directory "~/pCloudDrive/pdfs/")
+          (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
+                bibtex-completion-library-path "~/pCloudDrive/pdfs"
+                bibtex-completion-notes-path "~/workspace/org/")
+          (setq bibtex-completion-pdf-open-function
+                (lambda (fpath)
+                  (start-process "open" "*open*" "open" fpath))))
 
 ** Org Roam
 
