@@ -70,10 +70,7 @@ It is working in lubuntu, but I didn't find a solution to ubuntu.
 ** Flyspell 
 
  #+BEGIN_SRC emacs-lisp
-   (require 'flycheck-grammarly)
-   (setq grammarly-username "contato@flaviomoura.mat.br") 
-   (setq grammarly-password "De045kruvmej!") 
-   (setq ispell-program-name "/usr/local/bin/aspell")
+ (setq ispell-program-name "/usr/bin/aspell")
    (setq ispell-dictionary "pt_BR")
    (setq ispell-list-command "--list")
    (add-hook 'org-mode-hook 'turn-on-flyspell)
@@ -81,6 +78,10 @@ It is working in lubuntu, but I didn't find a solution to ubuntu.
    (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
  #+END_SRC 
+
+   (require 'flycheck-grammarly)
+   (setq grammarly-username "contato@flaviomoura.mat.br") 
+   (setq grammarly-password "De045kruvmej!") 
 
 ** Dired
 
@@ -407,7 +408,7 @@ I should comment on these more...
                                 ("\\.pdf\\'" . default)))
           (setq org-startup-indented 'f)
           (setq org-deadline-warning-days 180)
-          (setq org-directory "~/Dropbox/org/")
+          (setq org-directory "~/workspace/org/")
           (setq org-special-ctrl-a/e 't)
           (setq org-default-notes-file (concat org-directory "notes.org"))
           (setq org-src-fontify-natively 't)
@@ -456,7 +457,7 @@ I should comment on these more...
                    :html-preamble t)
 
                   ("images"
-                   :base-directory "~/Dropbox/org/jpeg/"
+                   :base-directory "~/workspace/org/jpeg/"
                    :base-extension "jpg\\|gif\\|png"
                    :publishing-directory "~/workspace/flaviodemoura.github.io/files"
                    :publishing-function org-publish-attachment)
@@ -533,7 +534,7 @@ I should comment on these more...
 
     (org-set-agenda-files-recursively "~/workspace") ; test set
 
-    (org-add-agenda-files-recursively "~/Dropbox") ; test add 
+    (org-add-agenda-files-recursively "~/pCloudDrive/orgroam") ; test add 
 #+END_SRC 
 
 ** Orgit
