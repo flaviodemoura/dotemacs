@@ -1,9 +1,8 @@
 #+TITLE: Emacs Configuration
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
-#+TOC: true
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2021-10-08 sex 18:13]
+#+last_modified: [2022-01-08 sáb 22:54]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -35,20 +34,42 @@ Did not work:
    
 ** Theme
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package modus-vivendi-theme
-#      :ensure t
-#      :config
-#       (load-theme 'modus-vivendi t))
-#     (use-package modus-operandi-theme
-#      :ensure t
-#      :config
-#       (load-theme 'modus-operandi t))
-#     (use-package vscode-dark-plus-theme
-#      :ensure t
-#      :config
-#       (load-theme 'vscode-dark-plus t))
-# #+END_SRC 
+#+BEGIN_SRC emacs-lisp
+#+END_SRC 
+
+  (use-package doom-themes
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(use-package vscode-dark-plus-theme
+:ensure t
+:config
+(load-theme 'vscode-dark-plus t))
+
+(use-package modus-vivendi-theme
+:ensure t
+:config
+(load-theme 'modus-vivendi))
+
+(use-package modus-operandi-theme
+:ensure t
+:config
+(load-theme 'modus-operandi t))
+
 
 ** Auto fill mode
 
@@ -99,13 +120,36 @@ Trying scimax
 # (load "~/workspace-git/scimax/init.el")
 # #+END_SRC 
 
+** Ivy
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :config
+    (ivy-mode 1))
+#+END_SRC
+
 ** Counsel
 
  #+BEGIN_SRC emacs-lisp
  (use-package counsel
  :ensure t)
- #+END_SRC 
+ #+END_SRC
+ 
+** Doom modeline
 
+#+BEGIN_SRC emacs-lisp
+(use-package doom-modeline
+:ensure t
+:hook (after-init . doom-modeline-mode))
+#+END_SRC
+
+** simple-httpd
+
+ #+BEGIN_SRC emacs-lisp
+ (use-package simple-httpd
+ :ensure t)
+ #+END_SRC 
 
 * Preferences
 
@@ -149,6 +193,7 @@ Trying scimax
  I prefer lines to wrap.
 
  #+BEGIN_SRC emacs-lisp
+   (setq inhibit-startup-message t)
    (global-visual-line-mode 1)
  #+END_SRC 
 
@@ -157,6 +202,8 @@ Trying scimax
  #+BEGIN_SRC emacs-lisp
    (tool-bar-mode -1)
    (scroll-bar-mode -1)
+   (tooltip-mode -1)
+   (set-fringe-mode 10)
  #+END_SRC 
 
  I don't want the error bell.
@@ -166,6 +213,13 @@ Trying scimax
  #+END_SRC 
 
 * Coding
+
+** Ocaml tuareg
+#+begin_src emacs-lisp
+  (use-package tuareg
+    :ensure t)
+#+end_src
+
 ** Programming specific interface improvements
 
  When programming I like my editor to try to help me with keeping parentheses balanced.
@@ -581,6 +635,9 @@ I should comment on these more...
     :ensure t
     :init
     (setq org-roam-v2-ack t)
+    :hook
+    ((after-init . org-roam-mode)
+     (before-save . zp/org-set-last-modified))
     :custom
     (org-roam-directory "~/pCloudDrive/orgroam")
     (org-roam-dailies-directory "journal/")
@@ -677,6 +734,15 @@ Old config:
 #            ("s-y" . org-download-yank))))
 # #+END_SRC 
 
+** Org tree slide
+
+#+begin_src emacs-lisp
+  (use-package org-tree-slide
+    :ensure t
+    :custom
+    (org-image-actual-width nil))
+#+end_src
+
 ** Org Present
 
 # #+BEGIN_SRC emacs-lisp
@@ -736,17 +802,17 @@ Old config:
 #     :ensure t)
 # #+END_SRC 
 
-
 ** Xournal and Krita
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package quelpa
-#     :ensure t)
-#   (use-package org-krita
-#     :ensure t
-#     :quelpa (org-krita :fetcher github :repo "lepisma/org-krita" :files ("*.el" "resources"))
-#     :config (add-hook 'org-mode-hook org-krita-mode))
-#   (use-package org-xournalpp
-#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-#     :hook (org-mode . org-xournalpp-mode))
-#   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org-xournalpp
+    :ensure t
+    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+    :config
+    (add-hook 'org-mode-hook 'org-xournalpp-mode))
+  #+END_SRC
+
+    (use-package org-krita
+    :ensure t
+    :quelpa (org-krita :fetcher github :repo "lepisma/org-krita" :files ("*.el" "resources"))
+    :config (add-hook 'org-mode-hook org-krita-mode))
