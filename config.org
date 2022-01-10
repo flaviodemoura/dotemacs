@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-01-08 sáb 22:54]
+#+last_modified: [2022-01-10 seg 05:26]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -34,8 +34,7 @@ Did not work:
    
 ** Theme
 
-#+BEGIN_SRC emacs-lisp
-#+END_SRC 
+Tema padrão
 
   (use-package doom-themes
   :ensure t
@@ -122,12 +121,12 @@ Trying scimax
 
 ** Ivy
 
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :ensure t
-    :config
-    (ivy-mode 1))
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package ivy
+#     :ensure t
+#     :config
+#     (ivy-mode 1))
+# #+END_SRC
 
 ** Counsel
 
@@ -138,11 +137,13 @@ Trying scimax
  
 ** Doom modeline
 
-#+BEGIN_SRC emacs-lisp
-(use-package doom-modeline
-:ensure t
-:hook (after-init . doom-modeline-mode))
-#+END_SRC
+Possivelmente está deixando o emacs lento
+
+# #+BEGIN_SRC emacs-lisp
+# (use-package doom-modeline
+# :ensure t
+# :hook (after-init . doom-modeline-mode))
+# #+END_SRC
 
 ** simple-httpd
 
@@ -179,8 +180,8 @@ Trying scimax
 
  Don't display the help screen on startup.
 
- # #+BEGIN_SRC emacs-lisp
- #   (setq inhibit-startup-screen t)
+ #+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-screen t)
  #+END_SRC 
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
@@ -193,7 +194,6 @@ Trying scimax
  I prefer lines to wrap.
 
  #+BEGIN_SRC emacs-lisp
-   (setq inhibit-startup-message t)
    (global-visual-line-mode 1)
  #+END_SRC 
 
@@ -202,8 +202,6 @@ Trying scimax
  #+BEGIN_SRC emacs-lisp
    (tool-bar-mode -1)
    (scroll-bar-mode -1)
-   (tooltip-mode -1)
-   (set-fringe-mode 10)
  #+END_SRC 
 
  I don't want the error bell.
@@ -335,17 +333,17 @@ Add flycheck support.
 
 ** Ido
 
- #+BEGIN_SRC emacs-lisp
-   (use-package ido
-     :ensure t
-     :config
-     (setq ido-enable-flex-matching t)
-     (setq ido-everywhere t)
-     (ido-mode t)
-     (setq ido-use-filename-at-point 'guess)
-     (setq ido-create-new-buffer 'always)
-     (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
-    #+END_SRC 
+ # #+BEGIN_SRC emacs-lisp
+ #   (use-package ido
+ #     :ensure t
+ #     :config
+ #     (setq ido-enable-flex-matching t)
+ #     (setq ido-everywhere t)
+ #     (ido-mode t)
+ #     (setq ido-use-filename-at-point 'guess)
+ #     (setq ido-create-new-buffer 'always)
+ #     (setq ido-file-extensions-order '(".org" ".tex" ".pdf")))
+ #    #+END_SRC 
 
 * Extras
 ** Pdf tools
@@ -444,114 +442,113 @@ Add flycheck support.
 I should comment on these more...
 
 #+BEGIN_SRC emacs-lisp
+  (defun zp/org-find-time-file-property (property &optional anywhere)
+    "Return the position of the time file PROPERTY if it exists.
+  When ANYWHERE is non-nil, search beyond the preamble."
+    (save-excursion
+      (goto-char (point-min))
+      (let ((first-heading
+             (save-excursion
+               (re-search-forward org-outline-regexp-bol nil t))))
+        (when (re-search-forward (format "^#\\+%s:" property)
+                                 (if anywhere nil first-heading)
+                                 t)
+          (point)))))
 
- (defun zp/org-find-time-file-property (property &optional anywhere)
-   "Return the position of the time file PROPERTY if it exists.
- When ANYWHERE is non-nil, search beyond the preamble."
-   (save-excursion
-     (goto-char (point-min))
-     (let ((first-heading
-            (save-excursion
-              (re-search-forward org-outline-regexp-bol nil t))))
-       (when (re-search-forward (format "^#\\+%s:" property)
-                                (if anywhere nil first-heading)
-                                t)
-         (point)))))
-  
- (defun zp/org-has-time-file-property-p (property &optional anywhere)
-   "Return the position of time file PROPERTY if it is defined.
- As a special case, return -1 if the time file PROPERTY exists but
- is not defined."
-   (when-let ((pos (zp/org-find-time-file-property property anywhere)))
-     (save-excursion
-       (goto-char pos)
-       (if (and (looking-at-p " ")
-                (progn (forward-char)
-                       (org-at-timestamp-p 'lax)))
-           pos
-         -1))))
-  
- (defun zp/org-set-time-file-property (property &optional anywhere pos)
-   "Set the time file PROPERTY in the preamble.
- When ANYWHERE is non-nil, search beyond the preamble.
- If the position of the file PROPERTY has already been computed,
- it can be passed in POS."
-   (when-let ((pos (or pos
-                       (zp/org-find-time-file-property property))))
-     (save-excursion
-       (goto-char pos)
-       (if (looking-at-p " ")
-           (forward-char)
-         (insert " "))
-       (delete-region (point) (line-end-position))
-       (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
-         (insert now)))))
-  
- (defun zp/org-set-last-modified ()
-   "Update the LAST_MODIFIED file property in the preamble."
-   (when (derived-mode-p 'org-mode)
-     (zp/org-set-time-file-property "LAST_MODIFIED")))
-  
-    (setq org-html-htmlize-output-type 'css)
-    (setq org-latex-pdf-process 
-          '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
-            "%bibtex %b"
-            "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
-            "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
-    (setq org-file-apps '((auto-mode . emacs)
-                          ("\\.mm\\'" . default)
-                          ("\\.x?html?\\'" . system)
-                          ("\\.dvi\\'" . system)
-                          ("\\.pdf\\'" . "/usr/bin/okular %s")))
-    (setq org-startup-indented 'f)
-    (setq org-directory "~/workspace/org/")
-    (setq org-special-ctrl-a/e 't)
-    (setq org-default-notes-file (concat org-directory "notes.org"))
-    (setq org-src-fontify-natively 't)
-    (setq org-src-tab-acts-natively t)
-    (setq org-src-window-setup 'current-window)
-    (setq org-deadline-warning-days 90)
-    (setq org-agenda-files (directory-files-recursively "~/pCloudDrive/orgroam" "\\.org$"))
-    (setq org-todo-keywords
-          '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
-    (setq org-agenda-custom-commands 
-          '(("o" "No trabalho" tags-todo "@unb"
-             ((org-agenda-overriding-header "UnB")))
-            ("h" "Em casa" tags-todo "@casa"
-             ((org-agenda-overriding-header "Casa")))))
-    (global-set-key (kbd "C-c a") 'org-agenda)
-    (global-set-key (kbd "C-c b") 'org-iswitchb)
-    (global-set-key (kbd "C-c l") 'org-store-link)
-    (setq org-publish-project-alist
-          '(("lc1"
-             :base-directory "~/workspace/LC1-github"
-             :base-extension "org"
-             :publishing-directory "~/workspace/flaviodemoura.github.io/"
-             :publishing-function org-html-publish-to-html
-             :headline-levels 3
-             :section-numbers nil
-             :with-toc nil
-             :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
-             :html-preamble t)
-    
-            ("paa"
-             :base-directory "~/workspace/PAA-github"
-             :base-extension "org"
-             :publishing-directory "~/workspace/flaviodemoura.github.io/"
-             :publishing-function org-html-publish-to-html
-             :headline-levels 3
-             :section-numbers nil
-             :with-toc nil
-             :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
-             :html-preamble t)
-    
-            ("images"
-             :base-directory "~/workspace/org/jpeg/"
-             :base-extension "jpg\\|gif\\|png"
-             :publishing-directory "~/workspace/flaviodemoura.github.io/files"
-             :publishing-function org-publish-attachment)
-    
-            ("ensino" :components ("lc1" "paa" ))))
+  (defun zp/org-has-time-file-property-p (property &optional anywhere)
+    "Return the position of time file PROPERTY if it is defined.
+  As a special case, return -1 if the time file PROPERTY exists but
+  is not defined."
+    (when-let ((pos (zp/org-find-time-file-property property anywhere)))
+      (save-excursion
+        (goto-char pos)
+        (if (and (looking-at-p " ")
+                 (progn (forward-char)
+                        (org-at-timestamp-p 'lax)))
+            pos
+          -1))))
+
+  (defun zp/org-set-time-file-property (property &optional anywhere pos)
+    "Set the time file PROPERTY in the preamble.
+  When ANYWHERE is non-nil, search beyond the preamble.
+  If the position of the file PROPERTY has already been computed,
+  it can be passed in POS."
+    (when-let ((pos (or pos
+                        (zp/org-find-time-file-property property))))
+      (save-excursion
+        (goto-char pos)
+        (if (looking-at-p " ")
+            (forward-char)
+          (insert " "))
+        (delete-region (point) (line-end-position))
+        (let* ((now (format-time-string "[%Y-%m-%d %a %H:%M]")))
+          (insert now)))))
+
+  (defun zp/org-set-last-modified ()
+    "Update the LAST_MODIFIED file property in the preamble."
+    (when (derived-mode-p 'org-mode)
+      (zp/org-set-time-file-property "LAST_MODIFIED")))
+
+  (setq org-html-htmlize-output-type 'css)
+  (setq org-latex-pdf-process 
+        '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
+          "%bibtex %b"
+          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
+          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
+  (setq org-file-apps '((auto-mode . emacs)
+                        ("\\.mm\\'" . default)
+                        ("\\.x?html?\\'" . system)
+                        ("\\.dvi\\'" . system)
+                        ("\\.pdf\\'" . "/usr/bin/okular %s")))
+  (setq org-startup-indented 'f)
+  (setq org-directory "~/workspace/org/")
+  (setq org-special-ctrl-a/e 't)
+  (setq org-default-notes-file (concat org-directory "notes.org"))
+  (setq org-src-fontify-natively 't)
+  (setq org-src-tab-acts-natively t)
+  (setq org-src-window-setup 'current-window)
+  (setq org-deadline-warning-days 90)
+  (setq org-agenda-files (directory-files-recursively "~/workspace" "\\.org$"))
+  (setq org-todo-keywords
+        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
+  (setq org-agenda-custom-commands 
+        '(("o" "No trabalho" tags-todo "@unb"
+           ((org-agenda-overriding-header "UnB")))
+          ("h" "Em casa" tags-todo "@casa"
+           ((org-agenda-overriding-header "Casa")))))
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (setq org-publish-project-alist
+        '(("lc1"
+           :base-directory "~/workspace/LC1-github"
+           :base-extension "org"
+           :publishing-directory "~/workspace/flaviodemoura.github.io/"
+           :publishing-function org-html-publish-to-html
+           :headline-levels 3
+           :section-numbers nil
+           :with-toc nil
+           :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
+           :html-preamble t)
+
+          ("paa"
+           :base-directory "~/workspace/PAA-github"
+           :base-extension "org"
+           :publishing-directory "~/workspace/flaviodemoura.github.io/"
+           :publishing-function org-html-publish-to-html
+           :headline-levels 3
+           :section-numbers nil
+           :with-toc nil
+           :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
+           :html-preamble t)
+
+          ("images"
+           :base-directory "~/workspace/org/jpeg/"
+           :base-extension "jpg\\|gif\\|png"
+           :publishing-directory "~/workspace/flaviodemoura.github.io/files"
+           :publishing-function org-publish-attachment)
+
+          ("ensino" :components ("lc1" "paa" ))))
 #+END_SRC 
 
     (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
