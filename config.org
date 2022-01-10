@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-01-10 seg 05:26]
+#+last_modified: [2022-01-10 seg 14:37]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -121,12 +121,12 @@ Trying scimax
 
 ** Ivy
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package ivy
-#     :ensure t
-#     :config
-#     (ivy-mode 1))
-# #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :config
+    (ivy-mode 1))
+#+END_SRC
 
 ** Counsel
 
@@ -202,6 +202,7 @@ Possivelmente está deixando o emacs lento
  #+BEGIN_SRC emacs-lisp
    (tool-bar-mode -1)
    (scroll-bar-mode -1)
+   (menu-bar-mode -1)
  #+END_SRC 
 
  I don't want the error bell.
@@ -627,32 +628,32 @@ I should comment on these more...
 
 ** Org Roam
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-roam
-    :ensure t
-    :init
-    (setq org-roam-v2-ack t)
-    :hook
-    ((after-init . org-roam-mode)
-     (before-save . zp/org-set-last-modified))
-    :custom
-    (org-roam-directory "~/pCloudDrive/orgroam")
-    (org-roam-dailies-directory "journal/")
-    (org-roam-completion-everywhere t)
-    :bind (("C-c n l" . org-roam-buffer-toggle)
-           ("C-c n f" . org-roam-node-find)
-           ("C-c n i" . org-roam-node-insert)
-           :map org-mode-map
-           ("C-M-i" . completion-at-point)
-           :map org-roam-dailies-map
-           ("Y" . org-roam-dailies-capture-yesterday)
-           ("T" . org-roam-dailies-capture-tomorrow))
-    :bind-keymap
-    ("C-c n d" . org-roam-dailies-map)
-    :config
-    (require 'org-roam-dailies)
-    (org-roam-db-autosync-mode))
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-roam
+#     :ensure t
+#     :init
+#     (setq org-roam-v2-ack t)
+#     :hook
+#     ((after-init . org-roam-mode)
+#      (before-save . zp/org-set-last-modified))
+#     :custom
+#     (org-roam-directory "~/pCloudDrive/orgroam")
+#     (org-roam-dailies-directory "journal/")
+#     (org-roam-completion-everywhere t)
+#     :bind (("C-c n l" . org-roam-buffer-toggle)
+#            ("C-c n f" . org-roam-node-find)
+#            ("C-c n i" . org-roam-node-insert)
+#            :map org-mode-map
+#            ("C-M-i" . completion-at-point)
+#            :map org-roam-dailies-map
+#            ("Y" . org-roam-dailies-capture-yesterday)
+#            ("T" . org-roam-dailies-capture-tomorrow))
+#     :bind-keymap
+#     ("C-c n d" . org-roam-dailies-map)
+#     :config
+#     (require 'org-roam-dailies)
+#     (org-roam-db-autosync-mode))
+# #+END_SRC
 
 Old config:
 
