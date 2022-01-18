@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-01-11 ter 15:48]
+#+last_modified: [2022-01-15 sáb 22:37]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -302,15 +302,17 @@ Possivelmente está deixando o emacs lento
 Open .v files with Proof General's Coq mode
 
 #+BEGIN_SRC emacs-lisp
- (use-package proof-general
-  :ensure t
-  :config
-   (eval-after-load "proof-script" '(progn
-   (define-key proof-mode-map [(C-down)] 
-   'proof-assert-next-command-interactive)
-   (define-key proof-mode-map [(C-up)] 
-   'proof-undo-last-successful-command))))
-   (setq pg-hide-all-proofs t)
+  (use-package proof-general
+    :ensure t
+    :config
+    (eval-after-load "proof-script" '(progn
+                                       (define-key proof-mode-map [(C-down)] 
+                                         'proof-assert-next-command-interactive)
+                                       (define-key proof-mode-map [(C-up)] 
+                                         'proof-undo-last-successful-command))))
+  (setq pg-hide-all-proofs t)
+  (setq proof-electric-terminator-enable t)
+  (setq proof-three-window-mode-policy 'hybrid)
 #+END_SRC 
 
 # #+BEGIN_SRC emacs-lisp
@@ -459,7 +461,7 @@ I should comment on these more...
 #+BEGIN_SRC emacs-lisp
     (defun zp/org-find-time-file-property (property &optional anywhere)
       "Return the position of the time file PROPERTY if it exists.
-    When ANYWHERE is non-nil, search beyond the preamble."
+        When ANYWHERE is non-nil, search beyond the preamble."
       (save-excursion
         (goto-char (point-min))
         (let ((first-heading
@@ -472,8 +474,8 @@ I should comment on these more...
 
     (defun zp/org-has-time-file-property-p (property &optional anywhere)
       "Return the position of time file PROPERTY if it is defined.
-    As a special case, return -1 if the time file PROPERTY exists but
-    is not defined."
+        As a special case, return -1 if the time file PROPERTY exists but
+        is not defined."
       (when-let ((pos (zp/org-find-time-file-property property anywhere)))
         (save-excursion
           (goto-char pos)
@@ -485,9 +487,9 @@ I should comment on these more...
 
     (defun zp/org-set-time-file-property (property &optional anywhere pos)
       "Set the time file PROPERTY in the preamble.
-    When ANYWHERE is non-nil, search beyond the preamble.
-    If the position of the file PROPERTY has already been computed,
-    it can be passed in POS."
+        When ANYWHERE is non-nil, search beyond the preamble.
+        If the position of the file PROPERTY has already been computed,
+        it can be passed in POS."
       (when-let ((pos (or pos
                           (zp/org-find-time-file-property property))))
         (save-excursion
@@ -504,15 +506,17 @@ I should comment on these more...
       (when (derived-mode-p 'org-mode)
         (zp/org-set-time-file-property "LAST_MODIFIED")))
 
-  (add-hook 'before-save-hook #'zp/org-set-last-modified)
+    (add-hook 'before-save-hook #'zp/org-set-last-modified)
 
-
+    (package-install 'htmlize)
     (setq org-html-htmlize-output-type 'css)
     (setq org-latex-pdf-process 
           '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
             "%bibtex %b"
             "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
             "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
+    (setq org-latex-packages-alist '(("" "algorithmicx" t)
+                                     ( "" "mathpartir" t)))
     (setq org-file-apps '((auto-mode . emacs)
                           ("\\.mm\\'" . default)
                           ("\\.x?html?\\'" . system)
@@ -537,11 +541,17 @@ I should comment on these more...
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c b") 'org-iswitchb)
     (global-set-key (kbd "C-c l") 'org-store-link)
+
+    (require 'ox-publish)
+    (setq org-html-validation-link nil
+        org-html-head-include-scripts nil
+        org-html-head-include-default-style nil
+        org-html-head "<link rel=\"stylesheet\" href=\"files/mystyle3.css\" />")
     (setq org-publish-project-alist
           '(("lc1"
              :base-directory "~/workspace/LC1-github"
              :base-extension "org"
-             :publishing-directory "~/workspace/flaviodemoura.github.io/"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/public/"
              :publishing-function org-html-publish-to-html
              :headline-levels 3
              :section-numbers nil
@@ -552,7 +562,7 @@ I should comment on these more...
             ("paa"
              :base-directory "~/workspace/PAA-github"
              :base-extension "org"
-             :publishing-directory "~/workspace/flaviodemoura.github.io/"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/public/"
              :publishing-function org-html-publish-to-html
              :headline-levels 3
              :section-numbers nil
@@ -560,16 +570,27 @@ I should comment on these more...
              :html-head "<link rel="stylesheet" type="text/css" href="files/site.css"/>"
              :html-preamble t)
 
+            ("webpage"
+             :recursive t
+             :base-directory "~/workspace/flaviodemoura.github.io/content/"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/public/"
+             :publishing-function 'org-html-publish-to-html
+             :with-author nil
+             :with-creator nil
+             :with-toc nil
+             :section-numbers nil
+             :time-stamp-file nil)
+
             ("images"
              :base-directory "~/workspace/org/jpeg/"
              :base-extension "jpg\\|gif\\|png"
-             :publishing-directory "~/workspace/flaviodemoura.github.io/files"
+             :publishing-directory "~/workspace/flaviodemoura.github.io/public/files"
              :publishing-function org-publish-attachment)
 
-            ("ensino" :components ("lc1" "paa" ))))
+            ("ensino" :components ("webpage" "lc1" "paa" ))))
 #+END_SRC 
 
-    (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
+(setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
 
 ** Orgit
 
@@ -756,7 +777,7 @@ Old config:
     :ensure t
     :custom
     (org-image-actual-width nil))
-  (global-set-key (kbd "<f8>") 'org-tree-slide-mode)
+  (global-set-key (kbd "<f12>") 'org-tree-slide-mode)
   (global-set-key (kbd "S-<f8>") 'org-tree-slide-skip-done-toggle)
   (with-eval-after-load "org-tree-slide"
     (define-key org-tree-slide-mode-map (kbd "<C-left>") 'org-tree-slide-move-previous-tree)
