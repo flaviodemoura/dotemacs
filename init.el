@@ -20,6 +20,9 @@
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
 (require 'org)
+
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
