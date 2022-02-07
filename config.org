@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-01-31 seg 14:20]
+#+last_modified: [2022-02-07 seg 06:26]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -120,14 +120,12 @@ Trying scimax
 
 ** Ivy
 
-verificar lentidão
-
-# #+BEGIN_SRC emacs-lisp
-#   (use-package ivy
-#     :ensure t
-#     :config
-#     (ivy-mode 1))
-# #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy
+    :ensure t
+    :config
+    (ivy-mode 1))
+#+END_SRC
 
 ** Counsel
 
