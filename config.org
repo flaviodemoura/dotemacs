@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-03-05 sáb 13:44]
+#+last_modified: [2022-03-15 Tue 22:20]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -120,12 +120,12 @@ Trying scimax
 
 ** Ivy
 
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :ensure t
-    :config
-    (ivy-mode 1))
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package ivy
+#     :ensure t
+#     :config
+#     (ivy-mode 1))
+# #+END_SRC
 
 ** Counsel
 
@@ -217,6 +217,25 @@ Possivelmente está deixando o emacs lento
  #+BEGIN_SRC emacs-lisp
    (add-to-list 'default-frame-alist '(fullscreen . maximized))
  #+END_SRC
+
+ Show parentheses matching
+
+ #+BEGIN_SRC emacs-lisp
+   (show-paren-mode 1)
+ #+END_SRC 
+
+ Highlight current line
+
+ #+BEGIN_SRC emacs-lisp
+   (global-hl-line-mode 1)
+   (global-set-key (kbd "C-c h") 'global-hl-line-mode)
+ #+END_SRC 
+
+ Expand parentheses for me.
+
+ #+BEGIN_SRC emacs-lisp
+   (add-hook 'prog-mode-hook 'electric-pair-mode)
+ #+END_SRC 
  
 * Coding
 
@@ -246,25 +265,6 @@ Possivelmente está deixando o emacs lento
  #     :config
  #     (add-hook 'prog-mode-hook 'smartparens-mode))
  # #+END_SRC 
-
- Show parentheses matching
-
- #+BEGIN_SRC emacs-lisp
-   (show-paren-mode 1)
- #+END_SRC 
-
- Highlight current line
-
- #+BEGIN_SRC emacs-lisp
-   (global-hl-line-mode 1)
-   (global-set-key (kbd "C-c h") 'global-hl-line-mode)
- #+END_SRC 
-
- Expand parentheses for me.
-
- #+BEGIN_SRC emacs-lisp
-   (add-hook 'prog-mode-hook 'electric-pair-mode)
- #+END_SRC 
 
 ** Git
 
@@ -385,22 +385,22 @@ Add flycheck support.
 
 ** LaTeX classes
 
- #+BEGIN_SRC emacs-lisp
-      (with-eval-after-load 'ox-latex
-         (add-to-list 'org-latex-classes
-                      '("entcs"
-                        "\\documentclass[9pt]{entcs}"
-                        ("\\section{%s}" . "\\section*{%s}")
-                        ("\\subsection{%s}" . "\\subsection*{%s}")
-                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-         (add-to-list 'org-latex-classes
-                   '("myreport"
-                     "\\documentclass[11pt]{report}"
-                     ("\\chapter{%s}" . "\\chapter*{%s}")
-                     ("\\section{%s}" . "\\section*{%s}")
-                     ("\\subsection{%s}" . "\\subsection*{%s}")
-                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-#+END_SRC 
+#  #+BEGIN_SRC emacs-lisp
+#       (with-eval-after-load 'ox-latex
+#          (add-to-list 'org-latex-classes
+#                       '("entcs"
+#                         "\\documentclass[9pt]{entcs}"
+#                         ("\\section{%s}" . "\\section*{%s}")
+#                         ("\\subsection{%s}" . "\\subsection*{%s}")
+#                         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+#          (add-to-list 'org-latex-classes
+#                    '("myreport"
+#                      "\\documentclass[11pt]{report}"
+#                      ("\\chapter{%s}" . "\\chapter*{%s}")
+#                      ("\\section{%s}" . "\\section*{%s}")
+#                      ("\\subsection{%s}" . "\\subsection*{%s}")
+#                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+# #+END_SRC 
 
 ** AucTeX
 
@@ -412,7 +412,6 @@ Add flycheck support.
     (setq TeX-auto-save t)
     (setq TeX-parse-self t)
     (setq-default TeX-master nil))
-  (setenv "PATH" "/Library/TeX/texbin/:$PATH" t)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
   (setq TeX-view-program-list
@@ -605,7 +604,67 @@ I should comment on these more...
 ** OrgRef v3
 
 #+BEGIN_SRC emacs-lisp
-      (use-package ivy-bibtex
+
+  (use-package org-ref
+    :ensure t
+    :init
+    (require 'bibtex)
+
+    (setq bibtex-autokey-year-length 4
+          bibtex-autokey-name-year-separator "-"
+          bibtex-autokey-year-title-separator "-"
+          bibtex-autokey-titleword-separator "-"
+          bibtex-autokey-titlewords 2
+          bibtex-autokey-titlewords-stretch 1
+          bibtex-autokey-titleword-length 5
+          org-ref-bibtex-hydra-key-binding (kbd "H-b"))
+
+    (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
+    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
+    (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
+    (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
+                                           "~/pCloudDrive/org/zotLib.bib")
+          bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
+          bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
+          bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
+
+          bibtex-completion-additional-search-fields '(keywords)
+          bibtex-completion-display-formats
+          '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+            (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+            (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+            (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+            (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+          bibtex-completion-pdf-open-function
+          (lambda (fpath)
+            (call-process "open" nil 0 nil fpath)))
+    (require 'org-ref-arxiv)
+    (require 'org-ref-scopus)
+    (require 'org-ref-wos))
+#+END_SRC
+
+  old config
+
+    (require 'org-ref-ivy)
+    (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
+      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
+      org-ref-insert-label-function 'org-ref-insert-label-link
+      org-ref-insert-ref-function 'org-ref-insert-ref-link
+      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
+
+:config
+    (setq reftex-default-bibliography '("~/pCloudDrive/org/zotLib.bib")
+          org-ref-default-bibliography '("~/pCloudDrive/org/zotLib.bib")
+          org-ref-bibliography-notes "~/pCloudDrive/org/notes.org"
+          org-ref-pdf-directory "~/pCloudDrive/pdfs/")
+    (setq bibtex-completion-bibliography "~/pCloudDrive/org/zotLib.bib"
+          bibtex-completion-library-path "~/pCloudDrive/pdfs"
+          bibtex-completion-notes-path "~/pCloudDrive/org/")
+    (setq bibtex-completion-pdf-open-function
+          (lambda (fpath)
+            (start-process "open" "*open*" "open" fpath)))
+
+(use-package ivy-bibtex
         :ensure t
         :init
         (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
@@ -625,48 +684,7 @@ I should comment on these more...
             (lambda (fpath)
               (call-process "open" nil 0 nil fpath))))
 
-  (use-package org-ref
-    :ensure t
-    :init
-    (require 'bibtex)
-
-    (setq bibtex-autokey-year-length 4
-          bibtex-autokey-name-year-separator "-"
-          bibtex-autokey-year-title-separator "-"
-          bibtex-autokey-titleword-separator "-"
-          bibtex-autokey-titlewords 2
-          bibtex-autokey-titlewords-stretch 1
-          bibtex-autokey-titleword-length 5
-          org-ref-bibtex-hydra-key-binding (kbd "H-b"))
-
-    (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
-    (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
-    (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
-    (require 'org-ref-ivy)
-    (setq org-ref-insert-link-function 'org-ref-insert-link-hydra/body
-      org-ref-insert-cite-function 'org-ref-cite-insert-ivy
-      org-ref-insert-label-function 'org-ref-insert-label-link
-      org-ref-insert-ref-function 'org-ref-insert-ref-link
-      org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
-    (require 'org-ref-arxiv)
-    (require 'org-ref-scopus)
-    (require 'org-ref-wos))
-
-#+END_SRC
-
-  old config
-  :config
-          (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
-                org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
-                org-ref-bibliography-notes "~/workspace/org/notes.org"
-                org-ref-pdf-directory "~/pCloudDrive/pdfs/")
-          (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
-                bibtex-completion-library-path "~/pCloudDrive/pdfs"
-                bibtex-completion-notes-path "~/workspace/org/")
-          (setq bibtex-completion-pdf-open-function
-                (lambda (fpath)
-                  (start-process "open" "*open*" "open" fpath))))
-
+                  
 ** Org Roam
 
 # #+BEGIN_SRC emacs-lisp
@@ -823,11 +841,11 @@ Old config:
 
 ** Clocking time
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate)
-  (setq org-log-done 'time)
-#+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (setq org-clock-persist 'history)
+#   (org-clock-persistence-insinuate)
+#   (setq org-log-done 'time)
+# #+END_SRC
 
 ** Calfw
 
@@ -840,7 +858,7 @@ Old config:
  # #+END_SRC 
 
 ** Org EDNA
-
+   
 # #+BEGIN_SRC emacs-lisp
 #   (use-package org-edna
 #     :ensure t)
@@ -848,13 +866,13 @@ Old config:
 
 ** Xournal and Krita
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-xournalpp
-    :ensure t
-    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-    :config
-    (add-hook 'org-mode-hook 'org-xournalpp-mode))
-  #+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-xournalpp
+#     :ensure t
+#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+#     :config
+#     (add-hook 'org-mode-hook 'org-xournalpp-mode))
+#   #+END_SRC
 
     (use-package org-krita
     :ensure t
