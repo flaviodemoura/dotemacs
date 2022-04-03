@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-03-15 Tue 22:20]
+#+last_modified: [2022-04-03 Sun 17:37]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -14,16 +14,6 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
   (setq user-full-name "Flávio L. C. de Moura")
   (setq user-mail-address "contato@flaviomoura.mat.br")
 #+END_SRC 
-
-** Cedilla in Emacs
-
-Did not work:
-
-(bind-key "' c" (lambda () (insert-char #o347)))
-
-(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-string "ç")))
-
-(global-set-key (kbd "<dead-acute> c") (lambda () (interactive) (insert-char #o347)))
 
 ** Try
    
@@ -866,13 +856,13 @@ Old config:
 
 ** Xournal and Krita
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package org-xournalpp
-#     :ensure t
-#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-#     :config
-#     (add-hook 'org-mode-hook 'org-xournalpp-mode))
-#   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org-xournalpp
+    :ensure t
+    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+    :config
+    (add-hook 'org-mode-hook 'org-xournalpp-mode))
+  #+END_SRC
 
     (use-package org-krita
     :ensure t
