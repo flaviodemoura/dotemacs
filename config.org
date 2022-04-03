@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-04-03 Sun 17:37]
+#+last_modified: [2022-04-03 Sun 17:44]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -375,22 +375,22 @@ Add flycheck support.
 
 ** LaTeX classes
 
-#  #+BEGIN_SRC emacs-lisp
-#       (with-eval-after-load 'ox-latex
-#          (add-to-list 'org-latex-classes
-#                       '("entcs"
-#                         "\\documentclass[9pt]{entcs}"
-#                         ("\\section{%s}" . "\\section*{%s}")
-#                         ("\\subsection{%s}" . "\\subsection*{%s}")
-#                         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
-#          (add-to-list 'org-latex-classes
-#                    '("myreport"
-#                      "\\documentclass[11pt]{report}"
-#                      ("\\chapter{%s}" . "\\chapter*{%s}")
-#                      ("\\section{%s}" . "\\section*{%s}")
-#                      ("\\subsection{%s}" . "\\subsection*{%s}")
-#                      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-# #+END_SRC 
+ #+BEGIN_SRC emacs-lisp
+      (with-eval-after-load 'ox-latex
+         (add-to-list 'org-latex-classes
+                      '("entcs"
+                        "\\documentclass[9pt]{entcs}"
+                        ("\\section{%s}" . "\\section*{%s}")
+                        ("\\subsection{%s}" . "\\subsection*{%s}")
+                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+         (add-to-list 'org-latex-classes
+                   '("myreport"
+                     "\\documentclass[11pt]{report}"
+                     ("\\chapter{%s}" . "\\chapter*{%s}")
+                     ("\\section{%s}" . "\\section*{%s}")
+                     ("\\subsection{%s}" . "\\subsection*{%s}")
+                     ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+#+END_SRC 
 
 ** AucTeX
 
