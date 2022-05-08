@@ -878,13 +878,13 @@ Old config:
 
 ** Xournal and Krita
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-xournalpp
-    :ensure t
-    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-    :config
-    (add-hook 'org-mode-hook 'org-xournalpp-mode))
-  #+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-xournalpp
+#     :ensure t
+#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+#     :config
+#     (add-hook 'org-mode-hook 'org-xournalpp-mode))
+#   #+END_SRC
 
     (use-package org-krita
     :ensure t
