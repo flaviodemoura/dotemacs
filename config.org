@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-04-04 Mon 17:26]
+#+last_modified: [2022-05-10 Tue 17:03]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -428,7 +428,7 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/pCloudDrive/org/zotLib.bib"))))
+          bibtex-completion-bibliography '("~/pCloudDrive/UnB/files/zotLib.bib"))))
 #+END_SRC 
 
 ** RefTeX
@@ -515,14 +515,14 @@ I should comment on these more...
                         ("\\.pdf\\'" . "/usr/bin/okular %s")))
   (setq org-startup-indented 'f)
   (setq org-startup-folded t)
-  (setq org-directory "~/pCloudDrive/org/")
+  (setq org-directory "~/workspace/org/")
   (setq org-special-ctrl-a/e 't)
   (setq org-default-notes-file (concat org-directory "notes.org"))
   (setq org-src-fontify-natively 't)
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
   (setq org-deadline-warning-days 90)
-  (setq org-agenda-files (directory-files-recursively "~/pCloudDrive/org" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/workspace/org" "\\.org$"))
   (setq org-todo-keywords
         '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
   (setq org-agenda-custom-commands 
@@ -596,7 +596,7 @@ I should comment on these more...
 #+BEGIN_SRC emacs-lisp
 
     (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
-                                           "~/pCloudDrive/org/zotLib.bib")
+                                           "~/pCloudDrive/UnB/files/zotLib.bib")
           bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
           bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
           bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
