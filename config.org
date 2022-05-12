@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-05-10 Tue 17:03]
+#+last_modified: [2022-05-12 Thu 10:34]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -428,7 +428,7 @@ Add flycheck support.
     (setq bibtex-dialect 'biblatex
           bibtex-align-at-equal-sign t
           bibtex-text-indentation 20
-          bibtex-completion-bibliography '("~/pCloudDrive/UnB/files/zotLib.bib"))))
+          bibtex-completion-bibliography '("~/workspace/org/zotLib.bib"))))
 #+END_SRC 
 
 ** RefTeX
@@ -596,7 +596,7 @@ I should comment on these more...
 #+BEGIN_SRC emacs-lisp
 
     (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
-                                           "~/pCloudDrive/UnB/files/zotLib.bib")
+                                           "~/workspace/org/zotLib.bib")
           bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
           bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
           bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
@@ -658,7 +658,7 @@ I should comment on these more...
     (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
     (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
     (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
-                                           "~/pCloudDrive/org/zotLib.bib")
+                                           "~/workspace/org/zotLib.bib")
           bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
           bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
           bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
@@ -684,11 +684,11 @@ I should comment on these more...
       org-ref-cite-onclick-function (lambda (_) (org-ref-citation-hydra/body)))
 
 :config
-    (setq reftex-default-bibliography '("~/pCloudDrive/org/zotLib.bib")
-          org-ref-default-bibliography '("~/pCloudDrive/org/zotLib.bib")
+    (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
+          org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
           org-ref-bibliography-notes "~/pCloudDrive/org/notes.org"
           org-ref-pdf-directory "~/pCloudDrive/pdfs/")
-    (setq bibtex-completion-bibliography "~/pCloudDrive/org/zotLib.bib"
+    (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
           bibtex-completion-library-path "~/pCloudDrive/pdfs"
           bibtex-completion-notes-path "~/pCloudDrive/org/")
     (setq bibtex-completion-pdf-open-function
