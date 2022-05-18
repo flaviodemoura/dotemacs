@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-05-12 Thu 10:34]
+#+last_modified: [2022-05-18 Wed 15:50]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -177,10 +177,15 @@ Possivelmente está deixando o emacs lento
 
  On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
 
- # #+BEGIN_SRC emacs-lisp
- #   (setq mac-command-modifier 'meta
- #         mac-option-modifier 'none)
- # #+END_SRC 
+ #+BEGIN_SRC emacs-lisp
+   (setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'super)
+ #+END_SRC 
+
+    (setq mac-command-modifier 'meta
+         mac-option-modifier 'none)
 
  I prefer lines to wrap.
 
