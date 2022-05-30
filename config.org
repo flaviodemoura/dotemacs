@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-05-18 Wed 15:50]
+#+last_modified: [2022-05-23 Mon 17:01]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -79,6 +79,7 @@ Tema padrão
  #+BEGIN_SRC emacs-lisp
    (setq ispell-program-name "/usr/bin/aspell")
    (setq ispell-dictionary "pt_BR")
+   (setq flyspell--default-dictionary "pt_BR")
    (setq ispell-list-command "--list")
    (add-hook 'org-mode-hook 'turn-on-flyspell)
    (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
@@ -509,7 +510,9 @@ I should comment on these more...
   (setq org-latex-pdf-process 
         '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
           "%bibtex %b"
-          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"   
+          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"
+          "makeindex -o %b.ind %b.idx"
+          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"    
           "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
   (setq org-latex-packages-alist '(("" "algorithmicx" t)
                                    ( "" "mathpartir" t)))
@@ -589,6 +592,8 @@ I should comment on these more...
 
 (setq org-agenda-files (directory-files-recursively "~/workspace/" "\\.org$"))
 
+(setq org-latex-pdf-process (list "latexmk -pdflatex='%latex -shell-escape -interaction nonstopmode' -pdf -output-directory=%o %f"))          
+          
 ** Orgit
 
 #+begin_src emacs-lisp
@@ -600,8 +605,7 @@ I should comment on these more...
 
 #+BEGIN_SRC emacs-lisp
 
-    (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
-                                           "~/workspace/org/zotLib.bib")
+    (setq bibtex-completion-bibliography '("~/workspace/org/zotLib.bib")
           bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
           bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
           bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
@@ -691,11 +695,11 @@ I should comment on these more...
 :config
     (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
           org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
-          org-ref-bibliography-notes "~/pCloudDrive/org/notes.org"
+          org-ref-bibliography-notes "~/workspace/org/notes.org"
           org-ref-pdf-directory "~/pCloudDrive/pdfs/")
     (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
           bibtex-completion-library-path "~/pCloudDrive/pdfs"
-          bibtex-completion-notes-path "~/pCloudDrive/org/")
+          bibtex-completion-notes-path "~/workspace/org/")
     (setq bibtex-completion-pdf-open-function
           (lambda (fpath)
             (start-process "open" "*open*" "open" fpath)))
