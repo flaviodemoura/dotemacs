@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-05-23 Mon 17:01]
+#+last_modified: [2022-07-03 Sun 14:24]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -234,6 +234,15 @@ Possivelmente está deixando o emacs lento
  #+END_SRC 
  
 * Coding
+
+** Agda
+
+#+begin_src emacs-lisp
+  (load-file (let ((coding-system-for-read 'utf-8))
+               (shell-command-to-string "agda-mode locate")))
+  (add-to-list 'auto-mode-alist '("\\.lagda\\.md'" . agda2-mode))
+  (add-to-list 'auto-mode-alist '("\\.lagda.tex\\'" . agda2-mode))
+#+end_src
 
 ** Python
 #+begin_src emacs-lisp
@@ -887,13 +896,13 @@ Old config:
 
 ** Xournal and Krita
 
-# #+BEGIN_SRC emacs-lisp
-#   (use-package org-xournalpp
-#     :ensure t
-#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-#     :config
-#     (add-hook 'org-mode-hook 'org-xournalpp-mode))
-#   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org-xournalpp
+    :ensure t
+    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+    :config
+    (add-hook 'org-mode-hook 'org-xournalpp-mode))
+  #+END_SRC
 
     (use-package org-krita
     :ensure t
