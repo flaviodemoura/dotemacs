@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-07-03 Sun 14:24]
+#+last_modified: [2022-07-06 qua 15:08]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -87,6 +87,13 @@ Tema padrão
    (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
  #+END_SRC 
  
+** Command log mode
+
+#+begin_src emacs-lisp
+(require 'command-log-mode)
+(add-hook 'LaTeX-mode-hook 'command-log-mode)
+#+end_src
+
 ** Dired
 
  # #+BEGIN_SRC emacs-lisp
@@ -240,7 +247,7 @@ Possivelmente está deixando o emacs lento
 #+begin_src emacs-lisp
   (load-file (let ((coding-system-for-read 'utf-8))
                (shell-command-to-string "agda-mode locate")))
-  (add-to-list 'auto-mode-alist '("\\.lagda\\.md'" . agda2-mode))
+  (add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
   (add-to-list 'auto-mode-alist '("\\.lagda.tex\\'" . agda2-mode))
 #+end_src
 
