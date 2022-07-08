@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-07-06 qua 15:08]
+#+last_modified: [2022-07-08 sex 10:32]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -74,6 +74,26 @@ Tema padrão
    (setq bbdb-file "~/pCloudDrive/bbdb"))
  #+END_SRC 
  
+** Grammarly
+
+#+begin_src emacs-lisp
+  (use-package grammarly
+    :ensure t
+    :config
+    (setq grammarly-username "contato@flaviomoura.mat.br")
+    (setq grammarly-password "De045kruvmej!")) 
+#+end_src
+
+** flycheck-grammarly
+
+#+begin_src emacs-lisp
+  (use-package flycheck-grammarly
+    :ensure t
+    :config
+    (with-eval-after-load 'flycheck
+     (flycheck-grammarly-setup)))
+#+end_src
+
 ** Flyspell 
 
  #+BEGIN_SRC emacs-lisp
@@ -84,14 +104,20 @@ Tema padrão
    (add-hook 'org-mode-hook 'turn-on-flyspell)
    (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
    (autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
-   (autoload 'tex-mode-flyspell-verify "flyspell" "" t) 
+   (autoload 'tex-mode-flyspell-verify "flyspell" "" t)
  #+END_SRC 
- 
+
+ If you encounter the performance issue, try raise flycheck-grammarly-check-time higher. The request will be send by this time everytime the buffer has changed.
+
+(setq flycheck-grammarly-check-time 0.8)
+
 ** Command log mode
 
 #+begin_src emacs-lisp
-(require 'command-log-mode)
-(add-hook 'LaTeX-mode-hook 'command-log-mode)
+  (use-package command-log-mode
+    :ensure t
+    :config
+    (add-hook 'LaTeX-mode-hook 'command-log-mode))
 #+end_src
 
 ** Dired
@@ -239,7 +265,7 @@ Possivelmente está deixando o emacs lento
  #+BEGIN_SRC emacs-lisp
    (add-hook 'prog-mode-hook 'electric-pair-mode)
  #+END_SRC 
- 
+
 * Coding
 
 ** Agda
