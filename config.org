@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-09-16 sex 05:03]
+#+last_modified: [2022-11-21 seg 15:31]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -566,7 +566,7 @@ I should comment more on these ...
                         ("\\.mm\\'" . default)
                         ("\\.x?html?\\'" . system)
                         ("\\.dvi\\'" . system)
-                        ("\\.pdf\\'" . "/usr/bin/xpdf %s")))
+                        ("\\.pdf\\'" . "/usr/bin/okular %s")))
   (setq org-startup-indented 'f)
   (setq org-startup-folded t)
   (setq org-return-follows-link  t)
