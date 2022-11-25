@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-11-21 seg 15:31]
+#+last_modified: [2022-11-21 seg 15:37]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -454,16 +454,17 @@ Add flycheck support.
     (setq-default TeX-master nil))
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 
+  (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+  (setq TeX-view-program-list
+	'(("PDF Viewer" "okular --unique %o#src:%n%b")))
+
   (custom-set-variables
    '(TeX-source-correlate-method 'synctex)
    '(TeX-source-correlate-mode t)
    '(TeX-source-correlate-start-server t))
  #+END_SRC
 
- (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
-  (setq TeX-view-program-list
-	'(("PDF Viewer" "okular --unique %o#src:%n%b"))
-
+ 
   (require 'auctex-latexmk)
   (auctex-latexmk-setup)
   (setq auctex-latexmk-inherit-TeX-PDF-mode t)
