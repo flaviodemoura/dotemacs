@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-11-21 seg 15:37]
+#+last_modified: [2022-12-05 seg 17:34]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -578,7 +578,7 @@ I should comment more on these ...
   (setq org-src-tab-acts-natively t)
   (setq org-src-window-setup 'current-window)
   (setq org-deadline-warning-days 90)
-  (setq org-agenda-files (directory-files-recursively "~/workspace" "\\.org$"))
+  (setq org-agenda-files (directory-files-recursively "~/workspace/org" "\\.org$"))
   (setq org-agenda-show-all-dates t)
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-start-with-clockreport-mode t)
