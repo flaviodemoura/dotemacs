@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2022-12-05 seg 17:34]
+#+last_modified: [2022-12-25 dom 11:23]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -713,13 +713,20 @@ I should comment more on these ...
                 ("~/workspace/org/review/month.html")
                 ))
 
+** Org bullets
+
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :ensure t)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+#+end_src
 ** Orgit
 
 #+begin_src emacs-lisp
 (use-package orgit
 :ensure t)
 #+end_src
-
 ** OrgRef v3
 
 #+BEGIN_SRC emacs-lisp
@@ -727,8 +734,8 @@ I should comment more on these ...
     :ensure t)
 
       (setq bibtex-completion-bibliography '("~/workspace/org/zotLib.bib")
-            bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
-            bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
+            bibtex-completion-library-path '("~/Dropbox/pdfs/")
+            bibtex-completion-notes-path "~/Dropbox/pdfs-notes/"
             bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
 
             bibtex-completion-additional-search-fields '(keywords)
@@ -787,10 +794,10 @@ I should comment more on these ...
     (define-key bibtex-mode-map (kbd "H-b") 'org-ref-bibtex-hydra/body)
     (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link)
     (define-key org-mode-map (kbd "s-[") 'org-ref-insert-link-hydra/body)
-    (setq bibtex-completion-bibliography '("~/pCloudDrive/orgroam/references.bib"
+    (setq bibtex-completion-bibliography '("~/Dropbox/orgroam/references.bib"
                                            "~/workspace/org/zotLib.bib")
-          bibtex-completion-library-path '("~/pCloudDrive/pdfs/")
-          bibtex-completion-notes-path "~/pCloudDrive/pdfs-notes/"
+          bibtex-completion-library-path '("~/Dropbox/pdfs/")
+          bibtex-completion-notes-path "~/Dropbox/pdfs-notes/"
           bibtex-completion-notes-template-multiple-files "* ${author-or-editor}, ${title}, ${journal}, (${year}) :${=type=}: \n\nSee [[cite:&${=key=}]]\n"
 
           bibtex-completion-additional-search-fields '(keywords)
@@ -817,14 +824,13 @@ I should comment more on these ...
     (setq reftex-default-bibliography '("~/workspace/org/zotLib.bib")
           org-ref-default-bibliography '("~/workspace/org/zotLib.bib")
           org-ref-bibliography-notes "~/workspace/org/notes.org"
-          org-ref-pdf-directory "~/pCloudDrive/pdfs/")
+          org-ref-pdf-directory "~/Dropbox/pdfs/")
     (setq bibtex-completion-bibliography "~/workspace/org/zotLib.bib"
-          bibtex-completion-library-path "~/pCloudDrive/pdfs"
+          bibtex-completion-library-path "~/Dropbox/pdfs"
           bibtex-completion-notes-path "~/workspace/org/")
     (setq bibtex-completion-pdf-open-function
           (lambda (fpath)
             (start-process "open" "*open*" "open" fpath)))
-
               
 ** Org Roam
 
@@ -837,7 +843,7 @@ I should comment more on these ...
 #     ((after-init . org-roam-mode)
 #      (before-save . zp/org-set-last-modified))
 #     :custom
-#     (org-roam-directory "~/pCloudDrive/orgroam")
+#     (org-roam-directory "~/Dropbox/orgroam")
 #     (org-roam-dailies-directory "journal/")
 #     (org-roam-completion-everywhere t)
 #     :bind (("C-c n l" . org-roam-buffer-toggle)
