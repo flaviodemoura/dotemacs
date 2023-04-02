@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-04-02 dom 11:23]
+#+last_modified: [2023-04-02 dom 11:28]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -838,22 +838,7 @@ I should comment more on these ...
     (setq bibtex-completion-pdf-open-function
           (lambda (fpath)
             (start-process "open" "*open*" "open" fpath)))
-              
-** Org AI
-#+BEGIN_SRC emacs-lisp
-  (use-package org-ai
-    :commands (org-ai-mode)
-    :load-path (lambda () "/home/flaviomoura/.emacs.d/elpa/org-ai-20230330.2333")
-    :custom
-    (org-ai-openai-api-token "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")
-    :init
-    (add-hook 'org-mode-hook #'org-ai-mode)
-    :config
-    (org-ai-install-yasnippets))
-  #+END_SRC
-  
-  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
-    
+                
 ** Org Roam
 
 # #+BEGIN_SRC emacs-lisp
