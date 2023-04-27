@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-04-02 dom 11:28]
+#+last_modified: [2023-04-27 qui 11:20]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -22,7 +22,13 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
    # :ensure t)
    # #+end_src
    
-** Theme
+** Themes
+#+begin_src emacs-lisp
+(use-package hima-theme
+  :ensure t
+  :config 
+  (load-theme 'hima t))
+#+end_src
 
 Tema padrão
 
@@ -505,6 +511,7 @@ Add flycheck support.
 # #+END_SRC 
 
 * Org
+
 ** General settings.
 
 I should comment more on these ...
