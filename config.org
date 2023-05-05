@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-04-27 qui 11:20]
+#+last_modified: [2023-05-05 sex 10:45]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -15,6 +15,107 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
   (setq user-mail-address "contato@flaviomoura.mat.br")
 #+END_SRC 
 
+** Preferences
+
+ As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
+
+ error in process filter: Symbol's value as variable is void: default-major-mode
+
+ To fix this error, add
+
+ #+BEGIN_SRC emacs-lisp
+   (defvar default-major-mode nil)
+ #+END_SRC 
+
+ Smooth scroll and keep cursor at same position when scrolling
+
+ #+BEGIN_SRC emacs-lisp
+   (setq scroll-step 1)
+   (setq scroll-preserve-screen-position 1)
+ #+END_SRC 
+
+ Increase and decrease font size
+
+ #+BEGIN_SRC emacs-lisp
+   (global-set-key (kbd "M-=") 'text-scale-increase)
+   (global-set-key (kbd "M--") 'text-scale-decrease)
+ #+END_SRC 
+
+ Don't display the help screen on startup.
+
+ #+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-screen t)
+ #+END_SRC 
+
+ On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
+
+ #+BEGIN_SRC emacs-lisp
+   (setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'super)
+ #+END_SRC 
+
+    (setq mac-command-modifier 'meta
+         mac-option-modifier 'none)
+
+ I prefer lines to wrap.
+
+ #+BEGIN_SRC emacs-lisp
+   (global-visual-line-mode 1)
+ #+END_SRC 
+
+ Let's turn off unwanted window decoration.
+
+ #+BEGIN_SRC emacs-lisp
+   (tool-bar-mode -1)
+   (scroll-bar-mode -1)
+   (menu-bar-mode -1)
+ #+END_SRC 
+
+ I don't want the error bell.
+
+ #+BEGIN_SRC emacs-lisp
+   (setq ring-bell-function 'ignore)
+ #+END_SRC 
+
+ Start maximized
+
+ #+BEGIN_SRC emacs-lisp
+   (add-to-list 'default-frame-alist '(fullscreen . maximized))
+ #+END_SRC
+
+ Show parentheses matching
+
+ #+BEGIN_SRC emacs-lisp
+   (show-paren-mode 1)
+ #+END_SRC 
+
+ Highlight current line
+
+ #+BEGIN_SRC emacs-lisp
+   (global-hl-line-mode 1)
+   (global-set-key (kbd "C-c h") 'global-hl-line-mode)
+ #+END_SRC 
+
+ Expand parentheses for me.
+
+ #+BEGIN_SRC emacs-lisp
+   (add-hook 'prog-mode-hook 'electric-pair-mode)
+ #+END_SRC 
+
+ Recent mode 
+
+  #+BEGIN_SRC emacs-lisp
+   (recentf-mode 1)
+ #+END_SRC 
+
+*** Xdvi search
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
+(require 'xdvi-search)
+#+end_src
 ** Try
    
    # #+begin_src emacs-lisp
@@ -184,102 +285,6 @@ Possivelmente está deixando o emacs lento
  (use-package simple-httpd
  :ensure t)
  #+END_SRC 
-
-/* Preferences
-
- As of Emacs 26.1 (C-h N : view-emacs-news shows the recent changes), the default-major-mode variable was removed. This variable occurs in 2 places in emacs/emacs-src/pvs-ilisp.el. Because of this, PVS displays the following error
-
- error in process filter: Symbol's value as variable is void: default-major-mode
-
- To fix this error, add
-
- #+BEGIN_SRC emacs-lisp
-   (defvar default-major-mode nil)
- #+END_SRC 
-
- Smooth scroll and keep cursor at same position when scrolling
-
- #+BEGIN_SRC emacs-lisp
-   (setq scroll-step 1)
-   (setq scroll-preserve-screen-position 1)
- #+END_SRC 
-
- Increase and decrease font size
-
- #+BEGIN_SRC emacs-lisp
-   (global-set-key (kbd "M-=") 'text-scale-increase)
-   (global-set-key (kbd "M--") 'text-scale-decrease)
- #+END_SRC 
-
- Don't display the help screen on startup.
-
- #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t)
- #+END_SRC 
-
- On  I use ⌘ as =meta= and prefer ⌥ to do nothing so I can still insert special characters like easily.
-
- #+BEGIN_SRC emacs-lisp
-   (setq mac-option-key-is-meta nil
-      mac-command-key-is-meta t
-      mac-command-modifier 'meta
-      mac-option-modifier 'super)
- #+END_SRC 
-
-    (setq mac-command-modifier 'meta
-         mac-option-modifier 'none)
-
- I prefer lines to wrap.
-
- #+BEGIN_SRC emacs-lisp
-   (global-visual-line-mode 1)
- #+END_SRC 
-
- Let's turn off unwanted window decoration.
-
- #+BEGIN_SRC emacs-lisp
-   (tool-bar-mode -1)
-   (scroll-bar-mode -1)
-   (menu-bar-mode -1)
- #+END_SRC 
-
- I don't want the error bell.
-
- #+BEGIN_SRC emacs-lisp
-   (setq ring-bell-function 'ignore)
- #+END_SRC 
-
- Start maximized
-
- #+BEGIN_SRC emacs-lisp
-   (add-to-list 'default-frame-alist '(fullscreen . maximized))
- #+END_SRC
-
- Show parentheses matching
-
- #+BEGIN_SRC emacs-lisp
-   (show-paren-mode 1)
- #+END_SRC 
-
- Highlight current line
-
- #+BEGIN_SRC emacs-lisp
-   (global-hl-line-mode 1)
-   (global-set-key (kbd "C-c h") 'global-hl-line-mode)
- #+END_SRC 
-
- Expand parentheses for me.
-
- #+BEGIN_SRC emacs-lisp
-   (add-hook 'prog-mode-hook 'electric-pair-mode)
- #+END_SRC 
-
-** Xdvi search
-
-#+begin_src emacs-lisp
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
-(require 'xdvi-search)
-#+end_src
 
 * Coding
 
@@ -511,7 +516,6 @@ Add flycheck support.
 # #+END_SRC 
 
 * Org
-
 ** General settings.
 
 I should comment more on these ...
