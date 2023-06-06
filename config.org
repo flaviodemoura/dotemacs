@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-05-05 sex 10:45]
+#+last_modified: [2023-06-06 ter 15:57]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -516,6 +516,24 @@ Add flycheck support.
 # #+END_SRC 
 
 * Org
+
+** Org AI
+#+BEGIN_SRC emacs-lisp
+  (use-package org-ai
+    :commands (org-ai-mode)
+    :load-path (lambda () "/home/flaviomoura/.emacs.d/elpa/org-ai-20230330.2333")
+    :init
+    (add-hook 'org-mode-hook #'org-ai-mode)
+    :config
+    (setq org-ai-default-chat-model "gpt-4")
+    (org-ai-install-yasnippets))
+
+  (defun org-ai-src-block ()
+    (interactive)
+    (insert "#+begin_ai \n\n#+end_ai"))
+
+  (define-key org-mode-map (kbd "C-c s") #'org-ai-src-block)
+  #+END_SRC
 ** General settings.
 
 I should comment more on these ...
