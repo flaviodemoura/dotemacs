@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-06-06 ter 15:57]
+#+last_modified: [2023-10-03 ter 15:12]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -522,6 +522,8 @@ Add flycheck support.
   (use-package org-ai
     :commands (org-ai-mode)
     :load-path (lambda () "/home/flaviomoura/.emacs.d/elpa/org-ai-20230330.2333")
+    :custom
+    (org-ai-openai-api-token "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")
     :init
     (add-hook 'org-mode-hook #'org-ai-mode)
     :config
@@ -619,6 +621,10 @@ I should comment more on these ...
   (setq org-agenda-start-with-log-mode t)
   (setq org-agenda-start-with-clockreport-mode t)
   (setq org-agenda-arquives-mode t)
+  (setq org-agenda-dim-blocked-tasks nil)
+  (setq org-agenda-inhibit-startup t)
+  (setq org-agenda-use-tag-inheritance nil)
+  (setq org-agenda-ignore-properties '(effort appt stats category))
   (setq org-todo-keywords
         '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
   (setq org-agenda-custom-commands 
@@ -986,6 +992,13 @@ Old config:
   (with-eval-after-load "org-tree-slide"
     (define-key org-tree-slide-mode-map (kbd "<C-left>") 'org-tree-slide-move-previous-tree)
     (define-key org-tree-slide-mode-map (kbd "<C-right>") 'org-tree-slide-move-next-tree))
+#+end_src
+
+** Org side tree
+
+#+begin_src emacs-lisp
+   (use-package org-side-tree
+     :ensure t)
 #+end_src
 
 ** Org Present
