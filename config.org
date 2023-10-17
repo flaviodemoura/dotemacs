@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-10-03 ter 15:12]
+#+last_modified: [2023-10-17 ter 10:12]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -125,11 +125,16 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
    
 ** Themes
 #+begin_src emacs-lisp
-(use-package hima-theme
-  :ensure t
-  :config 
-  (load-theme 'hima t))
+(use-package flexoki-themes
+  :ensure t 
+  :config (load-theme 'flexoki-themes-dark t))
 #+end_src
+
+
+  (use-package hima-theme
+    :ensure t
+    :config 
+    (load-theme 'hima t))
 
 Tema padrão
 
@@ -517,25 +522,6 @@ Add flycheck support.
 
 * Org
 
-** Org AI
-#+BEGIN_SRC emacs-lisp
-  (use-package org-ai
-    :commands (org-ai-mode)
-    :load-path (lambda () "/home/flaviomoura/.emacs.d/elpa/org-ai-20230330.2333")
-    :custom
-    (org-ai-openai-api-token "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")
-    :init
-    (add-hook 'org-mode-hook #'org-ai-mode)
-    :config
-    (setq org-ai-default-chat-model "gpt-4")
-    (org-ai-install-yasnippets))
-
-  (defun org-ai-src-block ()
-    (interactive)
-    (insert "#+begin_ai \n\n#+end_ai"))
-
-  (define-key org-mode-map (kbd "C-c s") #'org-ai-src-block)
-  #+END_SRC
 ** General settings.
 
 I should comment more on these ...
