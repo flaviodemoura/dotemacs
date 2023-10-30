@@ -2,7 +2,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio@flaviomoura.info
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-10-17 ter 21:17]
+#+last_modified: [2023-10-30 seg 14:50]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -25,12 +25,12 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 
  #+BEGIN_SRC emacs-lisp
    (defvar default-major-mode nil)
+   (set-frame-font "Monospace 12" nil t)
  #+END_SRC 
 
  (when (find-font (font-spec :family "Iosevka Term"))
      (set-face-attribute 'default nil :font "Iosevka Term-16"))
 
- (set-frame-font "Monospace 12" nil t)
  
  Smooth scroll and keep cursor at same position when scrolling
 
@@ -121,6 +121,13 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/tex-utils")
 (require 'xdvi-search)
 #+end_src
+** Company mode
+
+#+begin_src emacs-lisp
+   (use-package company
+     :ensure t)
+#+end_src
+
 ** Try
    
    # #+begin_src emacs-lisp
@@ -130,53 +137,80 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
    
 ** Themes
 #+begin_src emacs-lisp
-      (use-package doom-themes
-        :ensure t 
-        :config
-        (load-theme 'doom-palenight t))
+(use-package ef-themes
+:ensure t
+:config 
+(load-theme 'ef-trio-light t))  
 #+end_src
+
+(straight-use-package
+  '(nano :type git :host github :repo "rougier/nano-emacs"))
+
+(use-package mindre-theme
+:ensure t
+:custom
+(mindre-use-more-bold nil)
+(mindre-use-faded-lisp-parens t)
+:config
+(load-theme 'mindre t))
+
+(use-package planet-theme
+:ensure t
+:config
+(load-theme 'planet))
+
+(use-package modus-themes
+:ensure t
+:config
+(load-theme 'modus-operandi))
+
+(use-package apropospriate-theme
+:ensure t
+:config 
+(load-theme 'apropospriate-light t))
+
+(use-package leuven-theme
+:ensure t
+:config
+(load-theme 'leuven t))
+
+(use-package doom-themes
+:ensure t 
+:config
+(load-theme 'doom-palenight t))
+
+(use-package doom-themes
+:ensure t
+:config
+;; Global settings (defaults)
+(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+doom-themes-enable-italic t) ; if nil, italics is universally disabled
+(load-theme 'doom-one t)
+
+;; Enable flashing mode-line on errors
+(doom-themes-visual-bell-config)
+;; Enable custom neotree theme (all-the-icons must be installed!)
+(doom-themes-neotree-config)
+;; or for treemacs users
+(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+(doom-themes-treemacs-config)
+;; Corrects (and improves) org-mode's native fontification.
+(doom-themes-org-config))
 
 (use-package flexoki-themes
 :ensure t 
 :config
 (load-theme 'flexoki-themes-dark t))
 
-(set-face-attribute 'default nil :font "Monospace-14")
-
-  (use-package hima-theme
-    :ensure t
-    :config 
-    (load-theme 'hima t))
-
-Tema padrão
-
-  (use-package doom-themes
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+(use-package hima-theme
+:ensure t
+:config 
+(load-theme 'hima t))
 
 (use-package vscode-dark-plus-theme
 :ensure t
 :config
 (load-theme 'vscode-dark-plus t))
-
-(use-package modus-vivendi-theme
-:ensure t
-:config
-(load-theme 'modus-vivendi))
 
 (use-package modus-operandi-theme
 :ensure t
@@ -1060,13 +1094,13 @@ Old config:
 
 ** Xournal and Krita
 
-#+BEGIN_SRC emacs-lisp
-  (use-package org-xournalpp
-    :ensure t
-    :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
-    :config
-    (add-hook 'org-mode-hook 'org-xournalpp-mode))
-  #+END_SRC
+# #+BEGIN_SRC emacs-lisp
+#   (use-package org-xournalpp
+#     :ensure t
+#     :quelpa (org-xournalpp :fetcher gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources"))
+#     :config
+#     (add-hook 'org-mode-hook 'org-xournalpp-mode))
+#   #+END_SRC
 
     (use-package org-krita
     :ensure t
