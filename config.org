@@ -1,8 +1,9 @@
+
 #+TITLE: Emacs Configuration
 #+AUTHOR: Flávio L. C. de Moura
-#+EMAIL: flavio@flaviomoura.info
+#+EMAIL: flavio.de.moura@gmail.com
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-10-30 seg 14:50]
+#+last_modified: [2023-11-02 qui 18:22]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -140,8 +141,14 @@ This is my emacs configuration. Adapted from https://github.com/jamiecollinson/d
 (use-package ef-themes
 :ensure t
 :config 
-(load-theme 'ef-trio-light t))  
+(load-theme 'ef-light t))  
 #+end_src
+
+(use-package gotham-theme
+:ensure t
+:config 
+(load-theme 'gotham t))  
+
 
 (straight-use-package
   '(nano :type git :host github :repo "rougier/nano-emacs"))
@@ -222,6 +229,49 @@ doom-themes-enable-italic t) ; if nil, italics is universally disabled
  #+BEGIN_SRC emacs-lisp
    (auto-fill-mode)
  #+END_SRC 
+
+** gptel
+#+begin_src emacs-lisp
+  (defun dw/read-openai-key ()
+    (with-temp-buffer
+        (insert-file-contents "~/key.txt")
+        (string-trim (buffer-string))))
+
+  (use-package gptel
+    :ensure t
+    :init
+    (setq-default gptel-model "gpt-3.5-turbo"
+                  gptel-playback t
+                  gptel-default-mode 'org-mode
+                  gptel-api-key #'dw/read-openai-key))
+#+end_src
+
+** evil
+#+begin_src emacs-lisp
+(use-package evil
+  :straight t
+  :init
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-integration t) ;; Enable C-u scrolling in evil
+  :config (evil-mode 1))
+#+end_src
+  
+** copilot
+#+begin_src emacs-lisp
+    (defun my/copilot-tab ()
+    (interactive)
+    (or (copilot-accept-completion)
+        (indent-for-tab-command)))
+  
+  (straight-use-package '(copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
+  (require 'copilot)
+
+  (with-eval-after-load 'copilot
+    (evil-define-key 'insert copilot-mode-map
+      (kbd "<tab>") #'my/copilot-tab))
+
+  (add-hook 'prog-mode-hook 'copilot-mode)
+#+end_src
 
 ** bbdb
 
@@ -789,12 +839,13 @@ I should comment more on these ...
 
 ** Org bullets
 
-#+begin_src emacs-lisp
-  (use-package org-bullets
-    :ensure t)
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+# #+begin_src emacs-lisp
+#   (use-package org-bullets
+#     :ensure t)
+#   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-#+end_src
+# #+end_src
+
 ** Orgit
 
 #+begin_src emacs-lisp
