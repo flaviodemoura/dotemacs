@@ -71,6 +71,10 @@
   (use-package ivy-bibtex
     :straight t)
 
+(use-package ace-window
+   :straight t
+   :init
+   (global-set-key [remap other-window] 'ace-window))
 
 (defun my/copilot-tab ()
   (interactive)
@@ -81,6 +85,10 @@
 (require 'copilot)
 
 (add-hook 'prog-mode-hook 'copilot-mode)
+(add-to-list 'copilot-major-mode-alist '("coq-mode" . "coq"))
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
 (use-package bbdb
  :straight t
@@ -182,6 +190,8 @@
   (setq org-agenda-inhibit-startup t)
   (setq org-agenda-use-tag-inheritance nil)
   (setq org-agenda-ignore-properties '(effort appt stats category))
+  (setq org-todo-keywords
+        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
 
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c b") 'org-iswitchb)

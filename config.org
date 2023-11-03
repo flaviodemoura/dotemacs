@@ -3,7 +3,7 @@
 #+AUTHOR: Flávio L. C. de Moura
 #+EMAIL: flavio.de.moura@gmail.com
 #+DATE: [2018-03-30 Sex 20:44]
-#+last_modified: [2023-11-02 qui 18:22]
+#+last_modified: [2023-11-03 sex 17:30]
 
 This is my emacs configuration. Adapted from https://github.com/jamiecollinson/dotfiles
 
@@ -244,16 +244,6 @@ doom-themes-enable-italic t) ; if nil, italics is universally disabled
                   gptel-playback t
                   gptel-default-mode 'org-mode
                   gptel-api-key #'dw/read-openai-key))
-#+end_src
-
-** evil
-#+begin_src emacs-lisp
-(use-package evil
-  :straight t
-  :init
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-integration t) ;; Enable C-u scrolling in evil
-  :config (evil-mode 1))
 #+end_src
   
 ** copilot
