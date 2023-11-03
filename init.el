@@ -64,12 +64,13 @@
   :straight t
   :config (load-theme 'ef-light t))  
 
-(use-package evil
-  :straight t
-  :init
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-integration t) ;; Enable C-u scrolling in evil
-  :config (evil-mode 1))
+(use-package ivy
+    :straight t
+    :config
+    (ivy-mode 1))
+  (use-package ivy-bibtex
+    :straight t)
+
 
 (defun my/copilot-tab ()
   (interactive)
@@ -78,10 +79,6 @@
 
 (straight-use-package '(copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
 (require 'copilot)
-
-(with-eval-after-load 'copilot
-  (evil-define-key 'insert copilot-mode-map
-		   (kbd "<tab>") #'my/copilot-tab))
 
 (add-hook 'prog-mode-hook 'copilot-mode)
 
@@ -161,17 +158,6 @@
 
     (add-hook 'before-save-hook #'zp/org-set-last-modified)
 
-    (package-install 'htmlize)
-  (setq org-html-htmlize-output-type 'css)
-  (setq org-latex-pdf-process 
-        '("%latex --synctex=1 -interaction nonstopmode -output-directory %o %f" 
-          "%bibtex %b"
-          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"
-          "makeindex -o %b.ind %b.idx"
-          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"    
-          "%latex --synctex=1 -interaction nonstopmode -output-directory %o %f"))
-  (setq org-latex-packages-alist '(("" "algorithmicx" t)
-                                   ( "" "mathpartir" t)))
   (setq org-file-apps '((auto-mode . emacs)
                         ("\\.mm\\'" . default)
                         ("\\.x?html?\\'" . system)
@@ -196,13 +182,7 @@
   (setq org-agenda-inhibit-startup t)
   (setq org-agenda-use-tag-inheritance nil)
   (setq org-agenda-ignore-properties '(effort appt stats category))
-  (setq org-todo-keywords
-        '((type "TODO(t)" "PROGRESS(s@/!)" "WAITING(w@/!)" "READING(r)" "NEXT(n)" "|" "CANCELLED(c)" "DONE(d)" "READ(e)")))
-  (setq org-agenda-custom-commands 
-        '(("o" "No trabalho" tags-todo "@unb"
-           ((org-agenda-overriding-header "UnB")))
-          ("h" "Em casa" tags-todo "@casa"
-           ((org-agenda-overriding-header "Casa")))))
+
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c b") 'org-iswitchb)
   (global-set-key (kbd "C-c l") 'org-store-link)
@@ -254,5 +234,3 @@
 
             ("ensino" :components ("webpage" "lc1" "paa" ))))
 
-(use-package orgit
-:straight t)
