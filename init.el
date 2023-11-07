@@ -44,9 +44,13 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
-
+(straight-use-package 'org)
+(straight-use-package 'org-plus-contrib) 
 (use-package org-ref
-  :straight t)
+  :straight t
+  :after (org)
+  :config
+  (require 'org-ref))
 
 (setq user-full-name "Flávio L. C. de Moura")
 (setq user-mail-address "flavio.de.moura@gmail.com")
