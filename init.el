@@ -45,7 +45,7 @@
 (setq straight-use-package-by-default t)
 
 (straight-use-package 'org)
-(straight-use-package 'org-plus-contrib) 
+
 (use-package org-ref
   :straight t
   :after (org)
