@@ -44,6 +44,10 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+
+(use-package org-ref
+  :straight t)
+
 (setq user-full-name "Flávio L. C. de Moura")
 (setq user-mail-address "flavio.de.moura@gmail.com")
 
@@ -103,7 +107,7 @@
                                        ("~/workspace/" . 2))))
 
 (use-package forge
-  :ensure t)
+  :straight t)
 
 (use-package proof-general
     :straight t
