@@ -50,7 +50,8 @@
   :straight t
   :after (org)
   :config
-  (require 'org-ref))
+  (require 'org-ref)
+  (define-key org-mode-map (kbd "C-c ]") 'org-ref-insert-link))
 
 (setq user-full-name "Flávio L. C. de Moura")
 (setq user-mail-address "flavio.de.moura@gmail.com")
