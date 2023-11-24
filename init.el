@@ -105,6 +105,9 @@
 (straight-use-package '(copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
 (require 'copilot)
 
+(straight-use-package '(org-xournalpp :host gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources")) :config (add-hook 'org-mode-hook 'org-xournalpp-mode))
+
+
 (add-hook 'prog-mode-hook 'copilot-mode)
 (add-to-list 'copilot-major-mode-alist '("coq-mode" . "coq"))
 
@@ -125,6 +128,47 @@
 
 (use-package forge
   :straight t)
+
+(use-package tex
+  :straight auctex
+  :config
+  (setq TeX-PDF-mode t)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil))
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+
+(setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+(setq TeX-view-program-list
+      '(("PDF Viewer" "okular --unique %o#src:%n%b")))
+
+  (custom-set-variables
+   '(TeX-source-correlate-method 'synctex)
+   '(TeX-source-correlate-mode t)
+   '(TeX-source-correlate-start-server t))
+
+
+(setq org-latex-listings t)
+(with-eval-after-load 'ox-latex
+  (add-to-list 'org-latex-classes
+               '("entcs"
+                 "\\documentclass[9pt]{entcs}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("myarticle"
+                 "\\documentclass[9pt]{article}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("myreport"
+                 "\\documentclass[11pt]{report}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
 
 
 (defun zp/org-find-time-file-property (property &optional anywhere)
