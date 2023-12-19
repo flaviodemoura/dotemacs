@@ -81,7 +81,6 @@
 (setq proof-electric-terminator-enable t)
 (setq proof-three-window-mode-policy 'hybrid)
 
-
 (use-package company :straight t)
 (use-package company-coq :straight t)
 
@@ -97,37 +96,30 @@
    :init
    (global-set-key [remap other-window] 'ace-window))
 
-(defun my/copilot-tab ()
-  (interactive)
-  (or (copilot-accept-completion)
-      (indent-for-tab-command)))
+;; (use-package magit
+;;   :straight t
+;;   :bind ("C-x g" . magit-status)
+;;   :config
+;;   (setq magit-repository-directories '(("~/.emacs.d" . 0)
+;;                                        ("~/workspace/" . 2))))
 
-(straight-use-package '(copilot :host github :repo "zerolfx/copilot.el" :files ("dist" "*.el")))
-(require 'copilot)
-
-(straight-use-package '(org-xournalpp :host gitlab :repo "vherrmann/org-xournalpp" :files ("*.el" "resources")) :config (add-hook 'org-mode-hook 'org-xournalpp-mode))
-
-
-(add-hook 'prog-mode-hook 'copilot-mode)
-(add-to-list 'copilot-major-mode-alist '("coq-mode" . "coq"))
-
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-
-(use-package bbdb
- :straight t
- :config
-   (setq bbdb-file "~/Dropbox/bbdb"))
+;; (use-package forge
+;;   :straight t)
 
 (use-package magit
-  :straight t
+  :ensure t
   :bind ("C-x g" . magit-status)
   :config
-  (setq magit-repository-directories '(("~/.emacs.d" . 0)
-                                       ("~/workspace/" . 2))))
-
+  (setq magit-repository-directories '(("~./emacs.d" . 0)
+				       ("~/workspace/" . 2))))
 (use-package forge
-  :straight t)
+  :ensure t)
+
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t)
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
 (use-package tex
   :straight auctex
@@ -141,12 +133,6 @@
 (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
 (setq TeX-view-program-list
       '(("PDF Viewer" "okular --unique %o#src:%n%b")))
-
-  (custom-set-variables
-   '(TeX-source-correlate-method 'synctex)
-   '(TeX-source-correlate-mode t)
-   '(TeX-source-correlate-start-server t))
-
 
 (setq org-latex-listings t)
 (with-eval-after-load 'ox-latex
@@ -169,7 +155,6 @@
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-
 
 (defun zp/org-find-time-file-property (property &optional anywhere)
   "Return the position of the time file PROPERTY if it exists.
@@ -194,8 +179,7 @@
       (if (and (looking-at-p " ")
                (progn (forward-char)
                       (org-at-timestamp-p 'lax)))
-          pos
-        -1))))
+          pos -1))))
 
 (defun zp/org-set-time-file-property (property &optional anywhere pos)
   "Set the time file PROPERTY in the preamble.
