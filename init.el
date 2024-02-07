@@ -112,7 +112,15 @@
   :config
   (setq magit-repository-directories '(("~./emacs.d" . 0)
 				       ("~/workspace/" . 2))))
+
 (use-package forge
+  :ensure t)
+
+(use-package zotxt
+  :ensure t)
+(setq org-zotxt-mode t)
+
+(use-package orgit
   :ensure t)
 
 (use-package copilot
